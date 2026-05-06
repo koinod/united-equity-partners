@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<title>United Equity Partners — Life Insurance Built Around Your Family</title>
+<meta name="description" content="United Equity Partners helps families and producers build durable financial protection through term, whole, IUL, and annuity strategies. Book a 15-minute strategy call.">
+<meta property="og:title" content="United Equity Partners"/>
+<meta property="og:description" content="Life insurance built around your family. Book a 15-minute strategy call."/>
+<meta property="og:type" content="website"/>
+<meta name="theme-color" content="#2D1F18"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="styles.css"/>
+<link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%232D1F18'/><text x='50' y='66' font-family='Fraunces,serif' font-size='52' font-weight='700' text-anchor='middle' fill='%23E8D5BC'>U</text></svg>"/>
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <div class="container nav-inner">
+    <a href="/" class="brand">
+      <span class="brand-mark">U</span>
+      <span class="brand-name">United Equity <span class="brand-name-soft">Partners</span></span>
+    </a>
+    <nav class="nav-links">
+      <a href="#approach">Approach</a>
+      <a href="#products">Products</a>
+      <a href="#trust">Why us</a>
+      <a href="careers.html">Careers</a>
+      <a href="#book" class="btn btn-primary btn-sm">Book a call</a>
+    </nav>
+    <button class="nav-burger" id="navBurger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow">Independent · Family-First · Producer-Led</p>
+      <h1 class="display">
+        Life insurance built around <em>your</em> family — not a quota.
+      </h1>
+      <p class="lede">
+        We help families and small business owners build durable financial protection through
+        term, whole life, IUL, and annuity strategies — placed across the strongest carriers in the country.
+      </p>
+      <div class="hero-cta">
+        <a href="#book" class="btn btn-primary">Book a 15-min strategy call</a>
+        <a href="#approach" class="btn btn-ghost">How we work →</a>
+      </div>
+      <ul class="hero-trust">
+        <li><span class="dot"></span>Independent · 30+ carriers</li>
+        <li><span class="dot"></span>Licensed nationwide</li>
+        <li><span class="dot"></span>No-cost consultation</li>
+      </ul>
+    </div>
+    <aside class="hero-card" aria-label="Quick quote">
+      <div class="hc-rule"></div>
+      <p class="hc-eyebrow">Speak with a licensed advisor</p>
+      <h3 class="hc-h">Get matched in 15 minutes</h3>
+      <p class="hc-sub">Tell us a little about your situation. A licensed UEP advisor will reach out within one business day.</p>
+      <form id="leadFormHero" class="hc-form">
+        <label class="field">
+          <span>Full name</span>
+          <input type="text" name="name" required autocomplete="name"/>
+        </label>
+        <label class="field">
+          <span>Phone</span>
+          <input type="tel" name="phone" required autocomplete="tel" placeholder="(555) 123-4567"/>
+        </label>
+        <label class="field">
+          <span>State</span>
+          <input type="text" name="state" required autocomplete="address-level1" maxlength="2" placeholder="TX" style="text-transform:uppercase"/>
+        </label>
+        <label class="field">
+          <span>What you're considering</span>
+          <select name="product" required>
+            <option value="">Select…</option>
+            <option value="Term Life">Term life — fixed period coverage</option>
+            <option value="Whole Life">Whole life — lifelong with cash value</option>
+            <option value="IUL">IUL — indexed universal life</option>
+            <option value="Final Expense">Final expense — burial protection</option>
+            <option value="Annuity">Annuity — income / retirement</option>
+            <option value="Not sure">Not sure — help me decide</option>
+          </select>
+        </label>
+        <button type="submit" class="btn btn-primary btn-block">Request callback</button>
+        <p class="hc-fine">By submitting, you agree to be contacted by a UEP licensed agent. We do not sell your information.</p>
+      </form>
+      <div id="leadFormHeroDone" class="hc-done" hidden>
+        <h4>Got it.</h4>
+        <p>A UEP advisor will reach out within one business day. Check your phone for a confirmation text.</p>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- TRUST STRIP -->
+<section class="strip">
+  <div class="container">
+    <p class="strip-label">Carrier partners include</p>
+    <div class="strip-row">
+      <span>Mutual of Omaha</span>
+      <span>F&amp;G</span>
+      <span>Aetna</span>
+      <span>Americo</span>
+      <span>Foresters</span>
+      <span>Prosperity Life</span>
+      <span>SBLI</span>
+      <span>Liberty Bankers</span>
+    </div>
+  </div>
+</section>
+
+<!-- APPROACH -->
+<section class="section" id="approach">
+  <div class="container">
+    <p class="eyebrow">Our approach</p>
+    <h2 class="display-2">Three principles. No quotas.</h2>
+    <div class="three">
+      <article class="three-cell">
+        <div class="three-num">01</div>
+        <h3>Independent by design</h3>
+        <p>We're not captive to any single carrier. That means we can place you with whichever insurer underwrites your situation best — not the one paying us most.</p>
+      </article>
+      <article class="three-cell">
+        <div class="three-num">02</div>
+        <h3>Education before product</h3>
+        <p>You'll never hear a pitch until we've understood what you're protecting. Term, whole, IUL, annuity — each fits a specific stage and goal. We'll show you the math.</p>
+      </article>
+      <article class="three-cell">
+        <div class="three-num">03</div>
+        <h3>Built to hold for life</h3>
+        <p>The right policy is the one your family still has 30 years from now. We optimize for persistency — not premium spike — so the protection actually pays out.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="section section-warm" id="products">
+  <div class="container">
+    <p class="eyebrow">What we place</p>
+    <h2 class="display-2">Coverage for every stage of life.</h2>
+    <div class="products">
+      <article class="prod">
+        <h3>Term Life</h3>
+        <p class="prod-line">Pure protection. Highest coverage per dollar.</p>
+        <ul>
+          <li>10, 20, or 30-year level premiums</li>
+          <li>Income replacement for young families</li>
+          <li>Mortgage and debt protection</li>
+          <li>Convertible to permanent later</li>
+        </ul>
+      </article>
+      <article class="prod">
+        <h3>Whole Life</h3>
+        <p class="prod-line">Lifetime coverage with guaranteed cash value.</p>
+        <ul>
+          <li>Premiums never increase</li>
+          <li>Cash value compounds tax-deferred</li>
+          <li>Borrow against your policy</li>
+          <li>Generational wealth transfer</li>
+        </ul>
+      </article>
+      <article class="prod">
+        <h3>IUL</h3>
+        <p class="prod-line">Indexed universal life — flexibility plus upside.</p>
+        <ul>
+          <li>Cash value linked to market index</li>
+          <li>0% floor — never lose principal to market drops</li>
+          <li>Tax-advantaged retirement income</li>
+          <li>Adjustable premium &amp; death benefit</li>
+        </ul>
+      </article>
+      <article class="prod">
+        <h3>Final Expense</h3>
+        <p class="prod-line">Burial &amp; end-of-life protection. Simplified issue.</p>
+        <ul>
+          <li>$5K – $50K coverage amounts</li>
+          <li>Most plans: no medical exam</li>
+          <li>Locked-in rates</li>
+          <li>Available up to age 85</li>
+        </ul>
+      </article>
+      <article class="prod">
+        <h3>Annuities</h3>
+        <p class="prod-line">Guaranteed income for retirement.</p>
+        <ul>
+          <li>Single-premium &amp; multi-year guarantees</li>
+          <li>Indexed annuities for upside with floor</li>
+          <li>Lifetime income riders</li>
+          <li>Tax-deferred growth</li>
+        </ul>
+      </article>
+      <article class="prod">
+        <h3>Mortgage Protection</h3>
+        <p class="prod-line">A specialized term policy tied to your loan.</p>
+        <ul>
+          <li>Decreasing or level term options</li>
+          <li>Living benefits available</li>
+          <li>Return-of-premium riders</li>
+          <li>Disability + critical illness add-ons</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST / PROOF -->
+<section class="section" id="trust">
+  <div class="container two-grid">
+    <div>
+      <p class="eyebrow">Why families choose UEP</p>
+      <h2 class="display-2">A licensed advisor in your corner — not a call center.</h2>
+      <p class="body-lg">
+        We built UEP for the people who got tired of being treated like a lead. Our advisors are
+        licensed, trained, and held accountable to outcomes — not just applications. Every policy
+        we place is reviewed for fit, persistency, and long-term value before it's bound.
+      </p>
+      <ul class="checks">
+        <li><span class="check">✓</span>Independent — represents 30+ carriers</li>
+        <li><span class="check">✓</span>Licensed advisors only — no offshore call rooms</li>
+        <li><span class="check">✓</span>Annual policy review built into every relationship</li>
+        <li><span class="check">✓</span>Family-led, owner-operated — not a hedge-fund roll-up</li>
+        <li><span class="check">✓</span>TPMO &amp; HIPAA compliant — your data stays private</li>
+      </ul>
+    </div>
+    <aside class="stats">
+      <div class="stat">
+        <div class="stat-num">30+</div>
+        <div class="stat-l">Carriers represented</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">$0</div>
+        <div class="stat-l">Cost to consult</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">15<span class="stat-num-soft">min</span></div>
+        <div class="stat-l">Average first call</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">A+</div>
+        <div class="stat-l">Carrier-rating standard</div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- BOOK CTA -->
+<section class="section section-deep" id="book">
+  <div class="container book-grid">
+    <div>
+      <p class="eyebrow eyebrow-light">Schedule</p>
+      <h2 class="display-2 light">Book a 15-minute strategy call.</h2>
+      <p class="body-lg light-soft">
+        Tell us a little about your family or business. A licensed UEP advisor will reach out within
+        one business day — at the time you choose.
+      </p>
+      <ul class="book-list">
+        <li><span class="bullet"></span>No-pressure conversation — we'll teach, then you decide</li>
+        <li><span class="bullet"></span>We'll quote across our 30+ carriers, not just one</li>
+        <li><span class="bullet"></span>Free policy review if you have existing coverage</li>
+      </ul>
+    </div>
+    <form id="leadFormBook" class="card-form">
+      <h3>Request your call</h3>
+      <label class="field">
+        <span>Full name</span>
+        <input type="text" name="name" required autocomplete="name"/>
+      </label>
+      <label class="field">
+        <span>Email</span>
+        <input type="email" name="email" required autocomplete="email"/>
+      </label>
+      <label class="field">
+        <span>Phone</span>
+        <input type="tel" name="phone" required autocomplete="tel"/>
+      </label>
+      <div class="row-2">
+        <label class="field">
+          <span>State</span>
+          <input type="text" name="state" required maxlength="2" placeholder="TX" style="text-transform:uppercase"/>
+        </label>
+        <label class="field">
+          <span>Age</span>
+          <input type="number" name="age" min="18" max="99" placeholder="42"/>
+        </label>
+      </div>
+      <label class="field">
+        <span>What you're looking for</span>
+        <select name="product" required>
+          <option value="">Select…</option>
+          <option>Term Life</option>
+          <option>Whole Life</option>
+          <option>IUL</option>
+          <option>Final Expense</option>
+          <option>Annuity</option>
+          <option>Mortgage Protection</option>
+          <option>Not sure — help me decide</option>
+        </select>
+      </label>
+      <label class="field">
+        <span>Anything else? (optional)</span>
+        <textarea name="notes" rows="2" placeholder="e.g. expecting our second child"></textarea>
+      </label>
+      <button type="submit" class="btn btn-primary btn-block">Request my call</button>
+      <p class="hc-fine">By submitting, you consent to be contacted by a UEP licensed agent at the number above.</p>
+    </form>
+  </div>
+</section>
+
+<!-- CAREERS TEASE -->
+<section class="section careers-tease">
+  <div class="container two-grid">
+    <div>
+      <p class="eyebrow">Build with us</p>
+      <h2 class="display-2">Become a UEP advisor.</h2>
+      <p class="body-lg">
+        We're hiring licensed agents and high-character producers ready to build a career on
+        independence, education-first sales, and a real comp model. Full back-office, training,
+        and lead support — no captive contracts, no quota hostage.
+      </p>
+      <a href="careers.html" class="btn btn-primary">See open roles &amp; apply →</a>
+    </div>
+    <ul class="career-perks">
+      <li><strong>True independence.</strong> Own your book. No captive lock-in.</li>
+      <li><strong>Comp from day one.</strong> Industry-leading commission plus override path.</li>
+      <li><strong>Lead support.</strong> Inbound and warm-transfer programs available.</li>
+      <li><strong>CRM + dialer included.</strong> Tools your last agency charged you for.</li>
+      <li><strong>Mentorship that's real.</strong> Top producers run weekly trainings.</li>
+    </ul>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="container foot-grid">
+    <div>
+      <a href="/" class="brand">
+        <span class="brand-mark">U</span>
+        <span class="brand-name">United Equity <span class="brand-name-soft">Partners</span></span>
+      </a>
+      <p class="foot-tag">Life insurance built around your family.</p>
+    </div>
+    <div class="foot-cols">
+      <div>
+        <h5>Company</h5>
+        <a href="#approach">Approach</a>
+        <a href="#products">Products</a>
+        <a href="#trust">Why us</a>
+        <a href="careers.html">Careers</a>
+      </div>
+      <div>
+        <h5>For families</h5>
+        <a href="#book">Book a call</a>
+        <a href="#products">Compare coverage</a>
+        <a href="mailto:hello@unitedequitypartners.com">Email us</a>
+      </div>
+      <div>
+        <h5>Compliance</h5>
+        <a href="#" data-modal="privacy">Privacy policy</a>
+        <a href="#" data-modal="terms">Terms of service</a>
+        <a href="#" data-modal="tpmo">TPMO disclosure</a>
+      </div>
+    </div>
+  </div>
+  <div class="container foot-fine">
+    <p>© <span id="year">2026</span> United Equity Partners. Insurance products offered through licensed agents in the states they hold appointments. Not all products available in all states.</p>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

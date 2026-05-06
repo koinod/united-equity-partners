@@ -1,0 +1,136 @@
+/* United Equity Partners — front-end app
+ *
+ * Lead capture: posts every form submission to the Repflow inbound webhook
+ * which routes leads to UEP's pipeline. Falls back to a mailto: link if the
+ * webhook is unreachable so submissions are never silently lost.
+ */
+
+(function () {
+  // ── Nav: scroll-shadow + mobile toggle ────────────────────────────────────
+  const nav = document.getElementById("nav");
+  if (nav) {
+    const onScroll = () => nav.classList.toggle("is-scrolled", window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    const burger = document.getElementById("navBurger");
+    if (burger) {
+      burger.addEventListener("click", () => nav.classList.toggle("is-open"));
+      // Close on link click (mobile)
+      nav.querySelectorAll(".nav-links a").forEach(a =>
+        a.addEventListener("click", () => nav.classList.remove("is-open"))
+      );
+    }
+  }
+
+  // ── Footer year ───────────────────────────────────────────────────────────
+  const yearEl = document.getElementById("year");
+  if (yearEl) yearEl.textContent = String(new Date().getFullYear());
+
+  // ── Lead form submission ─────────────────────────────────────────────────
+  // Posts to Repflow's generic inbound webhook so leads land in UEP's
+  // pipeline automatically. Source tag identifies UEP traffic for attribution.
+  const WEBHOOK_URL  = "https://repflow.koino.capital/api/leads/inbound";
+  const APPLY_URL    = "https://repflow.koino.capital/api/leads/inbound";
+  // UEP's agency_id — Zay sets this once he creates his agency on Repflow.
+  // Until then, leads land in the demo agency for testing. Override by
+  // setting window.UEP_AGENCY_ID before app.js loads, or via a server-side
+  // env var rewrite at build time.
+  const AGENCY_ID = (typeof window !== "undefined" && window.UEP_AGENCY_ID)
+    || "e0a68c9f-cf48-47b0-bef7-dba3f27db0b9";
+
+  function buildLeadPayload(formEl, source) {
+    const data = Object.fromEntries(new FormData(formEl).entries());
+    return {
+      lead_name: (data.name || "").trim(),
+      phone:     (data.phone || "").trim(),
+      email:     (data.email || "").trim() || null,
+      state:     (data.state || "").trim().toUpperCase().slice(0, 2) || null,
+      age:       data.age ? parseInt(data.age, 10) : null,
+      product:   data.product || null,
+      source,
+      consent:   "verified",
+      heat:      "fresh",
+      notes:     data.notes || null,
+      agency_id: AGENCY_ID,
+      // Application-specific fields (careers form). Pipeline ignores unknown
+      // fields; downstream recruit pipeline reads them via the source.
+      meta: {
+        license_status: data.license_status || null,
+        track:          data.track || null,
+        experience:     data.experience || null,
+      },
+    };
+  }
+
+  async function postLead(payload) {
+    const r = await fetch(WEBHOOK_URL, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    return r.json().catch(() => ({}));
+  }
+
+  function showError(form, message) {
+    let banner = form.querySelector(".form-error");
+    if (!banner) {
+      banner = document.createElement("div");
+      banner.className = "form-error";
+      banner.style.cssText = "background:rgba(180,40,40,0.08);border:1px solid rgba(180,40,40,0.3);color:#9C2D2D;border-radius:8px;padding:10px 12px;font-size:13px;margin:6px 0;";
+      form.insertBefore(banner, form.firstChild);
+    }
+    banner.textContent = message;
+  }
+
+  function bindForm(formEl, source, opts = {}) {
+    if (!formEl) return;
+    formEl.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const submit = formEl.querySelector('button[type="submit"]');
+      const oldText = submit ? submit.textContent : "";
+      if (submit) { submit.disabled = true; submit.textContent = "Sending…"; }
+
+      try {
+        const payload = buildLeadPayload(formEl, source);
+        await postLead(payload);
+
+        // Hero form has a separate "done" panel; everything else inline-replaces.
+        if (opts.doneEl) {
+          formEl.hidden = true;
+          opts.doneEl.hidden = false;
+        } else {
+          formEl.innerHTML = `
+            <div style="text-align:center;padding:18px 6px;">
+              <h3 style="font-family:var(--font-display);font-weight:600;font-size:22px;color:var(--brand);margin:0 0 8px;">Got it.</h3>
+              <p style="font-size:14px;color:var(--ink-3);margin:0;line-height:1.55;">
+                A UEP advisor will reach out within one business day.<br>
+                Check your phone for a confirmation text.
+              </p>
+            </div>
+          `;
+        }
+      } catch (err) {
+        console.error("[uep] lead post failed:", err);
+        // Restore button + show inline error with mailto fallback
+        if (submit) { submit.disabled = false; submit.textContent = oldText; }
+        const data = Object.fromEntries(new FormData(formEl).entries());
+        const fallback = `mailto:hello@unitedequitypartners.com?subject=Inquiry%20from%20website&body=${encodeURIComponent(
+          Object.entries(data).map(([k, v]) => `${k}: ${v}`).join("\n")
+        )}`;
+        showError(formEl, "Network error. Please try again, or email hello@unitedequitypartners.com directly.");
+        // Open mailto in a new tab so the user can finish via email
+        try { window.open(fallback, "_blank"); } catch {}
+      }
+    });
+  }
+
+  bindForm(
+    document.getElementById("leadFormHero"),
+    "uep_website:hero",
+    { doneEl: document.getElementById("leadFormHeroDone") }
+  );
+  bindForm(document.getElementById("leadFormBook"), "uep_website:book");
+  bindForm(document.getElementById("applyForm"),    "uep_website:careers");
+})();
