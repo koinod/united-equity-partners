@@ -60,6 +60,26 @@
       ? Math.max(0, parseInt(data.monthly_contribution, 10) || 0)
       : null;
 
+    // Every product funnel has its own qualifying block (term length,
+    // coverage amount, lump sum, mortgage balance, etc.). Rather than
+    // hard-code each field name here, sweep anything that isn't a base
+    // field into meta.qualifying. Adding a new product field in the
+    // generator requires zero changes here.
+    const BASE_FIELDS = new Set([
+      "name", "email", "phone", "state", "age", "product", "notes",
+      "license_status", "track", "experience",
+      "health_stroke", "health_diabetes", "health_cancer",
+      "health_heart_attack", "health_tobacco",
+      "monthly_contribution",  // surfaced explicitly below
+    ]);
+    const qualifying = {};
+    for (const [k, v] of Object.entries(data)) {
+      if (BASE_FIELDS.has(k)) continue;
+      const trimmed = typeof v === "string" ? v.trim() : v;
+      if (trimmed === "" || trimmed == null) continue;
+      qualifying[k] = trimmed;
+    }
+
     return {
       lead_name: (data.name || "").trim(),
       phone:     (data.phone || "").trim(),
@@ -75,15 +95,20 @@
       heat:      standardUnderwriting ? "fresh" : "warm",
       notes:     data.notes || null,
       agency_id: AGENCY_ID,
-      // Pipeline ignores unknown fields; downstream Repflow can read
-      // meta.health to shortlist the right carrier set + meta.monthly_contribution
-      // to anchor the IUL illustration. The careers form re-uses the same
-      // path, so license/track/experience flow through here too.
+      // Pipeline ignores unknown fields; Repflow reads:
+      //   meta.health             → carrier shortlist by health
+      //   meta.monthly_contribution → IUL funding level
+      //   meta.qualifying.*       → every product-specific selector
+      //                             (coverage_amount, term_length, lump_sum,
+      //                              mortgage_balance, whole_life_goal, etc.)
+      // The careers form reuses the same path, so license/track/experience
+      // flow through here as top-level meta fields.
       meta: {
         health,
         auto_disqualifiers:     autoDisqualifiers,            // [] if all clean
         standard_underwriting:  standardUnderwriting,
         monthly_contribution:   monthlyContribution,           // IUL-only; null elsewhere
+        qualifying,                                            // per-product selectors
         license_status:         data.license_status || null,
         track:                  data.track || null,
         experience:             data.experience || null,

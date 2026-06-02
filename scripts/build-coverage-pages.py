@@ -373,21 +373,182 @@ def render_faqs(faqs):
     return "\n".join(blocks)
 
 
-def render_page(p):
-    # IUL is the only product where the desired monthly contribution
-    # changes the carrier shortlist (it determines whether the policy
-    # can fund the desired death benefit + cash value target). Skip
-    # the field on every other product — extra friction without value.
-    if p['slug'] == 'iul':
-        contribution_field = """
+# Per-product qualifying fields injected into each funnel's CTA form.
+# Field naming convention:
+#   - Snake_case names that don't collide with the base fields (name,
+#     email, phone, state, age, product, notes, health_*).
+#   - app.js::buildLeadPayload sweeps any unknown field into
+#     meta.qualifying, so adding a new field here doesn't require a
+#     parallel edit on the JS side — just regenerate.
+PRODUCT_FIELDS = {
+    'term-life': """
+
+      <label class="field">
+        <span>Coverage amount you're considering</span>
+        <select name="coverage_amount">
+          <option value="">Help me decide</option>
+          <option>$100K</option>
+          <option>$250K</option>
+          <option>$500K</option>
+          <option>$1M</option>
+          <option>$1.5M+</option>
+        </select>
+      </label>
+      <label class="field">
+        <span>Term length</span>
+        <select name="term_length">
+          <option value="">Help me decide</option>
+          <option>10 years</option>
+          <option>15 years</option>
+          <option>20 years</option>
+          <option>25 years</option>
+          <option>30 years</option>
+        </select>
+      </label>""",
+
+    'whole-life': """
+
+      <label class="field">
+        <span>Primary goal</span>
+        <select name="whole_life_goal">
+          <option value="">Help me decide</option>
+          <option>Lifetime coverage</option>
+          <option>Cash value growth</option>
+          <option>Generational wealth transfer</option>
+          <option>Infinite banking strategy</option>
+          <option>Business / key-person</option>
+        </select>
+      </label>
+      <label class="field">
+        <span>Coverage amount</span>
+        <select name="coverage_amount">
+          <option value="">Help me decide</option>
+          <option>$100K</option>
+          <option>$250K</option>
+          <option>$500K</option>
+          <option>$1M+</option>
+        </select>
+      </label>
+      <label class="field">
+        <span>Existing permanent policy?</span>
+        <select name="existing_permanent">
+          <option value="">—</option>
+          <option>No</option>
+          <option>Yes — needs review</option>
+          <option>Yes — happy with it</option>
+        </select>
+      </label>""",
+
+    'iul': """
 
       <label class="field">
         <span>Desired monthly contribution</span>
         <input type="number" name="monthly_contribution" min="50" step="25" inputmode="numeric" placeholder="e.g. 300"/>
         <small class="field-hint">In dollars per month. We use this to pick the carriers whose IUL math actually works at your funding level.</small>
-      </label>"""
-    else:
-        contribution_field = ""
+      </label>""",
+
+    'final-expense': """
+
+      <label class="field">
+        <span>Coverage amount</span>
+        <select name="coverage_amount">
+          <option value="">Help me decide</option>
+          <option>$5,000</option>
+          <option>$10,000</option>
+          <option>$15,000</option>
+          <option>$25,000</option>
+          <option>$35,000</option>
+          <option>$50,000</option>
+        </select>
+      </label>
+      <label class="field">
+        <span>Who's the policy for?</span>
+        <select name="policy_for">
+          <option value="">—</option>
+          <option>Myself</option>
+          <option>Spouse</option>
+          <option>Parent</option>
+          <option>Other family</option>
+        </select>
+      </label>""",
+
+    'annuities': """
+
+      <label class="field">
+        <span>Lump sum to deploy</span>
+        <select name="lump_sum">
+          <option value="">Help me decide</option>
+          <option>Under $25K</option>
+          <option>$25K – $50K</option>
+          <option>$50K – $100K</option>
+          <option>$100K – $250K</option>
+          <option>$250K – $500K</option>
+          <option>$500K+</option>
+        </select>
+      </label>
+      <label class="field">
+        <span>When do you need income?</span>
+        <select name="time_horizon">
+          <option value="">—</option>
+          <option>Need it now</option>
+          <option>1 – 5 years</option>
+          <option>5 – 10 years</option>
+          <option>10+ years</option>
+        </select>
+      </label>
+      <label class="field">
+        <span>Primary goal</span>
+        <select name="annuity_goal">
+          <option value="">Help me decide</option>
+          <option>Guaranteed lifetime income</option>
+          <option>Growth with principal protection</option>
+          <option>Tax-deferred accumulation</option>
+          <option>CD replacement</option>
+        </select>
+      </label>""",
+
+    'mortgage-protection': """
+
+      <label class="field">
+        <span>Mortgage balance</span>
+        <select name="mortgage_balance">
+          <option value="">Help me decide</option>
+          <option>Under $100K</option>
+          <option>$100K – $250K</option>
+          <option>$250K – $500K</option>
+          <option>$500K – $750K</option>
+          <option>$750K – $1M</option>
+          <option>$1M+</option>
+        </select>
+      </label>
+      <label class="field">
+        <span>Years remaining on mortgage</span>
+        <select name="mortgage_years_remaining">
+          <option value="">—</option>
+          <option>Under 10</option>
+          <option>10 – 20</option>
+          <option>20 – 30</option>
+        </select>
+      </label>
+      <label class="field">
+        <span>Is there a co-borrower?</span>
+        <select name="co_borrower">
+          <option value="">—</option>
+          <option>No</option>
+          <option>Yes — they need coverage too</option>
+          <option>Yes — already covered</option>
+        </select>
+      </label>""",
+}
+
+
+def render_page(p):
+    # Each product gets its own qualifying block, tailored to what the
+    # advisor actually needs to know before the discovery call. The blocks
+    # are defined in PRODUCT_FIELDS keyed by slug; missing → empty string
+    # (i.e. nothing renders) so a new product can ship without forcing a
+    # tailored block on day one.
+    contribution_field = PRODUCT_FIELDS.get(p['slug'], '')
     return f"""<!doctype html>
 <html lang="en">
 <head>

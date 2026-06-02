@@ -223,6 +223,37 @@
       </fieldset>
 
       <label class="field">
+        <span>Mortgage balance</span>
+        <select name="mortgage_balance">
+          <option value="">Help me decide</option>
+          <option>Under $100K</option>
+          <option>$100K – $250K</option>
+          <option>$250K – $500K</option>
+          <option>$500K – $750K</option>
+          <option>$750K – $1M</option>
+          <option>$1M+</option>
+        </select>
+      </label>
+      <label class="field">
+        <span>Years remaining on mortgage</span>
+        <select name="mortgage_years_remaining">
+          <option value="">—</option>
+          <option>Under 10</option>
+          <option>10 – 20</option>
+          <option>20 – 30</option>
+        </select>
+      </label>
+      <label class="field">
+        <span>Is there a co-borrower?</span>
+        <select name="co_borrower">
+          <option value="">—</option>
+          <option>No</option>
+          <option>Yes — they need coverage too</option>
+          <option>Yes — already covered</option>
+        </select>
+      </label>
+
+      <label class="field">
         <span>Anything else? (optional)</span>
         <textarea name="notes" rows="2" placeholder="e.g. existing policy details, timing"></textarea>
       </label>
