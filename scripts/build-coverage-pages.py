@@ -142,7 +142,7 @@ PRODUCTS = [
             ("Can I convert my term policy to permanent later?",
              "On most carriers, yes — within a window (often 10–20 years from issue, before age 65–70). Conversion is the most underused feature of term insurance: it lets you upgrade to permanent coverage with no new medical exam, even if your health has changed."),
         ],
-        "cta_headline": "Get a real term quote — across all 30+ carriers.",
+        "cta_headline": "Get a real term quote — across the top A-rated carriers in the nation.",
         "cta_sub": "One conversation. We'll show you the math, the carriers that fit your situation, and the actual monthly premium — no soft-quote bait.",
     },
     {
@@ -188,34 +188,37 @@ PRODUCTS = [
         "eyebrow": "Coverage 101 · 6-minute breakdown",
         "h1": "Indexed Universal Life — flexibility with a floor.",
         "sub": "Permanent coverage with cash value tied to a market index. Upside participation, 0% floor on downside, tax-advantaged retirement income.",
-        "vsl_caption": "How IUL actually works — caps, participation rates, and the question your agent should be able to answer.",
+        "vsl_caption": "How IUL actually works — and why we lean toward variable-rate and uncapped crediting strategies when the carrier supports it.",
         "who": [
             ("High earners maxing out 401(k)/IRA", "Once you've hit qualified-plan limits, IUL becomes one of the few remaining vehicles for tax-advantaged long-term accumulation."),
             ("Business owners with variable income", "Premiums are flexible — pay more in good years, less in lean years, as long as the policy stays funded enough to maintain the death benefit."),
             ("Anyone planning tax-free retirement income", "Once cash value has built up, you can take policy loans against it in retirement. Properly structured, the loans are tax-free and don't reduce the death benefit if managed correctly."),
-            ("Skeptics of market volatility", "The 0% floor means a bad market year is a 0% year, not a -30% year. You give up some upside (via caps) in exchange for the floor."),
+            ("Skeptics of market volatility", "The 0% floor means a bad market year is a 0% year, not a -30% year. The trade-off isn't one fixed cap — it's a participation rate or spread that depends on which crediting strategy your carrier offers and which one you qualify for."),
         ],
         "how": [
             ("Pick an index", "S&P 500 is the most common, but most carriers offer multiple indices and blends. The carrier credits gains based on the index's performance — without you owning the underlying."),
-            ("Caps + floor protect you both ways", "If the index is up 30% and the cap is 11%, you get credited 11%. If the index is down 30%, you get credited 0%. Floor is contractually guaranteed; cap can change."),
+            ("Pick a crediting strategy", "Modern IULs offer multiple strategies on the same policy: capped (predictable ceiling), variable-cap (ceiling moves but participation is higher), and uncapped (no ceiling, with a participation rate or spread instead). We default to variable-rate or uncapped strategies when the carrier offers them and you qualify for the rate that makes the math work."),
             ("Pay flexible premiums", "Above a minimum needed to keep the policy in force, you can over-fund (within IRS limits) to build cash value faster. The more you fund early, the more compounding works in your favor."),
         ],
         "facts": [
             "0% floor — you cannot lose principal to a down market.",
-            "Caps and participation rates can change at the carrier's discretion; the floor cannot.",
+            "Crediting strategy matters more than carrier brand. The carriers we use offer variable-cap and uncapped strategies on top of the standard capped option — we steer toward the strategy that fits your timeline and what your health qualifies for.",
+            "Every crediting strategy has moving parts the carrier can adjust (caps, participation rates, spreads). The 0% floor is the only contractually-guaranteed piece.",
             "Cash value loans in retirement are tax-free when structured correctly.",
             "Death benefit is income-tax-free to beneficiaries.",
-            "Underwriting matters — IUL premium is often comparable to whole life for the same face amount, but the math changes dramatically with health rating.",
+            "Underwriting matters — premium is often comparable to whole life for the same face amount, but the math changes dramatically with health rating, and so does the slate of crediting strategies you'll qualify for.",
         ],
         "faqs": [
             ("Is IUL too good to be true?",
-             "It's a real product backed by carrier general accounts, not a scam. But it's also sold badly more often than any other policy. The math depends on actual caps, fees, and how the loan provisions are structured. We illustrate at both guaranteed and current rates so you see both extremes."),
+             "It's a real product backed by carrier general accounts, not a scam. But it's also sold badly more often than any other policy. The math depends on the crediting strategy you select — capped, variable-cap, or uncapped — plus fees and how the loan provisions are structured. We illustrate at both guaranteed and current rates so you see both extremes before signing."),
             ("How is IUL different from whole life?",
-             "Whole life has a guaranteed cash-value growth rate; IUL's cash value depends on index performance with a floor and cap. Whole life premiums are fixed; IUL premiums are flexible. Whole life dividends (if mutual) are smoother; IUL can have years of 0% growth followed by years of 10%+ growth."),
+             "Whole life has a guaranteed cash-value growth rate; IUL's cash value depends on index performance through your chosen crediting strategy. Whole life premiums are fixed; IUL premiums are flexible. Whole life dividends (if mutual) are smoother year to year; IUL can have a string of 0% years followed by 10%+ years — especially on variable-cap or uncapped strategies that swing harder than a fixed cap."),
+            ("Capped vs. variable vs. uncapped — which one is right for me?",
+             "Capped strategies trade upside for a predictable ceiling. Variable-cap raises the ceiling but the ceiling itself can move year to year. Uncapped removes the ceiling entirely in exchange for a participation rate (e.g. you get 70% of the index's gain) or a spread (the carrier keeps the first X% of the gain). For long horizons with appetite for swing, variable-cap and uncapped usually outperform capped — but only if the underlying carrier rate is competitive. We pick based on the carrier + rate you qualify for."),
             ("What's the catch with IUL loans?",
-             "Loans are interest-charged (typically 3–5%) and the cash value keeps participating in the index while loaned. If the index returns more than the loan rate (the spread), you net positive. If it doesn't for years, the policy can lapse if not carefully managed — which forces a taxable event on accumulated gains. This is the #1 way IUL policies fail."),
+             "Loans are interest-charged (typically 3–5%) and the cash value keeps participating in the index while loaned. If the index returns more than the loan rate (the spread), you net positive. If it doesn't for years, the policy can lapse if not carefully managed — which forces a taxable event on accumulated gains. This is the #1 way IUL policies fail, regardless of which crediting strategy is used."),
             ("Why do some advisors hate IUL?",
-             "Because it's sold with illustrations that assume the carrier's current crediting rate forever, ignoring the carrier's right to lower caps. A properly illustrated IUL uses conservative crediting assumptions and shows the worst-case scenario alongside the projected one."),
+             "Because it's sold with illustrations that assume the carrier's current crediting will hold forever, ignoring the carrier's ability to adjust caps, participation rates, or spreads. A properly illustrated IUL uses conservative assumptions across whichever crediting strategy is selected and shows the worst-case scenario alongside the projected one."),
         ],
         "cta_headline": "Get an IUL illustration that's actually honest.",
         "cta_sub": "We'll show you both the carrier's projected illustration AND the guaranteed-minimum illustration side by side — so you can see the range, not just the marketing.",
@@ -476,7 +479,7 @@ def render_page(p):
       <p class="body-lg light-soft">{html.escape(p['cta_sub'])}</p>
       <ul class="book-list">
         <li><span class="bullet"></span>No pressure — we teach, you decide</li>
-        <li><span class="bullet"></span>We quote 30+ carriers, not just one</li>
+        <li><span class="bullet"></span>We quote the top A-rated carriers in the nation, not just one</li>
         <li><span class="bullet"></span>Free review if you have existing coverage</li>
       </ul>
     </div>
