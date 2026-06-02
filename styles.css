@@ -397,9 +397,20 @@ button { font: inherit; cursor: pointer; border: 0; background: transparent; }
 .strip-track {
   display: flex;
   width: max-content;          /* track width = 2× one set so -50% lands on the seam */
-  animation: strip-scroll 42s linear infinite;
+  animation: strip-scroll 60s linear infinite;
+  /* Force GPU compositing — without will-change + translate3d, Safari/Firefox
+     fall back to CPU paint and the marquee judders on each subpixel step. */
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
-.strip-track:hover { animation-play-state: paused; }
+/* Pause on hover only when an actual pointing device is present — touch
+   devices fire a phantom hover on tap that freezes the marquee until next
+   tap, which feels broken. @media (hover: hover) gates it to mice/trackpads. */
+@media (hover: hover) {
+  .strip-track:hover { animation-play-state: paused; }
+}
 .strip-set {
   display: flex;
   align-items: center;
@@ -407,9 +418,12 @@ button { font: inherit; cursor: pointer; border: 0; background: transparent; }
   padding: 0 28px;
   flex-shrink: 0;
 }
+/* Use 3D translate so the keyframes stay on the GPU layer the track
+   was promoted to above. translateX alone forces a layer demotion on
+   each frame in some WebKit versions. */
 @keyframes strip-scroll {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
 }
 @media (prefers-reduced-motion: reduce) {
   .strip-track { animation: none; }
