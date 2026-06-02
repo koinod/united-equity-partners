@@ -1004,3 +1004,51 @@ button { font: inherit; cursor: pointer; border: 0; background: transparent; }
   letter-spacing: -0.005em;
 }
 .prod-link:hover .prod-cta { color: var(--brand); text-decoration: underline; }
+
+/* ───── HEALTH SNAPSHOT FIELDSET ─────
+   Shared across every coverage funnel CTA + the homepage book form.
+   Five checkboxes for stroke/diabetes/cancer/heart-attack/tobacco. A
+   "yes" on any of stroke/cancer/heart-attack flags the lead for
+   simplified-issue carriers downstream; tobacco is informational. */
+.field-health {
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  padding: 14px 14px 10px;
+  margin: 6px 0 4px;
+  background: var(--bg);
+}
+.field-health legend {
+  padding: 0 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink-3);
+  letter-spacing: -0.005em;
+}
+.check-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 4px;
+  font-size: 13.5px;
+  color: var(--ink-2);
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 100ms ease;
+}
+.check-row:hover { background: var(--bg-warm); }
+.check-row input[type="checkbox"] {
+  width: 16px; height: 16px;
+  accent-color: var(--brand);
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.check-row span { line-height: 1.3; }
+
+/* Inline help text under a field input (used by IUL monthly contribution). */
+.field-hint {
+  display: block;
+  margin-top: 6px;
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--ink-4);
+}

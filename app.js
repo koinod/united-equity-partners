@@ -41,6 +41,25 @@
 
   function buildLeadPayload(formEl, source) {
     const data = Object.fromEntries(new FormData(formEl).entries());
+
+    // Health snapshot — checkboxes don't appear in FormData when unchecked, so
+    // a missing key reads as a clean "no". Flag any "yes" so the advisor
+    // shortlist for this lead routes to simplified-issue / graded carriers
+    // instead of standard underwriting.
+    const health = {
+      stroke:       data.health_stroke === "yes",
+      diabetes:     data.health_diabetes === "yes",
+      cancer:       data.health_cancer === "yes",
+      heart_attack: data.health_heart_attack === "yes",
+      tobacco:      data.health_tobacco === "yes",
+    };
+    const autoDisqualifiers = ["stroke", "cancer", "heart_attack"].filter(k => health[k]);
+    const standardUnderwriting = autoDisqualifiers.length === 0;
+
+    const monthlyContribution = data.monthly_contribution
+      ? Math.max(0, parseInt(data.monthly_contribution, 10) || 0)
+      : null;
+
     return {
       lead_name: (data.name || "").trim(),
       phone:     (data.phone || "").trim(),
@@ -50,15 +69,24 @@
       product:   data.product || null,
       source,
       consent:   "verified",
-      heat:      "fresh",
+      // Auto-disqualifiers on standard underwriting → re-heat as warm so
+      // the dialer doesn't burn a hot-lead slot on a policy that will get
+      // declined. Standard-underwriting clears stay "fresh".
+      heat:      standardUnderwriting ? "fresh" : "warm",
       notes:     data.notes || null,
       agency_id: AGENCY_ID,
-      // Application-specific fields (careers form). Pipeline ignores unknown
-      // fields; downstream recruit pipeline reads them via the source.
+      // Pipeline ignores unknown fields; downstream Repflow can read
+      // meta.health to shortlist the right carrier set + meta.monthly_contribution
+      // to anchor the IUL illustration. The careers form re-uses the same
+      // path, so license/track/experience flow through here too.
       meta: {
-        license_status: data.license_status || null,
-        track:          data.track || null,
-        experience:     data.experience || null,
+        health,
+        auto_disqualifiers:     autoDisqualifiers,            // [] if all clean
+        standard_underwriting:  standardUnderwriting,
+        monthly_contribution:   monthlyContribution,           // IUL-only; null elsewhere
+        license_status:         data.license_status || null,
+        track:                  data.track || null,
+        experience:             data.experience || null,
       },
     };
   }

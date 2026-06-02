@@ -207,6 +207,21 @@
         </label>
       </div>
       <input type="hidden" name="product" value="Whole Life"/>
+
+      <!-- Health snapshot — auto-disqualifiers for standard underwriting.
+           A "yes" on any of these doesn't block the lead — it routes to
+           a final-expense / graded-issue path inside Repflow so the
+           advisor opens with the right carrier shortlist instead of
+           pitching a standard term policy that will get declined. -->
+      <fieldset class="field-health">
+        <legend>Any of these apply? (so we line up the right carriers)</legend>
+        <label class="check-row"><input type="checkbox" name="health_stroke" value="yes"/> <span>Stroke (any history)</span></label>
+        <label class="check-row"><input type="checkbox" name="health_diabetes" value="yes"/> <span>Diabetes</span></label>
+        <label class="check-row"><input type="checkbox" name="health_cancer" value="yes"/> <span>Cancer (any history)</span></label>
+        <label class="check-row"><input type="checkbox" name="health_heart_attack" value="yes"/> <span>Heart attack</span></label>
+        <label class="check-row"><input type="checkbox" name="health_tobacco" value="yes"/> <span>Tobacco use (current)</span></label>
+      </fieldset>
+
       <label class="field">
         <span>Anything else? (optional)</span>
         <textarea name="notes" rows="2" placeholder="e.g. existing policy details, timing"></textarea>

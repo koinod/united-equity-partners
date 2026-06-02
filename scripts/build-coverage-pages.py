@@ -374,6 +374,20 @@ def render_faqs(faqs):
 
 
 def render_page(p):
+    # IUL is the only product where the desired monthly contribution
+    # changes the carrier shortlist (it determines whether the policy
+    # can fund the desired death benefit + cash value target). Skip
+    # the field on every other product — extra friction without value.
+    if p['slug'] == 'iul':
+        contribution_field = """
+
+      <label class="field">
+        <span>Desired monthly contribution</span>
+        <input type="number" name="monthly_contribution" min="50" step="25" inputmode="numeric" placeholder="e.g. 300"/>
+        <small class="field-hint">In dollars per month. We use this to pick the carriers whose IUL math actually works at your funding level.</small>
+      </label>"""
+    else:
+        contribution_field = ""
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -508,6 +522,21 @@ def render_page(p):
         </label>
       </div>
       <input type="hidden" name="product" value="{html.escape(p['name'])}"/>
+
+      <!-- Health snapshot — auto-disqualifiers for standard underwriting.
+           A "yes" on any of these doesn't block the lead — it routes to
+           a final-expense / graded-issue path inside Repflow so the
+           advisor opens with the right carrier shortlist instead of
+           pitching a standard term policy that will get declined. -->
+      <fieldset class="field-health">
+        <legend>Any of these apply? (so we line up the right carriers)</legend>
+        <label class="check-row"><input type="checkbox" name="health_stroke" value="yes"/> <span>Stroke (any history)</span></label>
+        <label class="check-row"><input type="checkbox" name="health_diabetes" value="yes"/> <span>Diabetes</span></label>
+        <label class="check-row"><input type="checkbox" name="health_cancer" value="yes"/> <span>Cancer (any history)</span></label>
+        <label class="check-row"><input type="checkbox" name="health_heart_attack" value="yes"/> <span>Heart attack</span></label>
+        <label class="check-row"><input type="checkbox" name="health_tobacco" value="yes"/> <span>Tobacco use (current)</span></label>
+      </fieldset>{contribution_field}
+
       <label class="field">
         <span>Anything else? (optional)</span>
         <textarea name="notes" rows="2" placeholder="e.g. existing policy details, timing"></textarea>

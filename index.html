@@ -315,9 +315,9 @@
           <input type="number" name="age" min="18" max="99" placeholder="42"/>
         </label>
       </div>
-      <label class="field">
+      <label class="field" id="bookProductWrap">
         <span>What you're looking for</span>
-        <select name="product" required>
+        <select name="product" id="bookProduct" required>
           <option value="">Select…</option>
           <option>Term Life</option>
           <option>Whole Life</option>
@@ -328,6 +328,28 @@
           <option>Not sure — help me decide</option>
         </select>
       </label>
+
+      <!-- Health snapshot — same auto-disqualifier shortlist used on
+           every coverage funnel. A yes flags the lead for graded /
+           simplified-issue carriers in Repflow. -->
+      <fieldset class="field-health">
+        <legend>Any of these apply? (so we line up the right carriers)</legend>
+        <label class="check-row"><input type="checkbox" name="health_stroke" value="yes"/> <span>Stroke (any history)</span></label>
+        <label class="check-row"><input type="checkbox" name="health_diabetes" value="yes"/> <span>Diabetes</span></label>
+        <label class="check-row"><input type="checkbox" name="health_cancer" value="yes"/> <span>Cancer (any history)</span></label>
+        <label class="check-row"><input type="checkbox" name="health_heart_attack" value="yes"/> <span>Heart attack</span></label>
+        <label class="check-row"><input type="checkbox" name="health_tobacco" value="yes"/> <span>Tobacco use (current)</span></label>
+      </fieldset>
+
+      <!-- IUL-only: desired monthly contribution. Hidden by default; the
+           inline script below reveals it when product=IUL so the field
+           only adds friction for the audience that needs it. -->
+      <label class="field" id="bookContribution" hidden>
+        <span>Desired monthly contribution</span>
+        <input type="number" name="monthly_contribution" min="50" step="25" inputmode="numeric" placeholder="e.g. 300"/>
+        <small class="field-hint">In dollars per month. We use this to pick the carriers whose IUL math actually works at your funding level.</small>
+      </label>
+
       <label class="field">
         <span>Anything else? (optional)</span>
         <textarea name="notes" rows="2" placeholder="e.g. expecting our second child"></textarea>
@@ -335,6 +357,25 @@
       <button type="submit" class="btn btn-primary btn-block">Request my call</button>
       <p class="hc-fine">By submitting, you consent to be contacted by a UEP licensed agent at the number above.</p>
     </form>
+    <script>
+      // IUL is the only product where desired monthly contribution
+      // changes the carrier shortlist, so reveal the field only when
+      // IUL is selected. Saves friction for the other 80% of leads.
+      (function () {
+        var sel = document.getElementById("bookProduct");
+        var wrap = document.getElementById("bookContribution");
+        if (!sel || !wrap) return;
+        function sync() {
+          var iul = sel.value === "IUL";
+          wrap.hidden = !iul;
+          var input = wrap.querySelector("input");
+          if (input) input.required = false;  // never required; just contextual
+          if (!iul && input) input.value = "";
+        }
+        sel.addEventListener("change", sync);
+        sync();
+      })();
+    </script>
   </div>
 </section>
 
