@@ -431,19 +431,17 @@ button { font: inherit; cursor: pointer; border: 0; background: transparent; }
 .logo:hover { opacity: 1; }
 
 .logo-mutual    { height: 30px; }
-.logo-fg        { height: 46px; }   /* square lockup — needs more height to match wordmark width */
+.logo-fg        { height: 34px; }
 .logo-aetna     { height: 30px; }
 .logo-americo   { height: 30px; }
 .logo-foresters { height: 32px; }
 .logo-prosperity{ height: 30px; }
 .logo-sbli      { height: 34px; }
-.logo-liberty   { height: 42px; }   /* widescreen mark + tagline */
+.logo-liberty   { height: 28px; }
 
 @media (max-width: 720px) {
   .strip-set { gap: 36px; padding: 0 18px; }
-  .logo { height: 28px; }
-  .logo-fg { height: 38px; }
-  .logo-liberty { height: 32px; }
+  .logo { height: 26px; }
   .strip-track { animation-duration: 30s; }
 }
 
