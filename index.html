@@ -101,19 +101,35 @@
   </div>
 </section>
 
-<!-- TRUST STRIP -->
+<!-- TRUST STRIP — endless marquee of official carrier logos.
+     The .strip-track contains TWO identical .strip-set blocks; the keyframe
+     animates the track from translateX(0) to translateX(-50%), so the second
+     set seamlessly takes over where the first ends. aria-hidden on the
+     duplicate so screen readers don't read the carrier list twice. -->
 <section class="strip">
-  <div class="container">
-    <p class="strip-label">Carrier partners include</p>
-    <div class="strip-row">
-      <span>Mutual of Omaha</span>
-      <span>F&amp;G</span>
-      <span>Aetna</span>
-      <span>Americo</span>
-      <span>Foresters</span>
-      <span>Prosperity Life</span>
-      <span>SBLI</span>
-      <span>Liberty Bankers</span>
+  <p class="strip-label">Carrier partners include</p>
+  <div class="strip-marquee">
+    <div class="strip-track">
+      <div class="strip-set">
+        <img src="logos/mutual-of-omaha.svg" alt="Mutual of Omaha" class="logo logo-mutual"/>
+        <img src="logos/fg.png" alt="F&amp;G" class="logo logo-fg"/>
+        <img src="logos/aetna.svg" alt="Aetna" class="logo logo-aetna"/>
+        <img src="logos/americo.png" alt="Americo" class="logo logo-americo"/>
+        <img src="logos/foresters.svg" alt="Foresters" class="logo logo-foresters"/>
+        <img src="logos/prosperity-life.png" alt="Prosperity Life" class="logo logo-prosperity"/>
+        <img src="logos/sbli.png" alt="SBLI" class="logo logo-sbli"/>
+        <img src="logos/liberty-bankers.png" alt="Liberty Bankers" class="logo logo-liberty"/>
+      </div>
+      <div class="strip-set" aria-hidden="true">
+        <img src="logos/mutual-of-omaha.svg" alt="" class="logo logo-mutual"/>
+        <img src="logos/fg.png" alt="" class="logo logo-fg"/>
+        <img src="logos/aetna.svg" alt="" class="logo logo-aetna"/>
+        <img src="logos/americo.png" alt="" class="logo logo-americo"/>
+        <img src="logos/foresters.svg" alt="" class="logo logo-foresters"/>
+        <img src="logos/prosperity-life.png" alt="" class="logo logo-prosperity"/>
+        <img src="logos/sbli.png" alt="" class="logo logo-sbli"/>
+        <img src="logos/liberty-bankers.png" alt="" class="logo logo-liberty"/>
+      </div>
     </div>
   </div>
 </section>
