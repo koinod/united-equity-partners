@@ -137,6 +137,36 @@
     banner.textContent = message;
   }
 
+  // Cal.com booking surface for the main "book a call" form. Lead is captured
+  // first (Repflow), then the user is sent to a real calendar to pick a slot —
+  // so submissions hit a calendar, not just an inbox. Override per-environment
+  // by setting window.UEP_SCHEDULER_URL before app.js loads (e.g. point at
+  // cal.com/zay/15min or a cal.com/team/uep/strategy event once that's set up).
+  const SCHEDULER_URL = (typeof window !== "undefined" && window.UEP_SCHEDULER_URL)
+    || "https://cal.com/koino/15min";
+
+  function buildSchedulerUrl(formEl) {
+    const data = Object.fromEntries(new FormData(formEl).entries());
+    const params = new URLSearchParams();
+    if (data.name)  params.set("name",  String(data.name).trim());
+    if (data.email) params.set("email", String(data.email).trim());
+    // cal.com uses smsReminderNumber for the invitee's phone — also doubles
+    // as the number the host calls when the event is configured as "Phone
+    // call (attendee)" (the default for UEP, since appointments are calls).
+    if (data.phone) params.set("smsReminderNumber", String(data.phone).trim());
+    // Stuff product / state / beneficiary into the cal.com notes so the
+    // advisor opens the booking with context already in hand.
+    const noteBits = ["Preferred: phone call"];
+    if (data.product)     noteBits.push(`Interested in: ${data.product}`);
+    if (data.state)       noteBits.push(`State: ${String(data.state).toUpperCase()}`);
+    if (data.phone)       noteBits.push(`Phone: ${data.phone}`);
+    if (data.beneficiary) noteBits.push(`Intended beneficiary: ${data.beneficiary}`);
+    if (data.notes)       noteBits.push(`Notes: ${data.notes}`);
+    params.set("notes", noteBits.join(" · "));
+    const qs = params.toString();
+    return qs ? `${SCHEDULER_URL}?${qs}` : SCHEDULER_URL;
+  }
+
   function bindForm(formEl, source, opts = {}) {
     if (!formEl) return;
     formEl.addEventListener("submit", async (e) => {
@@ -146,8 +176,27 @@
       if (submit) { submit.disabled = true; submit.textContent = "Sending…"; }
 
       try {
+        const schedulerUrl = opts.scheduler ? buildSchedulerUrl(formEl) : null;
         const payload = buildLeadPayload(formEl, source);
         await postLead(payload);
+
+        // Book form: send the user straight to the calendar after the lead
+        // is safely captured. The intermediate panel is there so the page
+        // doesn't appear to freeze during the redirect on slow networks.
+        if (schedulerUrl) {
+          formEl.innerHTML = `
+            <div style="text-align:center;padding:18px 6px;">
+              <h3 style="font-family:var(--font-display);font-weight:600;font-size:22px;color:var(--brand);margin:0 0 8px;">Saved — pick your time</h3>
+              <p style="font-size:14px;color:var(--ink-3);margin:0 0 14px;line-height:1.55;">
+                Taking you to our scheduler so you can lock a 15-minute slot.
+              </p>
+              <a href="${schedulerUrl}" class="btn btn-primary btn-block" style="text-decoration:none;">Open scheduler →</a>
+            </div>
+          `;
+          // Tiny delay so the success panel paints before the navigation.
+          setTimeout(() => { window.location.href = schedulerUrl; }, 250);
+          return;
+        }
 
         // Hero form has a separate "done" panel; everything else inline-replaces.
         if (opts.doneEl) {
@@ -184,6 +233,7 @@
     "uep_website:hero",
     { doneEl: document.getElementById("leadFormHeroDone") }
   );
-  bindForm(document.getElementById("leadFormBook"), "uep_website:book");
+  bindForm(document.getElementById("leadFormBook"), "uep_website:book",   { scheduler: true });
+  bindForm(document.getElementById("leadFormQuiz"), "uep_website:quiz",   { scheduler: true });
   bindForm(document.getElementById("applyForm"),    "uep_website:careers");
 })();

@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<title>Coverage Fit Quiz — United Equity Partners</title>
+<meta name="description" content="Five quick questions to match you with the right life insurance strategy — term, whole, IUL, final expense, mortgage protection, or annuity. Ends in a 15-minute phone call with a licensed UEP advisor."/>
+<meta name="theme-color" content="#2D1F18"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="/styles.css"/>
+<link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%232D1F18'/><text x='50' y='66' font-family='Fraunces,serif' font-size='52' font-weight='700' text-anchor='middle' fill='%23E8D5BC'>U</text></svg>"/>
+<style>
+  /* Quiz-only styles. Scoped under #quiz so they don't bleed elsewhere. */
+  #quiz { max-width: 720px; margin: 0 auto; padding: 32px 20px 48px; }
+  #quiz .quiz-progress { height: 6px; background: rgba(45,31,24,0.08); border-radius: 999px; overflow: hidden; margin-bottom: 28px; }
+  #quiz .quiz-progress-bar { height: 100%; background: var(--brand, #2D1F18); width: 0; transition: width .35s ease; }
+  #quiz .quiz-step { display: none; }
+  #quiz .quiz-step.is-active { display: block; }
+  #quiz .quiz-q { font-family: var(--font-display, "Fraunces", serif); font-weight: 600; font-size: clamp(24px, 3.4vw, 32px); line-height: 1.2; margin: 0 0 6px; color: var(--brand, #2D1F18); }
+  #quiz .quiz-sub { font-size: 14px; color: var(--ink-3, #6B5E54); margin: 0 0 22px; }
+  #quiz .quiz-opts { display: grid; gap: 10px; margin-bottom: 22px; }
+  #quiz .quiz-opt { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border: 1px solid rgba(45,31,24,0.14); border-radius: 12px; background: #fff; cursor: pointer; transition: border-color .12s ease, background .12s ease, transform .08s ease; font-size: 15px; line-height: 1.4; }
+  #quiz .quiz-opt:hover { border-color: rgba(45,31,24,0.32); background: rgba(232,213,188,0.18); }
+  #quiz .quiz-opt:active { transform: scale(0.995); }
+  #quiz .quiz-opt input { accent-color: var(--brand, #2D1F18); width: 18px; height: 18px; flex: 0 0 18px; }
+  #quiz .quiz-opt.is-selected { border-color: var(--brand, #2D1F18); background: rgba(232,213,188,0.28); }
+  #quiz .quiz-nav { display: flex; justify-content: space-between; gap: 12px; }
+  #quiz .quiz-back { background: transparent; border: 1px solid rgba(45,31,24,0.18); color: var(--ink-2, #4A3F37); padding: 10px 18px; border-radius: 999px; cursor: pointer; font-size: 14px; font-weight: 500; }
+  #quiz .quiz-back[disabled] { opacity: 0.4; cursor: not-allowed; }
+  #quiz .quiz-next { padding: 10px 22px; }
+  #quiz .quiz-next[disabled] { opacity: 0.45; cursor: not-allowed; }
+  #quiz-result { display: none; }
+  #quiz-result.is-active { display: block; }
+  #quiz-result .result-eyebrow { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3, #6B5E54); margin: 0 0 8px; }
+  #quiz-result .result-h { font-family: var(--font-display, "Fraunces", serif); font-weight: 600; font-size: clamp(28px, 4vw, 40px); margin: 0 0 10px; color: var(--brand, #2D1F18); line-height: 1.15; }
+  #quiz-result .result-pitch { font-size: 16px; line-height: 1.6; color: var(--ink-2, #4A3F37); margin: 0 0 22px; }
+  #quiz-result .result-card { background: #fff; border: 1px solid rgba(45,31,24,0.12); border-radius: 16px; padding: 22px; margin: 0 0 24px; }
+  #quiz-result .result-card h3 { font-family: var(--font-display, "Fraunces", serif); font-weight: 600; font-size: 20px; margin: 0 0 8px; color: var(--brand, #2D1F18); }
+  #quiz-result .result-card .field { margin-bottom: 12px; }
+  #quiz-result .result-card .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 480px) { #quiz-result .result-card .row-2 { grid-template-columns: 1fr; } }
+  #quiz-result .result-fine { font-size: 12px; color: var(--ink-3, #6B5E54); margin: 8px 0 0; }
+  #quiz-result .result-restart { display: inline-block; margin-top: 14px; font-size: 13px; color: var(--ink-3, #6B5E54); text-decoration: underline; background: none; border: none; cursor: pointer; padding: 0; }
+</style>
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <div class="container nav-inner">
+    <a href="/" class="brand">
+      <span class="brand-mark">U</span>
+      <span class="brand-name">United Equity <span class="brand-name-soft">Partners</span></span>
+    </a>
+    <nav class="nav-links">
+      <a href="/#approach">Approach</a>
+      <a href="/#products">Coverage</a>
+      <a href="/#trust">Why us</a>
+      <a href="/careers">Careers</a>
+      <a href="/#book" class="btn btn-primary btn-sm">Book a call</a>
+    </nav>
+    <button class="nav-burger" id="navBurger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main>
+
+<section class="section">
+  <div class="container">
+    <p class="eyebrow" style="text-align:center;">2-minute coverage fit</p>
+    <h1 class="display-2" style="text-align:center; max-width: 720px; margin: 0 auto 12px;">Find the policy that fits your family.</h1>
+    <p class="body-lg" style="text-align:center; max-width: 600px; margin: 0 auto 32px; color: var(--ink-3, #6B5E54);">
+      Five questions. We'll show you which strategy fits your situation, then book a 15-minute phone call with a licensed UEP advisor to walk you through it.
+    </p>
+
+    <div id="quiz">
+      <div class="quiz-progress"><div class="quiz-progress-bar" id="quizBar"></div></div>
+
+      <!-- Q1: who -->
+      <div class="quiz-step is-active" data-step="1">
+        <p class="quiz-sub">Question 1 of 5</p>
+        <h2 class="quiz-q">Who are you protecting first?</h2>
+        <div class="quiz-opts" data-key="who">
+          <label class="quiz-opt"><input type="radio" name="who" value="spouse-and-kids"/><span>My spouse and kids</span></label>
+          <label class="quiz-opt"><input type="radio" name="who" value="spouse-only"/><span>My spouse</span></label>
+          <label class="quiz-opt"><input type="radio" name="who" value="aging-parent"/><span>An aging parent (final expenses)</span></label>
+          <label class="quiz-opt"><input type="radio" name="who" value="myself"/><span>Myself — building wealth or retirement income</span></label>
+          <label class="quiz-opt"><input type="radio" name="who" value="business"/><span>A business partner or key employee</span></label>
+        </div>
+        <div class="quiz-nav">
+          <button class="quiz-back" disabled>Back</button>
+          <button class="btn btn-primary quiz-next" data-next="2" disabled>Next →</button>
+        </div>
+      </div>
+
+      <!-- Q2: goal -->
+      <div class="quiz-step" data-step="2">
+        <p class="quiz-sub">Question 2 of 5</p>
+        <h2 class="quiz-q">What's the main goal?</h2>
+        <div class="quiz-opts" data-key="goal">
+          <label class="quiz-opt"><input type="radio" name="goal" value="income-replacement"/><span>Replace my income if I'm gone</span></label>
+          <label class="quiz-opt"><input type="radio" name="goal" value="mortgage-payoff"/><span>Pay off the mortgage</span></label>
+          <label class="quiz-opt"><input type="radio" name="goal" value="burial"/><span>Cover burial &amp; final expenses</span></label>
+          <label class="quiz-opt"><input type="radio" name="goal" value="wealth-build"/><span>Build tax-advantaged cash value</span></label>
+          <label class="quiz-opt"><input type="radio" name="goal" value="retirement-income"/><span>Create guaranteed retirement income</span></label>
+        </div>
+        <div class="quiz-nav">
+          <button class="quiz-back" data-back="1">Back</button>
+          <button class="btn btn-primary quiz-next" data-next="3" disabled>Next →</button>
+        </div>
+      </div>
+
+      <!-- Q3: age -->
+      <div class="quiz-step" data-step="3">
+        <p class="quiz-sub">Question 3 of 5</p>
+        <h2 class="quiz-q">What's your age bracket?</h2>
+        <div class="quiz-opts" data-key="age">
+          <label class="quiz-opt"><input type="radio" name="age" value="under-40"/><span>Under 40</span></label>
+          <label class="quiz-opt"><input type="radio" name="age" value="40-55"/><span>40 to 55</span></label>
+          <label class="quiz-opt"><input type="radio" name="age" value="55-70"/><span>55 to 70</span></label>
+          <label class="quiz-opt"><input type="radio" name="age" value="70-plus"/><span>70 or older</span></label>
+        </div>
+        <div class="quiz-nav">
+          <button class="quiz-back" data-back="2">Back</button>
+          <button class="btn btn-primary quiz-next" data-next="4" disabled>Next →</button>
+        </div>
+      </div>
+
+      <!-- Q4: horizon -->
+      <div class="quiz-step" data-step="4">
+        <p class="quiz-sub">Question 4 of 5</p>
+        <h2 class="quiz-q">How long do you need coverage?</h2>
+        <div class="quiz-opts" data-key="horizon">
+          <label class="quiz-opt"><input type="radio" name="horizon" value="10-20"/><span>10–20 years (kids through college, mortgage paid)</span></label>
+          <label class="quiz-opt"><input type="radio" name="horizon" value="30-plus"/><span>30+ years (young family, long mortgage)</span></label>
+          <label class="quiz-opt"><input type="radio" name="horizon" value="lifetime"/><span>Lifetime — never want it to lapse</span></label>
+          <label class="quiz-opt"><input type="radio" name="horizon" value="immediate"/><span>Immediate — for someone older or in poor health</span></label>
+        </div>
+        <div class="quiz-nav">
+          <button class="quiz-back" data-back="3">Back</button>
+          <button class="btn btn-primary quiz-next" data-next="5" disabled>Next →</button>
+        </div>
+      </div>
+
+      <!-- Q5: health -->
+      <div class="quiz-step" data-step="5">
+        <p class="quiz-sub">Question 5 of 5</p>
+        <h2 class="quiz-q">How would you rate your health?</h2>
+        <div class="quiz-opts" data-key="health">
+          <label class="quiz-opt"><input type="radio" name="health" value="excellent"/><span>Excellent — no medications, no major history</span></label>
+          <label class="quiz-opt"><input type="radio" name="health" value="good"/><span>Good — minor stuff, well-managed</span></label>
+          <label class="quiz-opt"><input type="radio" name="health" value="some-issues"/><span>Some issues (diabetes, heart, cancer history, tobacco)</span></label>
+          <label class="quiz-opt"><input type="radio" name="health" value="prefer-not-say"/><span>I'd rather discuss on the call</span></label>
+        </div>
+        <div class="quiz-nav">
+          <button class="quiz-back" data-back="4">Back</button>
+          <button class="btn btn-primary quiz-next" data-next="result" disabled>See my recommendation →</button>
+        </div>
+      </div>
+
+      <!-- Result -->
+      <div id="quiz-result">
+        <p class="result-eyebrow">Your recommended fit</p>
+        <h2 class="result-h" id="resultName">Term Life</h2>
+        <p class="result-pitch" id="resultPitch">A 20- or 30-year term policy gives you the most coverage per dollar — ideal for replacing income and protecting a young family.</p>
+
+        <div class="result-card">
+          <h3>Book a 15-minute phone call with a UEP advisor</h3>
+          <p style="font-size:14px; color: var(--ink-3, #6B5E54); margin: 0 0 14px;">
+            We'll walk through what fits your situation, quote across the top A-rated carriers, and answer anything. No pressure — and no obligation to apply.
+          </p>
+          <form id="leadFormQuiz">
+            <label class="field">
+              <span>Full name</span>
+              <input type="text" name="name" required autocomplete="name"/>
+            </label>
+            <label class="field">
+              <span>Phone (we'll call you at your booked time)</span>
+              <input type="tel" name="phone" required autocomplete="tel" placeholder="(555) 123-4567"/>
+            </label>
+            <label class="field">
+              <span>Email</span>
+              <input type="email" name="email" required autocomplete="email"/>
+            </label>
+            <div class="row-2">
+              <label class="field">
+                <span>State</span>
+                <input type="text" name="state" required maxlength="2" placeholder="TX" style="text-transform:uppercase"/>
+              </label>
+              <label class="field">
+                <span>Age</span>
+                <input type="number" name="age" min="18" max="99"/>
+              </label>
+            </div>
+            <label class="field">
+              <span>Intended beneficiary (optional)</span>
+              <input type="text" name="beneficiary" placeholder="e.g. spouse, children, estate"/>
+            </label>
+            <!-- Quiz answers ride along as hidden inputs so the advisor opens
+                 the booking with full quiz context (lands in meta.qualifying). -->
+            <input type="hidden" name="product"        id="hiddenProduct"/>
+            <input type="hidden" name="quiz_who"       id="hiddenWho"/>
+            <input type="hidden" name="quiz_goal"      id="hiddenGoal"/>
+            <input type="hidden" name="quiz_age_band"  id="hiddenAgeBand"/>
+            <input type="hidden" name="quiz_horizon"   id="hiddenHorizon"/>
+            <input type="hidden" name="quiz_health"    id="hiddenHealth"/>
+            <button type="submit" class="btn btn-primary btn-block">Schedule my phone call →</button>
+            <p class="result-fine">By submitting, you consent to be called by a UEP licensed agent at the number above. After saving, pick a 15-minute slot — we'll call you at that time.</p>
+          </form>
+        </div>
+
+        <button type="button" class="result-restart" id="quizRestart">← Retake the quiz</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="container foot-grid">
+    <div>
+      <a href="/" class="brand">
+        <span class="brand-mark">U</span>
+        <span class="brand-name">United Equity <span class="brand-name-soft">Partners</span></span>
+      </a>
+      <p class="foot-tag">Life insurance built around your family.</p>
+    </div>
+    <div class="foot-cols">
+      <div>
+        <h5>Coverage</h5>
+        <a href="/term-life">Term life</a>
+        <a href="/whole-life">Whole life</a>
+        <a href="/iul">IUL</a>
+        <a href="/final-expense">Final expense</a>
+        <a href="/annuities">Annuities</a>
+        <a href="/mortgage-protection">Mortgage protection</a>
+      </div>
+      <div>
+        <h5>Company</h5>
+        <a href="/#approach">Approach</a>
+        <a href="/#trust">Why us</a>
+        <a href="/careers">Careers</a>
+        <a href="/#book">Book a call</a>
+      </div>
+      <div>
+        <h5>Compliance</h5>
+        <a href="#" data-modal="privacy">Privacy policy</a>
+        <a href="#" data-modal="terms">Terms of service</a>
+        <a href="#" data-modal="tpmo">TPMO disclosure</a>
+      </div>
+    </div>
+  </div>
+  <div class="container foot-fine">
+    <p>© United Equity Partners. Insurance products offered through licensed UEP agents. Not affiliated with any government agency.</p>
+  </div>
+</footer>
+
+<script>
+  // ── Quiz state + step machine ────────────────────────────────────────────
+  // Five-question single-select flow. Picking an option auto-stores it and
+  // enables Next; Next advances; Back rewinds; the final step computes the
+  // recommended product, paints the result screen, and writes the answers
+  // into the lead form's hidden inputs so they flow into Repflow's payload.
+  (function () {
+    const steps   = Array.from(document.querySelectorAll("#quiz .quiz-step"));
+    const result  = document.getElementById("quiz-result");
+    const bar     = document.getElementById("quizBar");
+    const totalSteps = steps.length;
+    const answers = { who: null, goal: null, age: null, horizon: null, health: null };
+
+    function setProgress(n) {
+      const pct = Math.max(0, Math.min(100, (n / (totalSteps + 1)) * 100));
+      bar.style.width = pct + "%";
+    }
+    function show(stepNum) {
+      steps.forEach(s => s.classList.remove("is-active"));
+      result.classList.remove("is-active");
+      if (stepNum === "result") {
+        result.classList.add("is-active");
+        setProgress(totalSteps + 1);
+        return;
+      }
+      const el = steps.find(s => Number(s.dataset.step) === Number(stepNum));
+      if (el) el.classList.add("is-active");
+      setProgress(stepNum);
+      window.scrollTo({ top: document.getElementById("quiz").offsetTop - 80, behavior: "smooth" });
+    }
+
+    // Wire options + nav buttons
+    steps.forEach(step => {
+      const key = step.querySelector(".quiz-opts").dataset.key;
+      const next = step.querySelector(".quiz-next");
+      step.querySelectorAll(".quiz-opt").forEach(opt => {
+        opt.addEventListener("click", () => {
+          step.querySelectorAll(".quiz-opt").forEach(o => o.classList.remove("is-selected"));
+          opt.classList.add("is-selected");
+          const input = opt.querySelector("input");
+          if (input) input.checked = true;
+          answers[key] = input ? input.value : null;
+          next.disabled = !answers[key];
+        });
+      });
+      next.addEventListener("click", () => {
+        const target = next.dataset.next;
+        if (target === "result") {
+          renderResult();
+          show("result");
+        } else {
+          show(target);
+        }
+      });
+      const back = step.querySelector(".quiz-back");
+      if (back && back.dataset.back) {
+        back.addEventListener("click", () => show(back.dataset.back));
+      }
+    });
+
+    // Restart
+    document.getElementById("quizRestart").addEventListener("click", () => {
+      Object.keys(answers).forEach(k => answers[k] = null);
+      steps.forEach(step => {
+        step.querySelectorAll(".quiz-opt").forEach(o => o.classList.remove("is-selected"));
+        step.querySelectorAll("input[type=radio]").forEach(r => r.checked = false);
+        const next = step.querySelector(".quiz-next");
+        if (next) next.disabled = true;
+      });
+      show(1);
+    });
+
+    setProgress(1);
+
+    // ── Recommendation engine ──────────────────────────────────────────────
+    // Deliberately simple. The advisor handles nuance on the call — the
+    // quiz only needs to land the lead on a credible product page that
+    // matches their stated goal, and pass the full answer set through to
+    // the booking so context isn't re-asked.
+    function recommend(a) {
+      // Hard routes first — these override everything else.
+      if (a.goal === "burial" || a.age === "70-plus") {
+        return {
+          product: "Final Expense",
+          page: "/final-expense",
+          pitch: "A simplified-issue final expense policy locks in $5K–$50K of coverage with no medical exam. Premiums stay level for life — the cleanest way to make sure burial and end-of-life costs don't land on your family."
+        };
+      }
+      if (a.goal === "mortgage-payoff") {
+        return {
+          product: "Mortgage Protection",
+          page: "/mortgage-protection",
+          pitch: "A specialized term policy sized to your mortgage. If something happens to you, the payout retires the loan so your family keeps the house — often with living-benefit riders for disability or critical illness."
+        };
+      }
+      if (a.goal === "retirement-income" || (a.age === "55-70" && a.goal !== "income-replacement")) {
+        return {
+          product: "Annuity",
+          page: "/annuities",
+          pitch: "Annuities trade a lump sum (or monthly contributions) for guaranteed lifetime income. Indexed options give you upside with a 0% floor — meaning you participate in market gains without exposure to losses."
+        };
+      }
+      if (a.goal === "wealth-build") {
+        return {
+          product: "IUL",
+          page: "/iul",
+          pitch: "Indexed Universal Life builds tax-advantaged cash value tied to a market index, with a 0% floor protecting principal. Used right, it doubles as life insurance and a tax-efficient retirement bucket — but the funding level matters, which is why we'll model it on the call."
+        };
+      }
+      // Income replacement is the most common branch — split on horizon.
+      if (a.goal === "income-replacement") {
+        if (a.horizon === "lifetime") {
+          return {
+            product: "Whole Life",
+            page: "/whole-life",
+            pitch: "Whole life guarantees lifetime coverage with cash value that compounds tax-deferred. Premiums never increase and the policy can never lapse for non-payment once paid up — built for families who want the protection to literally outlive them."
+          };
+        }
+        return {
+          product: "Term Life",
+          page: "/term-life",
+          pitch: "A 20- or 30-year term policy gives you the most coverage per dollar — ideal for income replacement while the kids are home and the mortgage is alive. Convertible to permanent later if your needs change."
+        };
+      }
+      // Default: nudge into a guided conversation rather than a guess.
+      return {
+        product: "Not sure — help me decide",
+        page: "/#products",
+        pitch: "Your situation has tradeoffs across a few products. A 15-minute call is the fastest way to map your goals to the right structure — we'll show you the math, not a pitch."
+      };
+    }
+
+    function renderResult() {
+      const rec = recommend(answers);
+      document.getElementById("resultName").textContent = rec.product;
+      document.getElementById("resultPitch").textContent = rec.pitch;
+      document.getElementById("hiddenProduct").value = rec.product;
+      document.getElementById("hiddenWho").value     = answers.who      || "";
+      document.getElementById("hiddenGoal").value    = answers.goal     || "";
+      document.getElementById("hiddenAgeBand").value = answers.age      || "";
+      document.getElementById("hiddenHorizon").value = answers.horizon  || "";
+      document.getElementById("hiddenHealth").value  = answers.health   || "";
+    }
+  })();
+</script>
+<script src="/app.js" defer></script>
+</body>
+</html>
