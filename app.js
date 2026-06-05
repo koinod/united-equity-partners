@@ -289,15 +289,30 @@
         const wantsCalendar = opts.embedCalendar || opts.scheduler;
         const schedulerUrl = wantsCalendar ? buildSchedulerUrl(formEl) : null;
         const prefill      = wantsCalendar ? buildSchedulerData(formEl) : null;
-        const payload = buildLeadPayload(formEl, source, { transferNow });
         const formData = Object.fromEntries(new FormData(formEl).entries());
         const userPhone = String(formData.phone || "").trim();
-        const leadResp = await postLead(payload);
 
-        // Live transfer path — Repflow's inbound handler is dialing the lead
-        // right now via Twilio. Show the "Calling you" UI on success; on a
-        // bridge failure, fall through to the calendar embed so the user
-        // isn't stranded.
+        // Repflow lead post. For calendar-bound forms (book, quiz, funnels),
+        // treat failure as non-fatal — the cal.com booking IS the conversion
+        // event, and cal.com fires the host-email notification on booking
+        // regardless of whether the Repflow row was created. We log the
+        // failure but DO NOT block the user from picking a time.
+        let leadResp = null;
+        try {
+          const payload = buildLeadPayload(formEl, source, { transferNow });
+          leadResp = await postLead(payload);
+        } catch (postErr) {
+          console.warn("[uep] lead post non-fatal:", postErr?.message || postErr);
+          if (!wantsCalendar && !transferNow) {
+            // Non-calendar form with no scheduling fallback — re-throw to the
+            // outer catch so the user sees the inline error / mailto fallback.
+            throw postErr;
+          }
+        }
+
+        // Live transfer path — only runs if the Repflow handler accepted the
+        // lead AND actually fired the Twilio bridge. Otherwise fall through
+        // to the calendar branch so the user always has a path.
         if (transferNow) {
           const lt = leadResp && leadResp.live_transfer;
           if (lt && lt.fired) {
@@ -378,15 +393,15 @@
           `;
         }
       } catch (err) {
-        console.error("[uep] lead post failed:", err);
-        // Restore button + show inline error with mailto fallback
-        if (submit) { submit.disabled = false; submit.textContent = oldText; }
+        console.error("[uep] submit failed:", err);
+        // Restore all submit buttons + show inline error with mailto fallback.
+        buttons.forEach(b => { b.disabled = false; });
+        if (submitter) submitter.textContent = oldText;
         const data = Object.fromEntries(new FormData(formEl).entries());
         const fallback = `mailto:hello@unitedequitypartners.com?subject=Inquiry%20from%20website&body=${encodeURIComponent(
           Object.entries(data).map(([k, v]) => `${k}: ${v}`).join("\n")
         )}`;
-        showError(formEl, "Network error. Please try again, or email hello@unitedequitypartners.com directly.");
-        // Open mailto in a new tab so the user can finish via email
+        showError(formEl, "Couldn't reach our server. Please try again, or email hello@unitedequitypartners.com directly.");
         try { window.open(fallback, "_blank"); } catch {}
       }
     });
