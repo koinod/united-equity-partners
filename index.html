@@ -63,43 +63,25 @@
         <li><span class="dot"></span>No-cost consultation</li>
       </ul>
     </div>
-    <aside class="hero-card" aria-label="Quick quote">
+    <aside class="hero-card" aria-label="Three ways to start">
       <div class="hc-rule"></div>
-      <p class="hc-eyebrow">Speak with a licensed advisor</p>
-      <h3 class="hc-h">Get matched in 15 minutes</h3>
-      <p class="hc-sub">Tell us a little about your situation. A licensed UEP advisor will reach out within one business day.</p>
-      <form id="leadFormHero" class="hc-form">
-        <label class="field">
-          <span>Full name</span>
-          <input type="text" name="name" required autocomplete="name"/>
-        </label>
-        <label class="field">
-          <span>Phone</span>
-          <input type="tel" name="phone" required autocomplete="tel" placeholder="(555) 123-4567"/>
-        </label>
-        <label class="field">
-          <span>State</span>
-          <input type="text" name="state" required autocomplete="address-level1" maxlength="2" placeholder="TX" style="text-transform:uppercase"/>
-        </label>
-        <label class="field">
-          <span>What you're considering</span>
-          <select name="product" required>
-            <option value="">Select…</option>
-            <option value="Term Life">Term life — fixed period coverage</option>
-            <option value="Whole Life">Whole life — lifelong with cash value</option>
-            <option value="IUL">IUL — indexed universal life</option>
-            <option value="Final Expense">Final expense — burial protection</option>
-            <option value="Annuity">Annuity — income / retirement</option>
-            <option value="Not sure">Not sure — help me decide</option>
-          </select>
-        </label>
-        <button type="submit" class="btn btn-primary btn-block">Request callback</button>
-        <p class="hc-fine">By submitting, you agree to be contacted by a UEP licensed agent. We do not sell your information.</p>
-      </form>
-      <div id="leadFormHeroDone" class="hc-done" hidden>
-        <h4>Got it.</h4>
-        <p>A UEP advisor will reach out within one business day. Check your phone for a confirmation text.</p>
-      </div>
+      <p class="hc-eyebrow">Three ways to start</p>
+      <h3 class="hc-h">Talk to a UEP advisor.</h3>
+      <p class="hc-sub">Pick whichever feels right. No forms on this page — just reach out.</p>
+      <ul style="list-style:none;padding:0;margin:18px 0 0;display:flex;flex-direction:column;gap:14px;">
+        <li>
+          <a href="tel:+19312522222" class="btn btn-primary btn-block" style="text-decoration:none;">📞 Call (931) 252-2222</a>
+          <p style="font-size:12px;color:var(--ink-3,#6B5E54);margin:6px 0 0;text-align:center;">A licensed advisor picks up.</p>
+        </li>
+        <li>
+          <a href="/chat" class="btn btn-ghost btn-block" style="text-decoration:none;">💬 Chat with a UEP advisor</a>
+          <p style="font-size:12px;color:var(--ink-3,#6B5E54);margin:6px 0 0;text-align:center;">Tap the bubble in the corner once it loads, or open the chat page.</p>
+        </li>
+        <li>
+          <a href="/quiz" class="btn btn-ghost btn-block" style="text-decoration:none;">🎯 Take the 2-min fit quiz</a>
+          <p style="font-size:12px;color:var(--ink-3,#6B5E54);margin:6px 0 0;text-align:center;">See which coverage fits, then book a time.</p>
+        </li>
+      </ul>
     </aside>
   </div>
 </section>
@@ -282,11 +264,11 @@
 <section class="section section-deep" id="book">
   <div class="container book-grid">
     <div>
-      <p class="eyebrow eyebrow-light">Schedule</p>
-      <h2 class="display-2 light">Book a 15-minute strategy call.</h2>
+      <p class="eyebrow eyebrow-light">Ready to talk?</p>
+      <h2 class="display-2 light">Pick your path. We'll do the work.</h2>
       <p class="body-lg light-soft">
-        Tell us a little about your family or business, then pick a 15-minute slot on the next screen.
-        A licensed UEP advisor will be on the call at the time you choose.
+        Call, chat, or take the fit quiz — whichever feels right. A licensed UEP advisor is one
+        tap away. No pressure, no obligation, and no math problems on this page.
       </p>
       <ul class="book-list">
         <li><span class="bullet"></span>No-pressure conversation — we'll teach, then you decide</li>
@@ -298,97 +280,20 @@
         — a licensed UEP advisor will pick up.
       </p>
     </div>
-    <form id="leadFormBook" class="card-form">
-      <h3>Request your call</h3>
-      <label class="field">
-        <span>Full name</span>
-        <input type="text" name="name" required autocomplete="name"/>
-      </label>
-      <label class="field">
-        <span>Email</span>
-        <input type="email" name="email" required autocomplete="email"/>
-      </label>
-      <label class="field">
-        <span>Phone</span>
-        <input type="tel" name="phone" required autocomplete="tel"/>
-      </label>
-      <div class="row-2">
-        <label class="field">
-          <span>State</span>
-          <input type="text" name="state" required maxlength="2" placeholder="TX" style="text-transform:uppercase"/>
-        </label>
-        <label class="field">
-          <span>Age</span>
-          <input type="number" name="age" min="18" max="99" placeholder="42"/>
-        </label>
-      </div>
-      <label class="field" id="bookProductWrap">
-        <span>What you're looking for</span>
-        <select name="product" id="bookProduct" required>
-          <option value="">Select…</option>
-          <option>Term Life</option>
-          <option>Whole Life</option>
-          <option>IUL</option>
-          <option>Final Expense</option>
-          <option>Annuity</option>
-          <option>Mortgage Protection</option>
-          <option>Not sure — help me decide</option>
-        </select>
-      </label>
-
-      <!-- Health snapshot — same auto-disqualifier shortlist used on
-           every coverage funnel. A yes flags the lead for graded /
-           simplified-issue carriers in Repflow. -->
-      <fieldset class="field-health">
-        <legend>Any of these apply? (so we line up the right carriers)</legend>
-        <label class="check-row"><input type="checkbox" name="health_stroke" value="yes"/> <span>Stroke (any history)</span></label>
-        <label class="check-row"><input type="checkbox" name="health_diabetes" value="yes"/> <span>Diabetes</span></label>
-        <label class="check-row"><input type="checkbox" name="health_cancer" value="yes"/> <span>Cancer (any history)</span></label>
-        <label class="check-row"><input type="checkbox" name="health_heart_attack" value="yes"/> <span>Heart attack</span></label>
-        <label class="check-row"><input type="checkbox" name="health_tobacco" value="yes"/> <span>Tobacco use (current)</span></label>
-      </fieldset>
-
-      <!-- IUL-only: desired monthly contribution. Hidden by default; the
-           inline script below reveals it when product=IUL so the field
-           only adds friction for the audience that needs it. -->
-      <label class="field" id="bookContribution" hidden>
-        <span>Desired monthly contribution</span>
-        <input type="number" name="monthly_contribution" min="50" step="25" inputmode="numeric" placeholder="e.g. 300"/>
-        <small class="field-hint">In dollars per month. We use this to pick the carriers whose IUL math actually works at your funding level.</small>
-      </label>
-
-      <label class="field">
-        <span>Intended beneficiary (optional)</span>
-        <input type="text" name="beneficiary" autocomplete="off" placeholder="e.g. spouse, children, estate"/>
-        <small class="field-hint">Who would receive the death benefit. Helps us match policy structure to your intent — you can change this later.</small>
-      </label>
-      <label class="field">
-        <span>Anything else? (optional)</span>
-        <textarea name="notes" rows="2" placeholder="e.g. expecting our second child"></textarea>
-      </label>
-      <button type="submit" class="btn btn-primary btn-block">Schedule my phone call →</button>
-      <button type="submit" data-action="transfer_now" class="btn btn-ghost btn-block" style="margin-top:8px;">📞 Or get connected right now</button>
-      <p class="hc-fine">By submitting, you consent to be called by a UEP licensed agent at the number above. Choose "Schedule" to pick a 15-minute slot, or "Get connected right now" and your phone will ring in seconds.</p>
-    </form>
-    <script>
-      // IUL is the only product where desired monthly contribution
-      // changes the carrier shortlist, so reveal the field only when
-      // IUL is selected. Saves friction for the other 80% of leads.
-      (function () {
-        var sel = document.getElementById("bookProduct");
-        var wrap = document.getElementById("bookContribution");
-        if (!sel || !wrap) return;
-        function sync() {
-          var iul = sel.value === "IUL";
-          wrap.hidden = !iul;
-          var input = wrap.querySelector("input");
-          if (input) input.required = false;  // never required; just contextual
-          if (!iul && input) input.value = "";
-        }
-        sel.addEventListener("change", sync);
-        sync();
-      })();
-    </script>
+    <!-- Landing page is intentionally form-free per A2P 10DLC compliance:
+         the GoHighLevel chat widget is the only opt-in surface here. The
+         buttons below route to phone / chat / quiz / scheduling — none of
+         them collect phone or SMS on this page. -->
+    <aside class="card-form" aria-label="Three ways to talk to us" style="display:flex;flex-direction:column;gap:14px;">
+      <h3 style="margin:0 0 4px;">Three ways to reach us.</h3>
+      <p style="font-size:14px;color:var(--ink-3,#6B5E54);margin:0 0 8px;">No forms on this page — pick whichever works for you.</p>
+      <a href="tel:+19312522222" class="btn btn-primary btn-block" style="text-decoration:none;">📞 Call (931) 252-2222</a>
+      <a href="/chat" class="btn btn-ghost btn-block" style="text-decoration:none;">💬 Chat with a UEP advisor</a>
+      <a href="/quiz" class="btn btn-ghost btn-block" style="text-decoration:none;">🎯 Take the 2-min fit quiz, then book a time</a>
+      <p style="font-size:12px;color:var(--ink-3,#6B5E54);margin:6px 0 0;">
+        Prefer not to call? The fit quiz lets you pick a 15-minute slot at the end — we'll call you at that time.
+      </p>
+    </aside>
   </div>
 </section>
 
@@ -456,7 +361,9 @@
 </footer>
 
 <script src="app.js"></script>
-<!-- GoHighLevel chat widget — UEP automation lives in GHL (text drips, FB lead-form sync). Loader reads its own data-* attributes. -->
+<!-- GoHighLevel chat widget — lives ONLY on / and /chat so it's the single
+     opt-in surface on this page. Every other UEP page has a lead form and
+     no widget, keeping A2P 10DLC opt-in surfaces unambiguous per page. -->
 <script src="https://widgets.leadconnectorhq.com/loader.js" data-resources-url="https://widgets.leadconnectorhq.com/chat-widget/loader.js" data-widget-id="6a22e7699372a70f7db19c10" data-source="WEB_USER"></script>
 </body>
 </html>
