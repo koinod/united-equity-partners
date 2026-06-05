@@ -4,7 +4,7 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
 <title>Real income. Real systems. Real ownership. — UEP Careers</title>
-<meta name="description" content="Build a book that pays you for life. For 18–25 who want out of the college / 9-to-5 / door-to-door treadmill.">
+<meta name="description" content="The aggressive roadmap from 'haven't applied' to '$10K month' in 90 days. For 18–25 who want out.">
 <meta name="theme-color" content="#2D1F18"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -20,189 +20,207 @@
     --c-bg-warm:    #F1E4CD;
     --c-line:       rgba(45,31,24,0.10);
     --c-line-2:     rgba(45,31,24,0.18);
-    --c-accent:     #9C2D2D;     /* terracotta */
-    --c-accent-2:   #C8956E;     /* sand */
+    --c-accent:     #9C2D2D;
+    --c-accent-2:   #C8956E;
     --c-good:       #2D6B3F;
     --c-glow:       #FFD79E;
   }
 
-  /* Global reveal animation, fired by JS at end of page */
-  .reveal { opacity: 0; transform: translateY(20px); transition: opacity .7s ease, transform .7s cubic-bezier(.16,.84,.44,1); }
+  /* Scroll reveal */
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s cubic-bezier(.16,.84,.44,1); }
   .reveal.in { opacity: 1; transform: none; }
   @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
 
-  /* ── HERO ─────────────────────────────────────────────────────────── */
-  .ctr-hero { position: relative; padding: 96px 0 80px; overflow: hidden; isolation: isolate; background: linear-gradient(180deg, #FFFBF3 0%, var(--c-bg-soft) 100%); }
-  .ctr-hero::before,
-  .ctr-hero::after {
-    content: ""; position: absolute; border-radius: 50%;
-    filter: blur(90px); opacity: 0.55; pointer-events: none; z-index: -1;
-    animation: orbDrift 16s infinite ease-in-out alternate;
-  }
-  .ctr-hero::before { top: -160px; left: -120px; width: 520px; height: 520px;
-    background: radial-gradient(circle, var(--c-accent-2) 0%, transparent 70%); }
-  .ctr-hero::after  { bottom: -200px; right: -160px; width: 600px; height: 600px;
-    background: radial-gradient(circle, var(--c-accent) 0%, transparent 70%);
-    opacity: 0.35; animation-delay: -7s; }
-  @keyframes orbDrift { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(60px,-50px) scale(1.12); } }
-  @media (prefers-reduced-motion: reduce) {
-    .ctr-hero::before, .ctr-hero::after { animation: none; }
+  /* ─────────────────────────────────────────────────────────────────────
+     PAGE BACKDROP — one continuous gradient so the road feels unbroken
+     ───────────────────────────────────────────────────────────────────── */
+  body.careers-bg {
+    background:
+      radial-gradient(circle at 10% 5%,  rgba(200,149,110,0.18) 0%, transparent 40%),
+      radial-gradient(circle at 90% 30%, rgba(156,45,45,0.12)  0%, transparent 45%),
+      radial-gradient(circle at 50% 80%, rgba(45,107,63,0.10)  0%, transparent 50%),
+      linear-gradient(180deg, #FFFBF3 0%, var(--c-bg-soft) 100%);
   }
 
-  /* Subtle grid texture overlay */
-  .ctr-hero::after { mix-blend-mode: multiply; }
-  .ctr-hero .container { position: relative; }
-
-  .ctr-tag { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--c-ink-2); background: rgba(255,255,255,0.7); backdrop-filter: blur(6px); padding: 8px 14px; border-radius: 999px; border: 1px solid var(--c-line); box-shadow: 0 2px 12px rgba(45,31,24,0.04); margin: 0 0 22px; }
+  /* ─────────────────────────────────────────────────────────────────────
+     HERO — compressed; ends with the road visibly starting
+     ───────────────────────────────────────────────────────────────────── */
+  .ctr-hero { position: relative; padding: 80px 0 36px; text-align: center; isolation: isolate; }
+  .ctr-tag { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--c-ink-2); background: rgba(255,255,255,0.7); backdrop-filter: blur(6px); padding: 8px 14px; border-radius: 999px; border: 1px solid var(--c-line); box-shadow: 0 2px 12px rgba(45,31,24,0.04); margin: 0 0 24px; }
   .ctr-tag::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--c-accent); box-shadow: 0 0 0 4px rgba(156,45,45,0.18); animation: pulseDot 2.4s infinite; }
   @keyframes pulseDot { 0%,100% { box-shadow: 0 0 0 4px rgba(156,45,45,0.18); } 50% { box-shadow: 0 0 0 10px rgba(156,45,45,0); } }
 
-  .ctr-h1 { font-family: "Fraunces", serif; font-weight: 600; font-size: clamp(44px, 7.5vw, 80px); line-height: 1; letter-spacing: -0.02em; color: var(--c-ink); margin: 0 0 22px; max-width: 16ch; }
-  .ctr-h1 .grad { background: linear-gradient(135deg, var(--c-accent) 0%, #C8956E 50%, #2D1F18 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-style: italic; }
+  .ctr-h1 { font-family: "Fraunces", serif; font-weight: 600; font-size: clamp(42px, 7vw, 76px); line-height: 1; letter-spacing: -0.02em; color: var(--c-ink); margin: 0 auto 18px; max-width: 16ch; }
+  .ctr-h1 .grad { background: linear-gradient(135deg, var(--c-accent) 0%, var(--c-accent-2) 50%, var(--c-ink) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-style: italic; }
 
-  .ctr-sub { font-size: 19px; line-height: 1.5; color: var(--c-ink-2); margin: 0 0 36px; max-width: 50ch; }
-
-  .ctr-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 56px; }
+  .ctr-sub { font-size: 18px; line-height: 1.5; color: var(--c-ink-2); margin: 0 auto 28px; max-width: 46ch; }
+  .ctr-actions { display: inline-flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-bottom: 8px; }
   .ctr-actions .btn-primary {
-    background: linear-gradient(135deg, var(--c-ink) 0%, #4A2E22 100%);
-    box-shadow: 0 6px 24px rgba(45,31,24,0.22), 0 0 0 0 var(--c-glow);
+    background: linear-gradient(135deg, var(--c-accent) 0%, #C8956E 100%);
+    border: none; color: #fff;
+    box-shadow: 0 6px 24px rgba(156,45,45,0.32);
     transition: transform .15s ease, box-shadow .25s ease;
   }
-  .ctr-actions .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 10px 32px rgba(45,31,24,0.32), 0 0 0 6px rgba(255,215,158,0.18); }
+  .ctr-actions .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 10px 32px rgba(156,45,45,0.45), 0 0 0 6px rgba(255,215,158,0.18); }
+  .ctr-prompt { font-size: 13px; color: var(--c-ink-3); margin: 28px 0 0; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; }
 
-  .ctr-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; max-width: 760px; }
-  @media (max-width: 600px) { .ctr-stats { grid-template-columns: 1fr; } }
-  .ctr-stat { position: relative; background: #fff; border: 1px solid var(--c-line); border-radius: 18px; padding: 20px 22px; overflow: hidden; transition: transform .15s ease, box-shadow .2s ease; }
-  .ctr-stat::after { content: ""; position: absolute; inset: 0; border-radius: 18px; padding: 1px; background: linear-gradient(135deg, transparent 40%, var(--c-accent-2) 100%); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; opacity: 0; transition: opacity .25s ease; pointer-events: none; }
-  .ctr-stat:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(45,31,24,0.10); }
-  .ctr-stat:hover::after { opacity: 1; }
-  .ctr-stat .n { font-family: "Fraunces", serif; font-weight: 600; font-size: 30px; line-height: 1; color: var(--c-ink); display: block; letter-spacing: -0.01em; }
-  .ctr-stat .l { font-size: 13px; color: var(--c-ink-3); margin-top: 8px; line-height: 1.45; display: block; }
+  /* ─────────────────────────────────────────────────────────────────────
+     THE ROAD — the spine of the page
+     ───────────────────────────────────────────────────────────────────── */
+  .road-wrap { position: relative; padding: 36px 0 80px; }
+  .road-wrap .container { position: relative; }
 
-  /* ── OUTCOMES ─────────────────────────────────────────────────────── */
-  .ctr-out { position: relative; padding: 88px 0; background: #fff; border-top: 1px solid var(--c-line); border-bottom: 1px solid var(--c-line); }
-  .sec-eyebrow { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--c-accent); margin: 0 0 14px; }
-  .ctr-out h2 { font-family: "Fraunces", serif; font-weight: 600; font-size: clamp(32px, 4.6vw, 48px); line-height: 1.1; letter-spacing: -0.015em; color: var(--c-ink); margin: 0 0 40px; max-width: 18ch; }
-  .ctr-out .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
-  @media (max-width: 720px) { .ctr-out .grid { grid-template-columns: 1fr; } }
-  .ctr-out .card {
-    position: relative;
-    background: linear-gradient(180deg, #fff 0%, var(--c-bg-soft) 100%);
-    border: 1px solid var(--c-line);
-    border-radius: 20px;
-    padding: 26px 28px 28px;
-    overflow: hidden;
-    transition: transform .2s cubic-bezier(.16,.84,.44,1), box-shadow .25s ease;
-    isolation: isolate;
+  /* The central road: gradient line with a pulse traveling down it. */
+  .road-line {
+    position: absolute; left: 50%; top: 0; bottom: 0;
+    width: 4px;
+    background: linear-gradient(180deg,
+      var(--c-accent)   0%,
+      var(--c-accent-2) 35%,
+      var(--c-accent)   60%,
+      var(--c-good)     100%);
+    border-radius: 999px;
+    transform: translateX(-50%);
+    box-shadow: 0 0 32px rgba(156,45,45,0.25);
+    z-index: 0;
   }
-  .ctr-out .card::before {
-    content: ""; position: absolute; top: -1px; left: -1px; right: -1px; height: 3px;
-    background: linear-gradient(90deg, var(--c-accent) 0%, var(--c-accent-2) 100%);
-    border-top-left-radius: 20px; border-top-right-radius: 20px;
-    opacity: 0; transition: opacity .25s ease; z-index: 2;
+  /* Light "racer" traveling top → bottom along the line */
+  .road-line::before {
+    content: ""; position: absolute; left: 50%; top: 0;
+    width: 14px; height: 14px; border-radius: 50%;
+    background: var(--c-glow);
+    box-shadow: 0 0 16px var(--c-glow), 0 0 32px rgba(255,215,158,0.6);
+    transform: translate(-50%, -50%);
+    animation: racer 5.5s cubic-bezier(.55,.05,.45,.95) infinite;
   }
-  .ctr-out .card:hover { transform: translateY(-4px); box-shadow: 0 20px 48px rgba(45,31,24,0.10); }
-  .ctr-out .card:hover::before { opacity: 1; }
-  .ctr-out .card .icon { width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, var(--c-bg-warm) 0%, var(--c-accent-2) 100%); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; font-size: 22px; }
-  .ctr-out .card h3 { font-family: "Fraunces", serif; font-weight: 600; font-size: 22px; color: var(--c-ink); margin: 0 0 8px; letter-spacing: -0.01em; }
-  .ctr-out .card p { font-size: 15px; line-height: 1.6; color: var(--c-ink-2); margin: 0; }
-
-  /* ── DIFFERENTIATORS ──────────────────────────────────────────────── */
-  .ctr-diff { padding: 88px 0; background: var(--c-bg-soft); position: relative; overflow: hidden; }
-  .ctr-diff::before { content: ""; position: absolute; top: -120px; right: -120px; width: 360px; height: 360px; border-radius: 50%; background: radial-gradient(circle, var(--c-accent-2) 0%, transparent 70%); filter: blur(80px); opacity: 0.35; pointer-events: none; }
-  .ctr-diff h2 { font-family: "Fraunces", serif; font-weight: 600; font-size: clamp(32px, 4.6vw, 48px); line-height: 1.1; letter-spacing: -0.015em; color: var(--c-ink); margin: 0 0 12px; max-width: 17ch; position: relative; }
-  .ctr-diff .sub { font-size: 16px; color: var(--c-ink-2); margin: 0 0 36px; max-width: 56ch; position: relative; }
-  .ctr-compare-wrap { background: #fff; border: 1px solid var(--c-line); border-radius: 22px; box-shadow: 0 16px 48px rgba(45,31,24,0.08); padding: 8px; max-width: 920px; position: relative; }
-  .ctr-compare { width: 100%; border-collapse: separate; border-spacing: 0; }
-  .ctr-compare thead th { font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--c-ink-3); text-align: left; padding: 16px 20px; }
-  .ctr-compare thead th:last-child { color: var(--c-ink); }
-  .ctr-compare thead th:last-child::after { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--c-good); margin-left: 8px; vertical-align: middle; }
-  .ctr-compare tbody tr { transition: background-color .15s ease; }
-  .ctr-compare tbody tr:nth-child(odd) { background: var(--c-bg-soft); }
-  .ctr-compare tbody tr:hover { background: var(--c-bg-warm); }
-  .ctr-compare tbody tr:first-child td:first-child { border-top-left-radius: 14px; }
-  .ctr-compare tbody tr:first-child td:last-child { border-top-right-radius: 14px; }
-  .ctr-compare tbody tr:last-child td:first-child { border-bottom-left-radius: 14px; }
-  .ctr-compare tbody tr:last-child td:last-child { border-bottom-right-radius: 14px; }
-  .ctr-compare td { padding: 18px 20px; font-size: 15px; line-height: 1.5; vertical-align: top; }
-  .ctr-compare td:first-child { color: var(--c-ink); width: 28%; font-weight: 600; font-family: "Fraunces", serif; font-size: 16px; }
-  .ctr-compare .typical { color: var(--c-ink-3); width: 36%; }
-  .ctr-compare .typical::before { content: "✕"; display: inline-block; width: 20px; height: 20px; line-height: 20px; text-align: center; color: var(--c-accent); background: rgba(156,45,45,0.10); border-radius: 50%; font-weight: 700; font-size: 11px; margin-right: 10px; vertical-align: middle; }
-  .ctr-compare .uep { color: var(--c-ink); font-weight: 500; }
-  .ctr-compare .uep::before { content: "✓"; display: inline-block; width: 20px; height: 20px; line-height: 20px; text-align: center; color: #fff; background: var(--c-good); border-radius: 50%; font-weight: 700; font-size: 11px; margin-right: 10px; vertical-align: middle; box-shadow: 0 2px 8px rgba(45,107,63,0.32); }
-  @media (max-width: 720px) {
-    .ctr-compare, .ctr-compare tbody, .ctr-compare tr, .ctr-compare td, .ctr-compare thead, .ctr-compare th { display: block; }
-    .ctr-compare thead { display: none; }
-    .ctr-compare tbody tr { padding: 18px 16px; border-radius: 12px !important; margin-bottom: 8px; }
-    .ctr-compare td { padding: 4px 0; width: auto !important; }
-    .ctr-compare td:first-child { font-weight: 700; color: var(--c-ink); margin-bottom: 8px; font-size: 15px; }
+  @keyframes racer {
+    0%   { top: 0%;   opacity: 0; }
+    8%   { opacity: 1; }
+    92%  { opacity: 1; }
+    100% { top: 100%; opacity: 0; }
   }
+  @media (prefers-reduced-motion: reduce) { .road-line::before { animation: none; opacity: 0; } }
 
-  /* ── ROADMAP ──────────────────────────────────────────────────────── */
-  .ctr-road { position: relative; padding: 100px 0; background: linear-gradient(180deg, #fff 0%, var(--c-bg-warm) 100%); overflow: hidden; }
-  .ctr-road::before { content: ""; position: absolute; bottom: -160px; left: -160px; width: 460px; height: 460px; border-radius: 50%; background: radial-gradient(circle, var(--c-accent) 0%, transparent 70%); filter: blur(100px); opacity: 0.18; pointer-events: none; }
-  .ctr-road h2 { font-family: "Fraunces", serif; font-weight: 600; font-size: clamp(32px, 4.6vw, 48px); line-height: 1.1; letter-spacing: -0.015em; color: var(--c-ink); margin: 0 0 12px; max-width: 16ch; }
-  .ctr-road .sub { font-size: 16px; color: var(--c-ink-2); margin: 0 0 56px; max-width: 56ch; }
+  /* "Start here" chevron between hero and road */
+  .road-start { position: relative; display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 0 0 28px; }
+  .road-start .chev { color: var(--c-accent); font-size: 24px; line-height: 1; animation: bob 2s infinite ease-in-out; }
+  .road-start .chev:nth-child(2) { animation-delay: .2s; opacity: 0.65; }
+  .road-start .chev:nth-child(3) { animation-delay: .4s; opacity: 0.35; }
+  @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+  @media (prefers-reduced-motion: reduce) { .road-start .chev { animation: none; } }
 
-  .roadmap { position: relative; max-width: 920px; margin: 0 auto; }
-  /* Central vertical line — gradient terracotta → green to imply progress */
-  .roadmap::before {
-    content: ""; position: absolute; left: 50%; top: 8px; bottom: 8px; width: 3px;
-    background: linear-gradient(180deg, var(--c-accent) 0%, var(--c-accent-2) 50%, var(--c-good) 100%);
-    border-radius: 999px; transform: translateX(-50%);
-    box-shadow: 0 0 24px rgba(156,45,45,0.18);
-  }
-  .milestone { position: relative; display: grid; grid-template-columns: 1fr 80px 1fr; gap: 24px; align-items: center; margin-bottom: 28px; }
-  .milestone:last-child { margin-bottom: 0; }
-  .milestone .dot {
+  /* ─────────────────────────────────────────────────────────────────────
+     STATIONS — each milestone on the road
+     ───────────────────────────────────────────────────────────────────── */
+  .station { position: relative; display: grid; grid-template-columns: 1fr 84px 1fr; gap: 24px; align-items: center; margin-bottom: 22px; z-index: 1; }
+  .station:last-child { margin-bottom: 0; }
+
+  .station .dot {
     grid-column: 2;
-    width: 64px; height: 64px; border-radius: 50%;
+    width: 68px; height: 68px; border-radius: 50%;
     background: linear-gradient(135deg, var(--c-ink) 0%, #4A2E22 100%);
     color: #fff;
     display: flex; align-items: center; justify-content: center;
-    font-family: "Fraunces", serif; font-weight: 600; font-size: 16px;
+    font-family: "Fraunces", serif; font-weight: 600; font-size: 18px;
     border: 4px solid #fff;
-    box-shadow: 0 6px 24px rgba(45,31,24,0.22), 0 0 0 0 var(--c-glow);
+    box-shadow: 0 8px 28px rgba(45,31,24,0.30), 0 0 0 0 var(--c-glow);
     position: relative; z-index: 2;
     transition: transform .25s cubic-bezier(.16,.84,.44,1), box-shadow .3s ease;
   }
-  .milestone:hover .dot { transform: scale(1.08); box-shadow: 0 10px 32px rgba(45,31,24,0.28), 0 0 0 8px rgba(255,215,158,0.32); }
-  /* Mark the final milestone with the success accent */
-  .milestone.is-final .dot { background: linear-gradient(135deg, var(--c-good) 0%, #1F4A2A 100%); }
-  .milestone .card {
-    background: #fff; border-radius: 18px; padding: 22px 26px;
+  .station:hover .dot { transform: scale(1.08); box-shadow: 0 12px 36px rgba(45,31,24,0.36), 0 0 0 8px rgba(255,215,158,0.35); }
+
+  /* Final destination dot — green flag */
+  .station.destination .dot {
+    background: linear-gradient(135deg, var(--c-good) 0%, #1F4A2A 100%);
+    box-shadow: 0 8px 28px rgba(45,107,63,0.40), 0 0 0 6px rgba(45,107,63,0.18);
+    animation: destPulse 2.2s infinite ease-in-out;
+  }
+  @keyframes destPulse {
+    0%,100% { box-shadow: 0 8px 28px rgba(45,107,63,0.40), 0 0 0 6px rgba(45,107,63,0.18); }
+    50%     { box-shadow: 0 12px 36px rgba(45,107,63,0.55), 0 0 0 16px rgba(45,107,63,0); }
+  }
+
+  .station .card {
+    background: #fff;
     border: 1px solid var(--c-line);
-    box-shadow: 0 8px 24px rgba(45,31,24,0.06);
+    border-radius: 18px;
+    padding: 20px 24px;
+    box-shadow: 0 10px 28px rgba(45,31,24,0.08);
     position: relative;
     transition: transform .2s ease, box-shadow .25s ease;
   }
-  .milestone .card:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(45,31,24,0.12); }
-  /* Connector arrow into the card */
-  .milestone .card::before {
-    content: ""; position: absolute; top: 50%; width: 14px; height: 14px;
-    background: #fff; border: 1px solid var(--c-line); transform: translateY(-50%) rotate(45deg);
+  .station:hover .card { transform: translateY(-3px); box-shadow: 0 18px 40px rgba(45,31,24,0.14); }
+  /* Diamond connector pointing at the road */
+  .station .card::before {
+    content: ""; position: absolute; top: 28px; width: 14px; height: 14px;
+    background: #fff; border: 1px solid var(--c-line); transform: rotate(45deg);
   }
-  .milestone:nth-child(odd) .card { grid-column: 1; text-align: right; }
-  .milestone:nth-child(odd) .card::before { right: -8px; border-top: none; border-left: none; }
-  .milestone:nth-child(even) .card { grid-column: 3; text-align: left; }
-  .milestone:nth-child(even) .card::before { left: -8px; border-bottom: none; border-right: none; }
-  .milestone .when { font-family: "Fraunces", serif; font-weight: 600; font-size: 14px; color: var(--c-accent); letter-spacing: 0.04em; text-transform: uppercase; margin: 0 0 6px; }
-  .milestone .what { font-size: 16px; line-height: 1.5; color: var(--c-ink); font-weight: 500; margin: 0; }
-  @media (max-width: 720px) {
-    .roadmap::before { left: 24px; transform: none; }
-    .milestone { grid-template-columns: 48px 1fr; gap: 16px; }
-    .milestone .dot { grid-column: 1; width: 48px; height: 48px; font-size: 13px; border-width: 3px; }
-    .milestone:nth-child(odd) .card, .milestone:nth-child(even) .card { grid-column: 2; text-align: left; }
-    .milestone:nth-child(odd) .card::before, .milestone:nth-child(even) .card::before { left: -8px; right: auto; border-bottom: none; border-right: none; border-top: 1px solid var(--c-line); border-left: 1px solid var(--c-line); }
+  .station:nth-child(odd) .card  { grid-column: 1; text-align: right; }
+  .station:nth-child(odd) .card::before  { right: -8px; border-top: none; border-left: none; }
+  .station:nth-child(even) .card { grid-column: 3; text-align: left; }
+  .station:nth-child(even) .card::before { left: -8px; border-bottom: none; border-right: none; }
+
+  .station .when {
+    font-family: "Fraunces", serif; font-weight: 600;
+    font-size: 13px; color: var(--c-accent);
+    letter-spacing: 0.08em; text-transform: uppercase;
+    margin: 0 0 8px;
+  }
+  .station h3 {
+    font-family: "Fraunces", serif; font-weight: 600;
+    font-size: 19px; line-height: 1.3;
+    color: var(--c-ink); margin: 0 0 6px;
+    letter-spacing: -0.01em;
+  }
+  .station p.detail {
+    font-size: 14px; line-height: 1.55; color: var(--c-ink-2); margin: 0;
   }
 
-  /* ── APPLY ────────────────────────────────────────────────────────── */
-  .ctr-apply { position: relative; padding: 96px 0 110px; background: var(--c-ink); color: #E8D5BC; overflow: hidden; }
+  /* Inline "objection-handled" pill that sits on the card */
+  .station .objection {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin-top: 12px; padding: 5px 10px;
+    background: rgba(45,107,63,0.10); color: var(--c-good);
+    border-radius: 999px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  }
+  .station .objection::before { content: "✓"; font-weight: 800; }
+
+  /* Destination card styling */
+  .station.destination .card {
+    background: linear-gradient(135deg, var(--c-good) 0%, #1F4A2A 100%);
+    color: #fff;
+    border: none;
+    box-shadow: 0 16px 48px rgba(45,107,63,0.32);
+  }
+  .station.destination .card::before { background: #25553A; border-color: transparent; }
+  .station.destination .when { color: var(--c-glow); }
+  .station.destination h3 { color: #fff; font-size: 22px; }
+  .station.destination p.detail { color: rgba(255,255,255,0.85); }
+
+  @media (max-width: 720px) {
+    .road-line { left: 32px; transform: none; }
+    .station { grid-template-columns: 64px 1fr; gap: 16px; }
+    .station .dot { grid-column: 1; width: 56px; height: 56px; font-size: 15px; border-width: 3px; }
+    .station:nth-child(odd) .card, .station:nth-child(even) .card { grid-column: 2; text-align: left; }
+    .station:nth-child(odd) .card::before, .station:nth-child(even) .card::before {
+      left: -8px; right: auto; top: 22px;
+      border-top: 1px solid var(--c-line);
+      border-left: 1px solid var(--c-line);
+      border-bottom: none; border-right: none;
+    }
+  }
+
+  /* ─────────────────────────────────────────────────────────────────────
+     APPLY — final destination form
+     ───────────────────────────────────────────────────────────────────── */
+  .ctr-apply { position: relative; padding: 80px 0 110px; background: var(--c-ink); color: #E8D5BC; overflow: hidden; isolation: isolate; }
   .ctr-apply::before { content: ""; position: absolute; top: -160px; left: -160px; width: 540px; height: 540px; border-radius: 50%; background: radial-gradient(circle, var(--c-accent) 0%, transparent 70%); filter: blur(120px); opacity: 0.45; pointer-events: none; }
   .ctr-apply::after { content: ""; position: absolute; bottom: -200px; right: -200px; width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, var(--c-accent-2) 0%, transparent 70%); filter: blur(140px); opacity: 0.30; pointer-events: none; }
   .ctr-apply .container { position: relative; }
   .ctr-apply .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
   @media (max-width: 800px) { .ctr-apply .grid { grid-template-columns: 1fr; gap: 36px; } }
+  .ctr-apply .eyebrow { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--c-glow); margin: 0 0 12px; }
   .ctr-apply h2 { font-family: "Fraunces", serif; font-weight: 600; font-size: clamp(32px, 4.6vw, 48px); line-height: 1.1; letter-spacing: -0.015em; color: #fff; margin: 0 0 16px; }
   .ctr-apply .sub { font-size: 17px; color: #D6C0A3; margin: 0 0 28px; max-width: 36ch; line-height: 1.55; }
   .ctr-apply .signals { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
@@ -210,13 +228,13 @@
   .ctr-apply .signals li::before { content: ""; position: absolute; left: 0; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: linear-gradient(135deg, var(--c-glow) 0%, var(--c-accent-2) 100%); box-shadow: 0 0 0 4px rgba(255,215,158,0.10); }
   .ctr-apply form { background: #fff; color: var(--c-ink); border-radius: 22px; padding: 32px; box-shadow: 0 24px 64px rgba(0,0,0,0.32); }
   .ctr-apply form h3 { font-family: "Fraunces", serif; font-weight: 600; font-size: 22px; margin: 0 0 20px; color: var(--c-ink); }
-  .ctr-apply .btn-primary { background: linear-gradient(135deg, var(--c-accent) 0%, #C8956E 100%); border: none; color: #fff; box-shadow: 0 6px 20px rgba(156,45,45,0.32), 0 0 0 0 var(--c-glow); transition: transform .15s ease, box-shadow .25s ease; }
+  .ctr-apply .btn-primary { background: linear-gradient(135deg, var(--c-accent) 0%, #C8956E 100%); border: none; color: #fff; box-shadow: 0 6px 20px rgba(156,45,45,0.32); transition: transform .15s ease, box-shadow .25s ease; }
   .ctr-apply .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 12px 32px rgba(156,45,45,0.42), 0 0 0 8px rgba(255,215,158,0.16); }
   .ctr-fine { font-size: 12px; color: var(--c-ink-3); line-height: 1.55; margin-top: 14px; }
   .ctr-disclosure { font-size: 11px; color: #B8A48A; line-height: 1.6; max-width: 760px; padding: 32px 0 0; opacity: 0.7; position: relative; }
 </style>
 </head>
-<body>
+<body class="careers-bg">
 
 <header class="nav" id="nav">
   <div class="container nav-inner">
@@ -226,9 +244,7 @@
     </a>
     <nav class="nav-links">
       <a href="/">Home</a>
-      <a href="#outcomes">Outcomes</a>
-      <a href="#diff">Why us</a>
-      <a href="#path">Path</a>
+      <a href="#road">The road</a>
       <a href="#apply" class="btn btn-primary btn-sm">Apply</a>
     </nav>
     <button class="nav-burger" id="navBurger" aria-label="Menu">
@@ -243,108 +259,120 @@
 <section class="ctr-hero">
   <div class="container">
     <p class="ctr-tag reveal">For 18–25 who want out</p>
-    <h1 class="ctr-h1 reveal">Real income.<br>Real systems.<br><span class="grad">Real ownership.</span></h1>
-    <p class="ctr-sub reveal">Build a book that pays you for life — without college, doors, or a boss.</p>
+    <h1 class="ctr-h1 reveal">Real income. Real systems. <span class="grad">Real ownership.</span></h1>
+    <p class="ctr-sub reveal">From "haven't applied yet" to your <strong>first $10K month</strong> in 90 days — if you'll do the work.</p>
     <div class="ctr-actions reveal">
       <a href="#apply" class="btn btn-primary">Apply now</a>
-      <a href="#path" class="btn btn-ghost">See the path →</a>
+      <a href="#road" class="btn btn-ghost">See the road →</a>
     </div>
-    <div class="ctr-stats">
-      <div class="ctr-stat reveal"><span class="n">6 wks</span><span class="l">To licensed and earning</span></div>
-      <div class="ctr-stat reveal"><span class="n">$80–150K</span><span class="l">Yr 1 typical for active producers</span></div>
-      <div class="ctr-stat reveal"><span class="n">100%</span><span class="l">You own the book and the renewals</span></div>
-    </div>
+    <p class="ctr-prompt reveal">↓ Where it leads ↓</p>
   </div>
 </section>
 
-<!-- OUTCOMES -->
-<section class="ctr-out" id="outcomes">
+<!-- THE ROAD -->
+<section class="road-wrap" id="road">
   <div class="container">
-    <span class="sec-eyebrow reveal">Outcomes</span>
-    <h2 class="reveal">What your life looks like in 12 months.</h2>
-    <div class="grid">
-      <article class="card reveal">
-        <div class="icon" aria-hidden="true">📒</div>
-        <h3>You own the book</h3>
-        <p>Renewals pay <em>you</em>, not your manager. Walk away — the income follows.</p>
-      </article>
-      <article class="card reveal">
-        <div class="icon" aria-hidden="true">📈</div>
-        <h3>Income that compounds</h3>
-        <p>First-year + renewals + override. Stops being linear by year two.</p>
-      </article>
-      <article class="card reveal">
-        <div class="icon" aria-hidden="true">🌐</div>
-        <h3>Location independent</h3>
-        <p>A laptop and a quiet room. We don't care about your time zone, only your dials.</p>
-      </article>
-      <article class="card reveal">
-        <div class="icon" aria-hidden="true">🎯</div>
-        <h3>Mentors who still close</h3>
-        <p>Live coaching from producers writing five figures every month. Not a recorded library.</p>
-      </article>
+    <div class="road-start" aria-hidden="true">
+      <div class="chev">▼</div>
+      <div class="chev">▼</div>
+      <div class="chev">▼</div>
     </div>
-  </div>
-</section>
 
-<!-- DIFFERENTIATORS -->
-<section class="ctr-diff" id="diff">
-  <div class="container">
-    <span class="sec-eyebrow reveal">Why us</span>
-    <h2 class="reveal">This isn't another agency.</h2>
-    <p class="sub reveal">Most opportunities want you to prove yourself first, then pay you. We flip the order.</p>
-    <div class="ctr-compare-wrap reveal">
-      <table class="ctr-compare">
-        <thead>
-          <tr>
-            <th></th>
-            <th>Typical agency</th>
-            <th>UEP</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Pay structure</td><td class="typical">Tiered. Earn the top contract after months of "proving."</td><td class="uep">Top contract on day one.</td></tr>
-          <tr><td>Leads</td><td class="typical">Buy your own. Or knock doors.</td><td class="uep">Inbound, pre-qualified.</td></tr>
-          <tr><td>Tech stack</td><td class="typical">$200–400 / month add-ons.</td><td class="uep">CRM, dialer, e-app — included.</td></tr>
-          <tr><td>Book ownership</td><td class="typical">Captive. Non-compete on exit.</td><td class="uep">Yours. Renewals follow you.</td></tr>
-          <tr><td>Mentorship</td><td class="typical">Recorded modules + a Slack channel.</td><td class="uep">Live-call coaching with active producers.</td></tr>
-          <tr><td>License cost</td><td class="typical">Pay-to-play. You front it, you eat it.</td><td class="uep">Reimbursed once you hit the activity bar.</td></tr>
-        </tbody>
-      </table>
+    <!-- The line itself -->
+    <div class="road-line" aria-hidden="true"></div>
+
+    <!-- 01 — Day 1 -->
+    <div class="station reveal">
+      <div class="dot">01</div>
+      <div class="card">
+        <p class="when">Day 1</p>
+        <h3>You apply. We call back in 24 hours.</h3>
+        <p class="detail">No 5-stage hiring funnel. If you're a fit, you're on a 20-minute call this week.</p>
+      </div>
     </div>
-  </div>
-</section>
 
-<!-- ROADMAP -->
-<section class="ctr-road" id="path">
-  <div class="container">
-    <span class="sec-eyebrow reveal">Roadmap</span>
-    <h2 class="reveal">The path, milestone by milestone.</h2>
-    <p class="sub reveal">Six checkpoints from "haven't applied yet" to "income decoupled from hours." You hit them on the calendar.</p>
-    <div class="roadmap">
-      <div class="milestone reveal">
-        <div class="dot">01</div>
-        <div class="card"><p class="when">Week 1</p><p class="what">Apply, 20-minute interview, start your license study that night.</p></div>
+    <!-- 02 — Week 1 (handles license-cost objection) -->
+    <div class="station reveal">
+      <div class="dot">02</div>
+      <div class="card">
+        <p class="when">Week 1</p>
+        <h3>Start state pre-license study that night.</h3>
+        <p class="detail">License materials &amp; exam fees are <strong>fronted by UEP</strong>. You repay them from your first issued policies — zero out-of-pocket.</p>
+        <span class="objection">License cost handled</span>
       </div>
-      <div class="milestone reveal">
-        <div class="dot">02</div>
-        <div class="card"><p class="when">Wk 3–6</p><p class="what">Pass life &amp; health. We get you appointed at 30+ A-rated carriers.</p></div>
+    </div>
+
+    <!-- 03 — Wk 3–4 (handles "tiered contract" objection) -->
+    <div class="station reveal">
+      <div class="dot">03</div>
+      <div class="card">
+        <p class="when">Wk 3–4</p>
+        <h3>Pass life &amp; health. Contracted at 30+ A-rated carriers.</h3>
+        <p class="detail">Top contracts on day one — not after "proving yourself." CRM, dialer, e-app, recordings, mobile softphone — included.</p>
+        <span class="objection">Top contract, day 1</span>
       </div>
-      <div class="milestone reveal">
-        <div class="dot">03</div>
-        <div class="card"><p class="when">Month 2</p><p class="what">First inbound dials. A mentor on the line with you, debriefing every call.</p></div>
+    </div>
+
+    <!-- 04 — Week 5 (handles "where are leads?" — Ian's specific framing) -->
+    <div class="station reveal">
+      <div class="dot">04</div>
+      <div class="card">
+        <p class="when">Week 5</p>
+        <h3>First dials on UEP in-house leads.</h3>
+        <p class="detail">A mix of inbound and outbound dial-campaign leads, provided <strong>at cost with weekly minimums</strong>. No D2D. No $40/lead vendor games. No empty CRMs.</p>
+        <span class="objection">Leads handled</span>
       </div>
-      <div class="milestone reveal">
-        <div class="dot">04</div>
-        <div class="card"><p class="when">Month 3</p><p class="what">First $5K month. Renewals start stacking three months after that.</p></div>
+    </div>
+
+    <!-- 05 — Month 2 -->
+    <div class="station reveal">
+      <div class="dot">05</div>
+      <div class="card">
+        <p class="when">Month 2</p>
+        <h3>First issued policy. First commission check.</h3>
+        <p class="detail">Live-call coaching from producers writing $30–80K/mo right now. They sit your first 50 dials with you, then debrief every one.</p>
+        <span class="objection">Mentorship is live, not recorded</span>
       </div>
-      <div class="milestone reveal">
-        <div class="dot">05</div>
-        <div class="card"><p class="when">Month 12</p><p class="what">$80–150K typical for active producers. Top quartile clears $200K.</p></div>
+    </div>
+
+    <!-- 06 — Month 3 (the $10K month) -->
+    <div class="station reveal">
+      <div class="dot">06</div>
+      <div class="card">
+        <p class="when">Month 3</p>
+        <h3>First $10K month.</h3>
+        <p class="detail">The math works the second you run the activity (20 dialer hrs/wk, no negotiation). Almost no one who runs the system runs zero.</p>
       </div>
-      <div class="milestone is-final reveal">
-        <div class="dot">06</div>
-        <div class="card"><p class="when">Year 2+</p><p class="what">Start a team. Override + renewals. Income decouples from hours.</p></div>
+    </div>
+
+    <!-- 07 — Month 6 (renewals stack) -->
+    <div class="station reveal">
+      <div class="dot">07</div>
+      <div class="card">
+        <p class="when">Month 6</p>
+        <h3>Consistent $15–25K months. Renewals stacking.</h3>
+        <p class="detail">Renewals from Month 3 onwards start hitting. Income compounds for the first time in your life — instead of restarting every Monday.</p>
+      </div>
+    </div>
+
+    <!-- 08 — Year 1 (handles "will I actually earn?" + "book ownership") -->
+    <div class="station reveal">
+      <div class="dot">08</div>
+      <div class="card">
+        <p class="when">Year 1</p>
+        <h3>$150–250K take-home for active producers. And a book that's <em>yours</em>.</h3>
+        <p class="detail">Top quartile clears $300K. Either way, the renewals belong to you — not a captive contract — and they follow you anywhere.</p>
+        <span class="objection">100% book ownership</span>
+      </div>
+    </div>
+
+    <!-- 09 — Destination -->
+    <div class="station destination reveal">
+      <div class="dot">09</div>
+      <div class="card">
+        <p class="when">Year 2+ · Destination</p>
+        <h3>Recruit. Override. Renewals + override = income decoupled from hours.</h3>
+        <p class="detail">You start a team. You override every policy your downline writes. Your renewals from Y1+ keep paying. This is when the income stops being linear.</p>
       </div>
     </div>
   </div>
@@ -355,7 +383,7 @@
   <div class="container">
     <div class="grid">
       <div>
-        <span class="sec-eyebrow reveal" style="color: var(--c-glow);">Apply</span>
+        <span class="eyebrow reveal">Apply</span>
         <h2 class="reveal">One application.<br>90 seconds.</h2>
         <p class="sub reveal">If the math works for your state, you'll get a calendar link within 48 hours.</p>
         <ul class="signals reveal">
@@ -420,7 +448,7 @@
       </form>
     </div>
     <p class="ctr-disclosure">
-      Income figures shown are typical outcomes for active UEP producers running ≥20 dialer hours / week and are not guaranteed. Commissions are paid by carriers, not by UEP. License and appointment requirements vary by state.
+      Income figures shown reflect typical outcomes for active UEP producers running ≥20 dialer hours / week and are not guaranteed. Commissions are paid by carriers, not by UEP. License and appointment requirements vary by state. UEP fronts state pre-license materials &amp; exam fees; the producer remains responsible for repayment from first issued policies regardless of carrier outcome.
     </p>
   </div>
 </section>
@@ -439,9 +467,7 @@
     <div class="foot-cols">
       <div>
         <h5>Recruiting</h5>
-        <a href="#outcomes">Outcomes</a>
-        <a href="#diff">Why us</a>
-        <a href="#path">Path</a>
+        <a href="#road">The road</a>
         <a href="#apply">Apply</a>
       </div>
       <div>
@@ -466,7 +492,7 @@
 
 <script src="/app.js" defer></script>
 <script>
-  // Scroll-reveal: stagger .reveal elements as they enter the viewport.
+  // Scroll-reveal stagger
   (function () {
     const els = document.querySelectorAll(".reveal");
     if (!("IntersectionObserver" in window)) {
@@ -474,16 +500,15 @@
       return;
     }
     const io = new IntersectionObserver((entries) => {
-      entries.forEach((entry, i) => {
+      entries.forEach(entry => {
         if (entry.isIntersecting) {
-          // Tiny stagger so adjacent elements don't pop together.
           const idx = Array.from(entry.target.parentNode.children).indexOf(entry.target);
-          entry.target.style.transitionDelay = (Math.min(idx, 5) * 80) + "ms";
+          entry.target.style.transitionDelay = (Math.min(idx, 6) * 70) + "ms";
           entry.target.classList.add("in");
           io.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+    }, { threshold: 0.12, rootMargin: "0px 0px -60px 0px" });
     els.forEach(e => io.observe(e));
   })();
 </script>
