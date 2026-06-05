@@ -178,53 +178,44 @@
   const PHONE_E164    = (typeof window !== "undefined" && window.UEP_PHONE_E164)    || "+13053223195";
   const PHONE_DISPLAY = (typeof window !== "undefined" && window.UEP_PHONE_DISPLAY) || "(305) 322-3195";
 
-  // Lazy-load cal.com's embed snippet exactly once per page. The published
-  // initializer at app.cal.com/embed/embed.js is what every cal.com inline
-  // and popup embed uses.
-  let calLibPromise = null;
-  function ensureCalLib() {
-    if (calLibPromise) return calLibPromise;
-    calLibPromise = new Promise((resolve, reject) => {
-      if (typeof window === "undefined") return reject(new Error("no window"));
-      if (window.Cal && window.Cal.loaded) return resolve(window.Cal);
-      // The official cal.com loader bootstrap — queues calls until embed.js
-      // arrives, then flushes them.
-      (function (C, A, L) {
-        const p = function (a, ar) { a.q.push(ar); };
-        const d = C.document;
-        C.Cal = C.Cal || function () {
-          const cal = C.Cal; const ar = arguments;
-          if (!cal.loaded) {
-            cal.ns = {}; cal.q = cal.q || [];
-            const s = d.createElement("script");
-            s.src = A;
-            s.onload  = () => resolve(window.Cal);
-            s.onerror = () => reject(new Error("cal.com embed.js failed"));
-            d.head.appendChild(s);
-            cal.loaded = true;
-          }
-          if (ar[0] === L) {
-            const api = function () { p(api, arguments); };
-            const namespace = ar[1];
-            api.q = api.q || [];
-            if (typeof namespace === "string") {
-              cal.ns[namespace] = cal.ns[namespace] || api;
-              p(cal.ns[namespace], ar);
-              p(cal, ["initNamespace", namespace]);
-            } else { p(cal, ar); }
-            return;
-          }
-          p(cal, ar);
-        };
-      })(window, "https://app.cal.com/embed/embed.js", "init");
-    });
-    return calLibPromise;
+  // Install the official cal.com loader stub exactly once. After install,
+  // Cal() is callable — calls before embed.js arrives get queued and
+  // flushed when the real lib loads. This is the canonical cal.com pattern.
+  function installCalLib() {
+    if (typeof window === "undefined") return;
+    if (window.Cal && typeof window.Cal === "function") return;
+    (function (C, A, L) {
+      let p = function (a, ar) { a.q.push(ar); };
+      let d = C.document;
+      C.Cal = C.Cal || function () {
+        let cal = C.Cal; let ar = arguments;
+        if (!cal.loaded) {
+          cal.ns = {}; cal.q = cal.q || [];
+          d.head.appendChild(d.createElement("script")).src = A;
+          cal.loaded = true;
+        }
+        if (ar[0] === L) {
+          const api = function () { p(api, arguments); };
+          const namespace = ar[1];
+          api.q = api.q || [];
+          if (typeof namespace === "string") {
+            cal.ns[namespace] = cal.ns[namespace] || api;
+            p(cal.ns[namespace], ar);
+            p(cal, ["initNamespace", namespace]);
+          } else { p(cal, ar); }
+          return;
+        }
+        p(cal, ar);
+      };
+    })(window, "https://app.cal.com/embed/embed.js", "init");
   }
 
   function mountInlineCalendar(targetSelector, prefill) {
-    return ensureCalLib().then(() => {
-      // Namespace per calLink so multiple events on a page wouldn't collide.
+    try {
+      installCalLib();
       const ns = CAL_LINK.replace(/[^a-zA-Z0-9]/g, "_");
+      // First Cal() call appends embed.js to the DOM (loader cal.loaded
+      // guard). Subsequent calls are queued and flushed once embed.js runs.
       window.Cal("init", ns, { origin: "https://cal.com" });
       window.Cal.ns[ns]("inline", {
         elementOrSelector: targetSelector,
@@ -235,7 +226,10 @@
         hideEventTypeDetails: false,
         layout: "month_view",
       });
-    });
+      return Promise.resolve();
+    } catch (err) {
+      return Promise.reject(err);
+    }
   }
 
   // Build a cal.com prefill / query payload from the form. Used by both the
