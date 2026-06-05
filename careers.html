@@ -67,7 +67,7 @@
   /* ─────────────────────────────────────────────────────────────────────
      THE ROAD — the spine of the page
      ───────────────────────────────────────────────────────────────────── */
-  .road-wrap { position: relative; padding: 36px 0 80px; }
+  .road-wrap { position: relative; padding: 36px 0 32px; }
   .road-wrap .container { position: relative; }
 
   /* The central road: gradient line with a pulse traveling down it. */
@@ -212,9 +212,48 @@
   }
 
   /* ─────────────────────────────────────────────────────────────────────
+     BRIDGE — visually connects the road into the apply section
+     ───────────────────────────────────────────────────────────────────── */
+  .road-bridge {
+    position: relative;
+    height: 160px;
+    background: linear-gradient(180deg,
+      transparent 0%,
+      rgba(45,31,24,0.04) 25%,
+      rgba(45,31,24,0.35) 60%,
+      var(--c-ink) 100%);
+    margin-top: -1px;
+    overflow: hidden;
+  }
+  .road-bridge::before {
+    /* continuation of the road line — green at the top picking up where
+       the destination station left off, glowing-gold at the bottom where
+       it terminates at the apply form */
+    content: ""; position: absolute; left: 50%; top: 0; bottom: 48px;
+    width: 4px; transform: translateX(-50%); border-radius: 999px;
+    background: linear-gradient(180deg, var(--c-good) 0%, var(--c-glow) 100%);
+    box-shadow: 0 0 24px var(--c-glow), 0 0 48px rgba(255,215,158,0.4);
+  }
+  .road-bridge .arrow {
+    position: absolute; left: 50%; bottom: 8px; transform: translateX(-50%);
+    color: var(--c-glow);
+    font-size: 32px; line-height: 1;
+    text-shadow: 0 0 16px var(--c-glow), 0 0 32px rgba(255,215,158,0.6);
+    animation: bridgeBob 1.6s infinite ease-in-out;
+    z-index: 2;
+  }
+  @keyframes bridgeBob { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(6px); } }
+  @media (prefers-reduced-motion: reduce) { .road-bridge .arrow { animation: none; } }
+  @media (max-width: 720px) {
+    .road-bridge::before { left: 32px; transform: none; }
+    .road-bridge .arrow { left: 32px; transform: translateX(-50%); }
+    @keyframes bridgeBob { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(6px); } }
+  }
+
+  /* ─────────────────────────────────────────────────────────────────────
      APPLY — final destination form
      ───────────────────────────────────────────────────────────────────── */
-  .ctr-apply { position: relative; padding: 80px 0 110px; background: var(--c-ink); color: #E8D5BC; overflow: hidden; isolation: isolate; }
+  .ctr-apply { position: relative; padding: 56px 0 110px; background: var(--c-ink); color: #E8D5BC; overflow: hidden; isolation: isolate; margin-top: -1px; }
   .ctr-apply::before { content: ""; position: absolute; top: -160px; left: -160px; width: 540px; height: 540px; border-radius: 50%; background: radial-gradient(circle, var(--c-accent) 0%, transparent 70%); filter: blur(120px); opacity: 0.45; pointer-events: none; }
   .ctr-apply::after { content: ""; position: absolute; bottom: -200px; right: -200px; width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, var(--c-accent-2) 0%, transparent 70%); filter: blur(140px); opacity: 0.30; pointer-events: none; }
   .ctr-apply .container { position: relative; }
@@ -377,6 +416,11 @@
     </div>
   </div>
 </section>
+
+<!-- BRIDGE — the road points at the apply form -->
+<div class="road-bridge" aria-hidden="true">
+  <div class="arrow">▼</div>
+</div>
 
 <!-- APPLY -->
 <section class="ctr-apply" id="apply">
