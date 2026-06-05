@@ -137,32 +137,108 @@
     banner.textContent = message;
   }
 
-  // Cal.com booking surface for the main "book a call" form. Lead is captured
-  // first (Repflow), then the user is sent to a real calendar to pick a slot —
-  // so submissions hit a calendar, not just an inbox. Override per-environment
-  // by setting window.UEP_SCHEDULER_URL before app.js loads (e.g. point at
-  // cal.com/zay/15min or a cal.com/team/uep/strategy event once that's set up).
+  // Cal.com booking surface. Lead is captured first (Repflow), then the
+  // cal.com inline embed is mounted in place of the form with the lead's
+  // name/email/phone prefilled — so submissions hit a real calendar without
+  // ever leaving uep.com. Two overrides for swapping calendars later
+  // (e.g. to Zay's calendar or a UEP team event):
+  //   window.UEP_CAL_LINK       — slug used by the inline embed (e.g. "zay/15min")
+  //   window.UEP_SCHEDULER_URL  — full URL used by the fallback link / new-tab open
+  const CAL_LINK = (typeof window !== "undefined" && window.UEP_CAL_LINK)
+    || "koino/15min";
   const SCHEDULER_URL = (typeof window !== "undefined" && window.UEP_SCHEDULER_URL)
-    || "https://cal.com/koino/15min";
+    || ("https://cal.com/" + CAL_LINK);
 
-  function buildSchedulerUrl(formEl) {
+  // Lazy-load cal.com's embed snippet exactly once per page. The published
+  // initializer at app.cal.com/embed/embed.js is what every cal.com inline
+  // and popup embed uses.
+  let calLibPromise = null;
+  function ensureCalLib() {
+    if (calLibPromise) return calLibPromise;
+    calLibPromise = new Promise((resolve, reject) => {
+      if (typeof window === "undefined") return reject(new Error("no window"));
+      if (window.Cal && window.Cal.loaded) return resolve(window.Cal);
+      // The official cal.com loader bootstrap — queues calls until embed.js
+      // arrives, then flushes them.
+      (function (C, A, L) {
+        const p = function (a, ar) { a.q.push(ar); };
+        const d = C.document;
+        C.Cal = C.Cal || function () {
+          const cal = C.Cal; const ar = arguments;
+          if (!cal.loaded) {
+            cal.ns = {}; cal.q = cal.q || [];
+            const s = d.createElement("script");
+            s.src = A;
+            s.onload  = () => resolve(window.Cal);
+            s.onerror = () => reject(new Error("cal.com embed.js failed"));
+            d.head.appendChild(s);
+            cal.loaded = true;
+          }
+          if (ar[0] === L) {
+            const api = function () { p(api, arguments); };
+            const namespace = ar[1];
+            api.q = api.q || [];
+            if (typeof namespace === "string") {
+              cal.ns[namespace] = cal.ns[namespace] || api;
+              p(cal.ns[namespace], ar);
+              p(cal, ["initNamespace", namespace]);
+            } else { p(cal, ar); }
+            return;
+          }
+          p(cal, ar);
+        };
+      })(window, "https://app.cal.com/embed/embed.js", "init");
+    });
+    return calLibPromise;
+  }
+
+  function mountInlineCalendar(targetSelector, prefill) {
+    return ensureCalLib().then(() => {
+      // Namespace per calLink so multiple events on a page wouldn't collide.
+      const ns = CAL_LINK.replace(/[^a-zA-Z0-9]/g, "_");
+      window.Cal("init", ns, { origin: "https://cal.com" });
+      window.Cal.ns[ns]("inline", {
+        elementOrSelector: targetSelector,
+        calLink: CAL_LINK,
+        config: Object.assign({ layout: "month_view" }, prefill || {}),
+      });
+      window.Cal.ns[ns]("ui", {
+        hideEventTypeDetails: false,
+        layout: "month_view",
+      });
+    });
+  }
+
+  // Build a cal.com prefill / query payload from the form. Used by both the
+  // inline embed (object form) and the new-tab fallback link (URL form), so
+  // they always agree on what the booking already knows.
+  function buildSchedulerData(formEl) {
     const data = Object.fromEntries(new FormData(formEl).entries());
-    const params = new URLSearchParams();
-    if (data.name)  params.set("name",  String(data.name).trim());
-    if (data.email) params.set("email", String(data.email).trim());
-    // cal.com uses smsReminderNumber for the invitee's phone — also doubles
-    // as the number the host calls when the event is configured as "Phone
-    // call (attendee)" (the default for UEP, since appointments are calls).
-    if (data.phone) params.set("smsReminderNumber", String(data.phone).trim());
-    // Stuff product / state / beneficiary into the cal.com notes so the
-    // advisor opens the booking with context already in hand.
     const noteBits = ["Preferred: phone call"];
     if (data.product)     noteBits.push(`Interested in: ${data.product}`);
     if (data.state)       noteBits.push(`State: ${String(data.state).toUpperCase()}`);
     if (data.phone)       noteBits.push(`Phone: ${data.phone}`);
     if (data.beneficiary) noteBits.push(`Intended beneficiary: ${data.beneficiary}`);
     if (data.notes)       noteBits.push(`Notes: ${data.notes}`);
-    params.set("notes", noteBits.join(" · "));
+    const notes = noteBits.join(" · ");
+    return {
+      name:  (data.name  || "").trim(),
+      email: (data.email || "").trim(),
+      // cal.com uses smsReminderNumber for the invitee's phone — also doubles
+      // as the number the host dials when the event is configured as "Phone
+      // call (attendee)" (the right setting for UEP, since appointments are
+      // calls — the event owner sets this in cal.com).
+      smsReminderNumber: (data.phone || "").trim(),
+      notes,
+    };
+  }
+  function buildSchedulerUrl(formEl) {
+    const d = buildSchedulerData(formEl);
+    const params = new URLSearchParams();
+    if (d.name)  params.set("name",  d.name);
+    if (d.email) params.set("email", d.email);
+    if (d.smsReminderNumber) params.set("smsReminderNumber", d.smsReminderNumber);
+    if (d.notes) params.set("notes", d.notes);
     const qs = params.toString();
     return qs ? `${SCHEDULER_URL}?${qs}` : SCHEDULER_URL;
   }
@@ -176,13 +252,45 @@
       if (submit) { submit.disabled = true; submit.textContent = "Sending…"; }
 
       try {
-        const schedulerUrl = opts.scheduler ? buildSchedulerUrl(formEl) : null;
+        const wantsCalendar = opts.embedCalendar || opts.scheduler;
+        const schedulerUrl = wantsCalendar ? buildSchedulerUrl(formEl) : null;
+        const prefill      = wantsCalendar ? buildSchedulerData(formEl) : null;
         const payload = buildLeadPayload(formEl, source);
         await postLead(payload);
 
-        // Book form: send the user straight to the calendar after the lead
-        // is safely captured. The intermediate panel is there so the page
-        // doesn't appear to freeze during the redirect on slow networks.
+        // Embed: replace the form with an inline cal.com widget so the user
+        // never leaves uep.com. Falls back to a "new tab" link if the embed
+        // library fails to load (rare, but possible on ad-blockers).
+        if (opts.embedCalendar) {
+          const calId = "calInline_" + Math.random().toString(36).slice(2, 8);
+          formEl.innerHTML = `
+            <div style="padding:8px 4px 4px;text-align:center;">
+              <h3 style="font-family:var(--font-display);font-weight:600;font-size:22px;color:var(--brand);margin:0 0 6px;">Pick your 15-minute slot</h3>
+              <p style="font-size:13px;color:var(--ink-3);margin:0 0 14px;line-height:1.5;">
+                We've got your details — choose any time below and a UEP advisor will call you.
+              </p>
+            </div>
+            <div id="${calId}" style="min-height:560px;width:100%;overflow:hidden;border-radius:12px;border:1px solid rgba(45,31,24,0.10);background:#fff;"></div>
+            <p style="font-size:12px;color:var(--ink-3);margin:10px 0 0;text-align:center;">
+              Trouble loading the calendar? <a href="${schedulerUrl}" target="_blank" rel="noopener" style="color:var(--brand);text-decoration:underline;">Open in a new tab</a>.
+            </p>
+          `;
+          mountInlineCalendar("#" + calId, prefill).catch(err => {
+            console.error("[uep] cal.com embed failed:", err);
+            const host = document.getElementById(calId);
+            if (host) host.innerHTML = `
+              <div style="padding:24px;text-align:center;">
+                <p style="font-size:14px;color:var(--ink-2);margin:0 0 12px;">
+                  Couldn't load the calendar inline. Open it in a new tab:
+                </p>
+                <a href="${schedulerUrl}" class="btn btn-primary" target="_blank" rel="noopener" style="text-decoration:none;">Open scheduler →</a>
+              </div>
+            `;
+          });
+          return;
+        }
+
+        // Redirect fallback (kept for older bindings / if embed is disabled).
         if (schedulerUrl) {
           formEl.innerHTML = `
             <div style="text-align:center;padding:18px 6px;">
@@ -193,7 +301,6 @@
               <a href="${schedulerUrl}" class="btn btn-primary btn-block" style="text-decoration:none;">Open scheduler →</a>
             </div>
           `;
-          // Tiny delay so the success panel paints before the navigation.
           setTimeout(() => { window.location.href = schedulerUrl; }, 250);
           return;
         }
@@ -233,7 +340,7 @@
     "uep_website:hero",
     { doneEl: document.getElementById("leadFormHeroDone") }
   );
-  bindForm(document.getElementById("leadFormBook"), "uep_website:book",   { scheduler: true });
-  bindForm(document.getElementById("leadFormQuiz"), "uep_website:quiz",   { scheduler: true });
+  bindForm(document.getElementById("leadFormBook"), "uep_website:book",   { embedCalendar: true });
+  bindForm(document.getElementById("leadFormQuiz"), "uep_website:quiz",   { embedCalendar: true });
   bindForm(document.getElementById("applyForm"),    "uep_website:careers");
 })();
