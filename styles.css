@@ -209,7 +209,21 @@ button { font: inherit; cursor: pointer; border: 0; background: transparent; }
 }
 .nav-links a:hover { color: var(--ink); background: var(--bg-warm); }
 .nav-links a.btn { padding: 9px 16px; }
-.nav-links a.btn:hover { background: var(--brand); color: var(--ink-on-deep); }
+/* The nav's primary CTA must POP — bright terracotta with white text so
+   the action is unmistakable. Without this override, .nav-links a's
+   dark color wins on cascade order and the button text is unreadable
+   against the dark fill. */
+.nav-links a.btn-primary {
+  background: linear-gradient(135deg, #9C2D2D 0%, #C8956E 100%);
+  color: #FFFFFF;
+  box-shadow: 0 4px 14px rgba(156,45,45,0.32);
+}
+.nav-links a.btn-primary:hover {
+  background: linear-gradient(135deg, #B33A3A 0%, #D4A57F 100%);
+  color: #FFFFFF;
+  box-shadow: 0 6px 20px rgba(156,45,45,0.42);
+  transform: translateY(-1px);
+}
 
 .nav-burger {
   display: none;
