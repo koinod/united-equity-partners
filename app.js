@@ -39,7 +39,7 @@
   const AGENCY_ID = (typeof window !== "undefined" && window.UEP_AGENCY_ID)
     || "e0a68c9f-cf48-47b0-bef7-dba3f27db0b9";
 
-  function buildLeadPayload(formEl, source) {
+  function buildLeadPayload(formEl, source, opts = {}) {
     const data = Object.fromEntries(new FormData(formEl).entries());
 
     // Health snapshot — checkboxes don't appear in FormData when unchecked, so
@@ -88,6 +88,10 @@
       age:       data.age ? parseInt(data.age, 10) : null,
       product:   data.product || null,
       source,
+      // Flips the Repflow inbound handler into live-transfer mode — Twilio
+      // dials the lead now and bridges to the advisor. Only set when the
+      // user clicked the "Get connected right now" button on the form.
+      transfer_now: !!opts.transferNow,
       consent:   "verified",
       // Auto-disqualifiers on standard underwriting → re-heat as warm so
       // the dialer doesn't burn a hot-lead slot on a policy that will get
@@ -124,6 +128,25 @@
     });
     if (!r.ok) throw new Error(`HTTP ${r.status}`);
     return r.json().catch(() => ({}));
+  }
+
+  // Renders the "calling you now" state after a successful live-transfer
+  // bridge fires. The lead's phone is about to ring (Twilio dials them
+  // first). If the bridge response says it didn't fire, hand back to the
+  // calendar embed so the user still has a path forward.
+  function renderCallingNow(formEl, phoneNumberDisplay, schedulerUrl) {
+    formEl.innerHTML = `
+      <div style="text-align:center;padding:24px 12px;">
+        <div style="font-size:46px;line-height:1;margin-bottom:10px;" aria-hidden="true">📞</div>
+        <h3 style="font-family:var(--font-display);font-weight:600;font-size:24px;color:var(--brand);margin:0 0 8px;">Calling you now${phoneNumberDisplay ? ` at ${phoneNumberDisplay}` : ""}</h3>
+        <p style="font-size:14px;color:var(--ink-3);margin:0 0 16px;line-height:1.55;">
+          Your phone will ring in a few seconds. A licensed UEP advisor will be on the other end.
+        </p>
+        <p style="font-size:13px;color:var(--ink-3);margin:0;line-height:1.55;">
+          Didn't get a call within a minute? <a href="${schedulerUrl}" style="color:var(--brand);text-decoration:underline;">Pick a time instead</a>.
+        </p>
+      </div>
+    `;
   }
 
   function showError(form, message) {
@@ -253,16 +276,37 @@
     if (!formEl) return;
     formEl.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const submit = formEl.querySelector('button[type="submit"]');
-      const oldText = submit ? submit.textContent : "";
-      if (submit) { submit.disabled = true; submit.textContent = "Sending…"; }
+      // submitter is the actual button clicked — used to distinguish
+      // "schedule" (default) from "call me right now" (live transfer).
+      const submitter = e.submitter || formEl.querySelector('button[type="submit"]');
+      const transferNow = !!(submitter && submitter.dataset && submitter.dataset.action === "transfer_now");
+      const buttons = Array.from(formEl.querySelectorAll('button[type="submit"]'));
+      const oldText = submitter ? submitter.textContent : "";
+      buttons.forEach(b => { b.disabled = true; });
+      if (submitter) submitter.textContent = transferNow ? "Connecting…" : "Sending…";
 
       try {
         const wantsCalendar = opts.embedCalendar || opts.scheduler;
         const schedulerUrl = wantsCalendar ? buildSchedulerUrl(formEl) : null;
         const prefill      = wantsCalendar ? buildSchedulerData(formEl) : null;
-        const payload = buildLeadPayload(formEl, source);
-        await postLead(payload);
+        const payload = buildLeadPayload(formEl, source, { transferNow });
+        const formData = Object.fromEntries(new FormData(formEl).entries());
+        const userPhone = String(formData.phone || "").trim();
+        const leadResp = await postLead(payload);
+
+        // Live transfer path — Repflow's inbound handler is dialing the lead
+        // right now via Twilio. Show the "Calling you" UI on success; on a
+        // bridge failure, fall through to the calendar embed so the user
+        // isn't stranded.
+        if (transferNow) {
+          const lt = leadResp && leadResp.live_transfer;
+          if (lt && lt.fired) {
+            renderCallingNow(formEl, userPhone, schedulerUrl || SCHEDULER_URL);
+            return;
+          }
+          console.warn("[uep] live transfer did not fire:", lt);
+          // Fall through into the calendar branch so the user still gets a path.
+        }
 
         // Embed: replace the form with an inline cal.com widget so the user
         // never leaves uep.com. Falls back to a "new tab" link if the embed
