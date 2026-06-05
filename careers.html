@@ -3,28 +3,76 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-<title>Careers · United Equity Partners</title>
-<meta name="description" content="Build your independent insurance career at United Equity Partners. Licensed agents, managers, and producers — apply now.">
+<title>Skip the line. Get paid to sell what families actually need. — UEP Careers</title>
+<meta name="description" content="If you're 18–25 and done with the college/9-to-5/door-to-door treadmill, UEP gives you the licensing, leads, system, and mentorship to build a real income — and own a book that pays you for life.">
 <meta name="theme-color" content="#2D1F18"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="styles.css"/>
+<link rel="stylesheet" href="/styles.css"/>
 <link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%232D1F18'/><text x='50' y='66' font-family='Fraunces,serif' font-size='52' font-weight='700' text-anchor='middle' fill='%23E8D5BC'>U</text></svg>"/>
+<style>
+  /* careers-only accents */
+  .ctr-hero { padding: 56px 0 36px; position: relative; }
+  .ctr-eyebrow { font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-3, #6B5E54); margin: 0 0 14px; font-weight: 600; }
+  .ctr-h1 { font-family: var(--font-display, "Fraunces", serif); font-weight: 600; font-size: clamp(36px, 6vw, 64px); line-height: 1.05; color: var(--brand, #2D1F18); margin: 0 0 18px; }
+  .ctr-h1 em { font-style: italic; color: #9C2D2D; }
+  .ctr-lede { font-size: 18px; line-height: 1.6; color: var(--ink-2, #4A3F37); margin: 0 0 26px; max-width: 60ch; }
+  .ctr-receipts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 24px 0 26px; max-width: 640px; }
+  @media (max-width: 600px) { .ctr-receipts { grid-template-columns: 1fr; } }
+  .ctr-receipt { background: #fff; border: 1px solid rgba(45,31,24,0.10); border-radius: 14px; padding: 14px 16px; }
+  .ctr-receipt strong { display: block; font-family: var(--font-display, "Fraunces", serif); font-size: 22px; color: var(--brand, #2D1F18); line-height: 1.1; }
+  .ctr-receipt span { display: block; font-size: 12px; color: var(--ink-3, #6B5E54); margin-top: 4px; line-height: 1.4; }
+  .ctr-break { background: #2D1F18; color: #E8D5BC; padding: 56px 0; }
+  .ctr-break h2 { color: #fff; font-family: var(--font-display, "Fraunces", serif); font-weight: 600; font-size: clamp(28px, 4vw, 44px); line-height: 1.15; margin: 0 0 24px; }
+  .ctr-break .why-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; margin-top: 28px; }
+  @media (max-width: 800px) { .ctr-break .why-row { grid-template-columns: 1fr; } }
+  .ctr-break .why-row article { background: rgba(232,213,188,0.08); border: 1px solid rgba(232,213,188,0.18); border-radius: 14px; padding: 22px; }
+  .ctr-break .why-row h3 { color: #E8D5BC; font-family: var(--font-display, "Fraunces", serif); font-weight: 600; font-size: 18px; margin: 0 0 10px; }
+  .ctr-break .why-row p { color: #D6C0A3; font-size: 14px; line-height: 1.6; margin: 0; }
+  .ctr-path { background: var(--cream, #F5EBD9); padding: 56px 0; }
+  .ctr-path h2 { font-family: var(--font-display, "Fraunces", serif); font-weight: 600; font-size: clamp(28px, 4vw, 42px); line-height: 1.15; color: var(--brand, #2D1F18); margin: 0 0 8px; }
+  .ctr-path .ctr-sub { font-size: 16px; color: var(--ink-2, #4A3F37); margin: 0 0 28px; max-width: 62ch; }
+  .ctr-path .ladder { display: grid; gap: 14px; max-width: 760px; }
+  .ctr-path .rung { display: grid; grid-template-columns: 90px 1fr; gap: 16px; background: #fff; border: 1px solid rgba(45,31,24,0.10); border-radius: 14px; padding: 16px 18px; align-items: center; }
+  .ctr-path .rung .when { font-family: var(--font-display, "Fraunces", serif); font-weight: 600; font-size: 18px; color: var(--brand, #2D1F18); }
+  .ctr-path .rung h3 { font-family: var(--font-display, "Fraunces", serif); font-weight: 600; font-size: 18px; margin: 0 0 4px; color: var(--brand, #2D1F18); }
+  .ctr-path .rung p { font-size: 14px; line-height: 1.55; color: var(--ink-2, #4A3F37); margin: 0; }
+  .ctr-fit { padding: 56px 0; }
+  .ctr-fit h2 { font-family: var(--font-display, "Fraunces", serif); font-weight: 600; font-size: clamp(28px, 4vw, 42px); line-height: 1.15; color: var(--brand, #2D1F18); margin: 0 0 24px; }
+  .ctr-fit .two { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+  @media (max-width: 800px) { .ctr-fit .two { grid-template-columns: 1fr; } }
+  .ctr-fit .col h3 { font-family: var(--font-display, "Fraunces", serif); font-weight: 600; font-size: 22px; margin: 0 0 12px; }
+  .ctr-fit .col.yes h3 { color: #2D6B3F; }
+  .ctr-fit .col.no h3  { color: #9C2D2D; }
+  .ctr-fit .col ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+  .ctr-fit .col li { font-size: 15px; line-height: 1.55; color: var(--ink-2, #4A3F37); padding-left: 26px; position: relative; }
+  .ctr-fit .col.yes li::before { content: "✓"; position: absolute; left: 0; top: 0; color: #2D6B3F; font-weight: 700; }
+  .ctr-fit .col.no  li::before { content: "✕"; position: absolute; left: 0; top: 0; color: #9C2D2D; font-weight: 700; }
+  .ctr-stack { background: var(--cream-soft, rgba(232,213,188,0.32)); padding: 56px 0; }
+  .ctr-stack h2 { font-family: var(--font-display, "Fraunces", serif); font-weight: 600; font-size: clamp(28px, 4vw, 42px); line-height: 1.15; color: var(--brand, #2D1F18); margin: 0 0 8px; }
+  .ctr-stack .sub { font-size: 16px; color: var(--ink-2, #4A3F37); max-width: 62ch; margin: 0 0 28px; }
+  .ctr-stack .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  @media (max-width: 800px) { .ctr-stack .grid { grid-template-columns: 1fr; } }
+  .ctr-stack .cell { background: #fff; border-radius: 14px; padding: 22px; border: 1px solid rgba(45,31,24,0.08); }
+  .ctr-stack .cell h3 { font-family: var(--font-display, "Fraunces", serif); font-weight: 600; font-size: 18px; margin: 0 0 8px; color: var(--brand, #2D1F18); }
+  .ctr-stack .cell p { font-size: 14px; line-height: 1.6; color: var(--ink-2, #4A3F37); margin: 0; }
+  .ctr-disclaimer { font-size: 12px; color: var(--ink-3, #6B5E54); line-height: 1.55; max-width: 640px; margin: 28px 0 0; }
+</style>
 </head>
 <body>
 
 <header class="nav" id="nav">
   <div class="container nav-inner">
-    <a href="index.html" class="brand">
+    <a href="/" class="brand">
       <span class="brand-mark">U</span>
       <span class="brand-name">United Equity <span class="brand-name-soft">Partners</span></span>
     </a>
     <nav class="nav-links">
-      <a href="index.html#approach">Approach</a>
-      <a href="index.html#products">Products</a>
-      <a href="index.html#trust">Why us</a>
-      <a href="careers.html">Careers</a>
+      <a href="/">Home</a>
+      <a href="#stack">What you get</a>
+      <a href="#path">The path</a>
+      <a href="#fit">Fit</a>
       <a href="#apply" class="btn btn-primary btn-sm">Apply now</a>
     </nav>
     <button class="nav-burger" id="navBurger" aria-label="Menu">
@@ -35,143 +83,187 @@
 
 <main>
 
-<section class="careers-hero">
+<!-- HERO -->
+<section class="ctr-hero">
   <div class="container">
-    <p class="eyebrow">Careers at UEP</p>
-    <h1 class="display">Build a career on independence — not a captive contract.</h1>
-    <p class="lede">
-      We're hiring licensed agents, managers, and producers ready to do the right work for the right
-      reasons. Real comp, real lead support, real mentorship. Own your book. Build your downline.
+    <p class="ctr-eyebrow">For 18–25-year-olds who refused the script</p>
+    <h1 class="ctr-h1">Skip the line. Get paid to sell <em>what families actually need.</em></h1>
+    <p class="ctr-lede">
+      You don't need a $200K degree, a 9-to-5 with a ceiling, or another door-to-door
+      summer that pays you for the close and keeps the renewal. We hire kids who refuse
+      the script — and we hand you the license, the leads, the dialer, the playbook,
+      and the mentors so you can build a real income and own a book that pays you for life.
     </p>
     <div class="hero-cta">
-      <a href="#apply" class="btn btn-primary">Apply now</a>
-      <a href="#stack" class="btn btn-ghost">What you get →</a>
+      <a href="#apply" class="btn btn-primary">Apply in 90 seconds</a>
+      <a href="#path" class="btn btn-ghost">See the path →</a>
+    </div>
+    <div class="ctr-receipts" aria-label="What a real first 12 months looks like">
+      <div class="ctr-receipt"><strong>3–6 wks</strong><span>License in your pocket. We pay your study materials.</span></div>
+      <div class="ctr-receipt"><strong>$5K mo·1st</strong><span>What an active producer hits month one after license.</span></div>
+      <div class="ctr-receipt"><strong>$80–150K</strong><span>What the top half do in year one. Top quartile breaks $200K.</span></div>
     </div>
   </div>
 </section>
 
-<!-- WHY UEP -->
-<section class="section" id="stack">
+<!-- THE SCRIPT IS BROKEN -->
+<section class="ctr-break">
   <div class="container">
-    <p class="eyebrow">What you get</p>
-    <h2 class="display-2">A back-office that actually backs you up.</h2>
-    <div class="three">
-      <article class="three-cell">
-        <div class="three-num">01</div>
-        <h3>Industry-leading comp</h3>
-        <p>Top contracts with the top A-rated carriers in the nation. Direct comp from issue, with override path the day you build a downline.</p>
-      </article>
-      <article class="three-cell">
-        <div class="three-num">02</div>
-        <h3>Lead support &amp; warm transfers</h3>
-        <p>Inbound, exclusive, and warm-transfer programs available — no upfront cost on qualified inbound to vetted producers.</p>
-      </article>
-      <article class="three-cell">
-        <div class="three-num">03</div>
-        <h3>CRM + dialer + quote tools</h3>
-        <p>The same platform our top producers use — included. Auto-quote, in-call scripts, e-app, persistency tracking, recordings.</p>
-      </article>
-      <article class="three-cell">
-        <div class="three-num">04</div>
-        <h3>Real mentorship</h3>
-        <p>Weekly trainings from active top producers. Role-play sessions. Live-call coaching. Not a video library you'll never open.</p>
-      </article>
-      <article class="three-cell">
-        <div class="three-num">05</div>
-        <h3>Own your book</h3>
-        <p>You own the relationship. You own the renewals. No captive non-compete games. Build something that compounds.</p>
-      </article>
-      <article class="three-cell">
-        <div class="three-num">06</div>
-        <h3>License + appointments support</h3>
-        <p>Need help getting licensed in a new state, or appointed with a new carrier? Our back-office handles the paperwork, you handle the calls.</p>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- OPEN ROLES -->
-<section class="section section-warm" id="roles">
-  <div class="container">
-    <p class="eyebrow">Open roles</p>
-    <h2 class="display-2">We're hiring.</h2>
-    <p class="body-lg" style="max-width: 60ch;">
-      Whether you're brand-new and need licensing support, or you're a producer ready to walk away from
-      a captive contract, there's a path here. Apply once — we'll match you to the right role.
+    <h2>The script is broken.</h2>
+    <p style="font-size:17px;line-height:1.6;max-width:62ch;margin:0;">
+      They told you: pick one of three boxes. We're telling you all three are rigged
+      against the people who get in them. Read it once and decide.
     </p>
-    <div class="role-grid">
-      <article class="role">
-        <span class="role-tag">Producer Track</span>
-        <h3>Licensed Producer</h3>
-        <p class="role-line">Sell life, FE, IUL, and annuity directly to families. Own your book. Direct + override comp.</p>
-        <div class="meta">
-          <span>Remote</span>
-          <span>·</span>
-          <span>Life &amp; Health license required</span>
-        </div>
-        <a href="#apply" class="btn btn-primary btn-sm">Apply →</a>
+    <div class="why-row">
+      <article>
+        <h3>The college trap</h3>
+        <p>Average debt: $37K. Average starting salary: $55K. You graduate at 22 carrying a car payment that buys you 3 nothing. Then you spend the next decade catching up to where you'd be without it.</p>
       </article>
-      <article class="role">
-        <span class="role-tag">Leadership Track</span>
-        <h3>Sales Manager</h3>
-        <p class="role-line">Build a team of producers under you. Coach, recruit, and earn override on every issued policy your downline writes.</p>
-        <div class="meta">
-          <span>Remote</span>
-          <span>·</span>
-          <span>3+ yrs experience preferred</span>
-        </div>
-        <a href="#apply" class="btn btn-primary btn-sm">Apply →</a>
+      <article>
+        <h3>The 9-to-5 ceiling</h3>
+        <p>You trade your hours for the smallest number a manager can sign off on. Raise once a year if you behave. Promotion goes to someone older. Your ceiling is what HR allows.</p>
       </article>
-      <article class="role">
-        <span class="role-tag">Onboarding Track</span>
-        <h3>New-to-industry Trainee</h3>
-        <p class="role-line">No license yet? We'll guide you through study + state exams and onboard you with paid training as you ramp.</p>
-        <div class="meta">
-          <span>Remote</span>
-          <span>·</span>
-          <span>No license required to apply</span>
-        </div>
-        <a href="#apply" class="btn btn-primary btn-sm">Apply →</a>
+      <article>
+        <h3>The door-to-door grind</h3>
+        <p>You learn to sell. Good. But alarms, solar, pest — they pay you for the close and keep the renewal forever. You start over Monday. The math never compounds for you.</p>
       </article>
     </div>
   </div>
 </section>
 
-<!-- COMP -->
-<section class="section" id="comp">
-  <div class="container two-grid">
-    <div>
-      <p class="eyebrow">How we pay</p>
-      <h2 class="display-2">Transparent comp. Built to compound.</h2>
-      <p class="body-lg">
-        We don't bury comp in a hundred-page producer agreement. Here's the structure, plain:
-      </p>
-      <ul class="checks">
-        <li><span class="check">✓</span><strong>Direct first-year commission</strong> — you write, you earn, paid weekly</li>
-        <li><span class="check">✓</span><strong>Renewals</strong> — recurring income on every policy that stays in force</li>
-        <li><span class="check">✓</span><strong>Override</strong> — earn on every producer in your downline once you become a manager</li>
-        <li><span class="check">✓</span><strong>Bonus pool</strong> — quarterly performance bonuses for top producers</li>
-        <li><span class="check">✓</span><strong>Lead reimbursement</strong> — qualified producers get inbound + warm-transfer leads at no upfront cost</li>
-      </ul>
+<!-- THE PATH -->
+<section class="ctr-path" id="path">
+  <div class="container">
+    <h2>Here's what the next 12 months actually look like.</h2>
+    <p class="ctr-sub">
+      Not a roadmap. Not a 30-page producer agreement. The real cadence — what we ask of you,
+      what we give you, and what the math turns into if you show up.
+    </p>
+    <div class="ladder">
+      <article class="rung">
+        <div class="when">Week 1</div>
+        <div>
+          <h3>You apply, we interview, we start your license</h3>
+          <p>20-minute call. If we're a fit, you start state pre-license study that night — we cover materials, send you a study buddy, and we don't take a dime until you write your first policy.</p>
+        </div>
+      </article>
+      <article class="rung">
+        <div class="when">Wk 3–6</div>
+        <div>
+          <h3>You pass life &amp; health, get appointed at top carriers</h3>
+          <p>Our back-office handles the contracting paperwork at 30+ A-rated carriers. You don't fight the portals — you study the products.</p>
+        </div>
+      </article>
+      <article class="rung">
+        <div class="when">Month 2</div>
+        <div>
+          <h3>First dials on inbound leads. Live-call coaching from day one.</h3>
+          <p>You're not knocking doors. You're calling families who asked us about coverage. A mentor sits the first 50 dials with you on a 3-way line, then debriefs every one. This is the part you can't buy on YouTube.</p>
+        </div>
+      </article>
+      <article class="rung">
+        <div class="when">Month 3</div>
+        <div>
+          <h3>First $5K month</h3>
+          <p>What an active producer who runs the dials hits. Some run $10K. Almost none who run the activity run zero. (Activity = 20 hours/wk on the dialer minimum, no exceptions.)</p>
+        </div>
+      </article>
+      <article class="rung">
+        <div class="when">Month 6</div>
+        <div>
+          <h3>Consistent $8–15K months + renewals stacking</h3>
+          <p>You're closing without the mentor on the line. Your renewals from month 3 onwards start showing up. You realize the math is finally compounding for you — not your manager.</p>
+        </div>
+      </article>
+      <article class="rung">
+        <div class="when">Yr 1</div>
+        <div>
+          <h3>$80–150K take-home for the half that actually run the system</h3>
+          <p>Top quartile producers cross $200K. The bottom quartile quit because they wouldn't sit on the dialer. We can't fix that. If you'll do the work, the system pays.</p>
+        </div>
+      </article>
+      <article class="rung">
+        <div class="when">Yr 2–3</div>
+        <div>
+          <h3>Start your team. Override + renewals = real residual income.</h3>
+          <p>You learn to recruit the version of you from a year ago. You earn an override on every policy your downline writes. Your renewals from year 1 and 2 keep paying. This is when the income stops being linear.</p>
+        </div>
+      </article>
     </div>
-    <aside class="stats">
-      <div class="stat">
-        <div class="stat-num">100%</div>
-        <div class="stat-l">Top contracts on most carriers</div>
+    <p class="ctr-disclaimer">
+      Numbers above reflect what a UEP producer who runs the prescribed activity (≥20 dialer hours/wk
+      on inbound leads) typically does. Individual results vary — and we'll tell you straight
+      whether the math will work in your state on the intro call. Insurance commission is paid
+      by the carrier; UEP does not guarantee any specific income.
+    </p>
+  </div>
+</section>
+
+<!-- WHAT YOU GET -->
+<section class="ctr-stack" id="stack">
+  <div class="container">
+    <h2>What you actually get on day one.</h2>
+    <p class="sub">
+      Most "opportunities" hand you a contract and a Slack invite. Here's what UEP hands you
+      before you write your first policy — and we keep handing it to you for as long as you're
+      with us.
+    </p>
+    <div class="grid">
+      <div class="cell">
+        <h3>Inbound leads, not doors</h3>
+        <p>Pre-qualified families who asked for a quote come to your dialer. No "smile and dial" lists from 2019. No 9 PM screen-doors. The lead has already raised their hand.</p>
       </div>
-      <div class="stat">
-        <div class="stat-num">Wkly</div>
-        <div class="stat-l">Commission pay cycle</div>
+      <div class="cell">
+        <h3>Top contracts at A-rated carriers</h3>
+        <p>You write at the highest comp tier we can negotiate — same paper as our top producers. No "we'll bump you up after you prove yourself" nonsense.</p>
       </div>
-      <div class="stat">
-        <div class="stat-num">$0</div>
-        <div class="stat-l">Tech stack cost to producers</div>
+      <div class="cell">
+        <h3>The full tech stack — free</h3>
+        <p>CRM, power dialer, e-app, auto-quote, call recordings, persistency tracking, mobile softphone. Stuff your last "agency" charged you $300/mo for. Included.</p>
       </div>
-      <div class="stat">
-        <div class="stat-num">30+</div>
-        <div class="stat-l">Appointed carriers</div>
+      <div class="cell">
+        <h3>Mentors who still run dials</h3>
+        <p>Coaching from producers writing $30–80K/mo right now — not a sales-trainer who hasn't taken a call in five years. Live-call review, weekly role-play, no theater.</p>
       </div>
-    </aside>
+      <div class="cell">
+        <h3>License paid back when you produce</h3>
+        <p>We front the study materials. If you hit a basic activity bar in your first 90 days, the license cost is reimbursed in full. Skin in the game, both sides.</p>
+      </div>
+      <div class="cell">
+        <h3>A book you actually own</h3>
+        <p>You own the relationship and the renewals. No captive non-compete games. If you ever leave, the residual income on what you wrote keeps coming.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHO IT'S FOR / NOT FOR -->
+<section class="ctr-fit" id="fit">
+  <div class="container">
+    <h2>This is built for one kind of person.</h2>
+    <div class="two">
+      <div class="col yes">
+        <h3>Built for you if you're…</h3>
+        <ul>
+          <li>An 18-22-year-old who refused college because the math doesn't math.</li>
+          <li>In college now and watching the trap close. You want out before graduation.</li>
+          <li>Coming off door-to-door (alarms, solar, pest, roofing) — you can sell, you want better economics, you're done starting over Monday.</li>
+          <li>An entrepreneur kid who needs a system, mentors, and product — not another idea.</li>
+          <li>Hungry. Willing to sit 20+ hours on the dialer your first 6 months without negotiating it.</li>
+          <li>Coachable. You take the feedback, you change the next call.</li>
+        </ul>
+      </div>
+      <div class="col no">
+        <h3>Not for you if you…</h3>
+        <ul>
+          <li>Want a guaranteed paycheck. This is commission. We don't pretend otherwise.</li>
+          <li>Won't pass a background check or a life &amp; health license exam.</li>
+          <li>Are looking for "side hustle" energy. Part-time isn't how this works.</li>
+          <li>Won't sit on call reviews or take coaching from someone younger than you.</li>
+          <li>Need someone else to set your hours or build your discipline.</li>
+        </ul>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -180,15 +272,15 @@
   <div class="container apply-grid">
     <div>
       <p class="eyebrow eyebrow-light">Apply</p>
-      <h2 class="display-2 light">Tell us about yourself.</h2>
+      <h2 class="display-2 light">90 seconds. Then a 20-minute call if we're a fit.</h2>
       <p class="body-lg light-soft">
-        We review every application personally. If there's a fit, you'll hear from a UEP recruiter
-        within 48 hours with next steps — usually a 20-minute intro call.
+        Every application gets read personally. If the math works for your state and you
+        sound like the person above, you'll hear from us within 48 hours with a calendar link.
       </p>
       <ul class="book-list">
-        <li><span class="bullet"></span>One application — we'll match you to the right role</li>
-        <li><span class="bullet"></span>No license? No problem — we'll guide you through it</li>
-        <li><span class="bullet"></span>All info kept confidential</li>
+        <li><span class="bullet"></span>No license? We'll guide you start to finish.</li>
+        <li><span class="bullet"></span>D2D experience? Tell us — it's a real signal.</li>
+        <li><span class="bullet"></span>Everything you share stays between you and the recruiter.</li>
       </ul>
     </div>
     <form id="applyForm" class="card-form">
@@ -213,35 +305,37 @@
           <input type="text" name="state" required maxlength="2" placeholder="TX" style="text-transform:uppercase"/>
         </label>
         <label class="field">
-          <span>License status</span>
-          <select name="license_status" required>
-            <option value="">Select…</option>
-            <option>Currently licensed</option>
-            <option>Studying for exam</option>
-            <option>Not licensed yet</option>
-          </select>
+          <span>Age</span>
+          <input type="number" name="age" min="18" max="35" placeholder="22"/>
         </label>
       </div>
       <label class="field">
-        <span>Track</span>
-        <select name="track" required>
+        <span>License status</span>
+        <select name="license_status" required>
           <option value="">Select…</option>
-          <option>Licensed Producer</option>
-          <option>Sales Manager</option>
-          <option>New-to-industry Trainee</option>
-          <option>Not sure — match me</option>
+          <option>Currently licensed</option>
+          <option>Studying for exam</option>
+          <option>Not licensed yet — open to it</option>
         </select>
       </label>
       <label class="field">
-        <span>Years of experience (optional)</span>
-        <input type="text" name="experience" placeholder="e.g. 2 years final expense"/>
+        <span>Where you're coming from</span>
+        <select name="track" required>
+          <option value="">Select…</option>
+          <option>Recent HS grad / no college</option>
+          <option>In college, want out</option>
+          <option>Done with college (or graduated)</option>
+          <option>Came off door-to-door</option>
+          <option>Have insurance experience</option>
+          <option>Currently 9-to-5, looking to switch</option>
+        </select>
       </label>
       <label class="field">
-        <span>Anything we should know? (optional)</span>
-        <textarea name="notes" rows="3" placeholder="Carrier appointments, current production, why UEP…"></textarea>
+        <span>What you want out of this (one line)</span>
+        <textarea name="notes" rows="3" placeholder="e.g. Did 3 summers selling alarms door-to-door, want better residuals. Or: Got out of state college, $35K in debt, ready to actually earn."></textarea>
       </label>
-      <button type="submit" class="btn btn-primary btn-block">Submit application</button>
-      <p class="hc-fine">By submitting, you agree to be contacted by a UEP recruiter at the contact info above.</p>
+      <button type="submit" class="btn btn-primary btn-block">Send my application →</button>
+      <p class="hc-fine">By submitting, you consent to be contacted by a UEP recruiter at the contact info above. Insurance commissions are paid by carriers. Income figures elsewhere on this page are illustrative for active producers and not a guarantee.</p>
     </form>
   </div>
 </section>
@@ -251,39 +345,40 @@
 <footer class="foot">
   <div class="container foot-grid">
     <div>
-      <a href="index.html" class="brand">
+      <a href="/" class="brand">
         <span class="brand-mark">U</span>
         <span class="brand-name">United Equity <span class="brand-name-soft">Partners</span></span>
       </a>
-      <p class="foot-tag">Life insurance built around your family.</p>
+      <p class="foot-tag">Built for producers who refuse the script.</p>
     </div>
     <div class="foot-cols">
       <div>
-        <h5>Company</h5>
-        <a href="index.html#approach">Approach</a>
-        <a href="index.html#products">Products</a>
-        <a href="index.html#trust">Why us</a>
-        <a href="careers.html">Careers</a>
+        <h5>Recruiting</h5>
+        <a href="#stack">What you get</a>
+        <a href="#path">The path</a>
+        <a href="#fit">Fit</a>
+        <a href="#apply">Apply</a>
       </div>
       <div>
-        <h5>For families</h5>
-        <a href="index.html#book">Book a call</a>
-        <a href="index.html#products">Compare coverage</a>
-        <a href="mailto:hello@unitedequitypartners.com">Email us</a>
+        <h5>Company</h5>
+        <a href="tel:+13053223195"><strong>Call (305) 322-3195</strong></a>
+        <a href="/">Home (for families)</a>
+        <a href="/#approach">Approach</a>
+        <a href="/#trust">Why us</a>
       </div>
       <div>
         <h5>Compliance</h5>
-        <a href="#">Privacy policy</a>
+        <a href="#" data-modal="privacy">Privacy policy</a>
         <a href="/terms">Terms of service</a>
-        <a href="#">TPMO disclosure</a>
+        <a href="#" data-modal="tpmo">TPMO disclosure</a>
       </div>
     </div>
   </div>
   <div class="container foot-fine">
-    <p>© <span id="year">2026</span> United Equity Partners. Insurance products offered through licensed agents in the states they hold appointments. Not all products available in all states.</p>
+    <p>© <span id="year">2026</span> United Equity Partners. Insurance commissions are paid by carriers; UEP does not guarantee any specific income. License + appointment requirements vary by state.</p>
   </div>
 </footer>
 
-<script src="app.js"></script>
+<script src="/app.js" defer></script>
 </body>
 </html>
