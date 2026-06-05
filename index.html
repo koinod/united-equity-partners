@@ -55,7 +55,9 @@
         <a href="/quiz" class="btn btn-ghost">Take the 2-min fit quiz →</a>
       </div>
       <p class="hero-phone" style="margin-top:14px;font-size:14px;color:var(--ink-3,#6B5E54);">
-        Or talk to a licensed advisor now: <a href="tel:+19312522222" style="color:var(--brand,#2D1F18);font-weight:600;text-decoration:underline;">(931) 252-2222</a>
+        Or reach an advisor at <a href="tel:+13053223195" style="color:var(--brand,#2D1F18);font-weight:600;text-decoration:underline;">(305) 322-3195</a>
+        — <a href="tel:+13053223195" style="color:var(--brand,#2D1F18);font-weight:600;text-decoration:underline;">call</a>
+        or <a href="sms:+13053223195" style="color:var(--brand,#2D1F18);font-weight:600;text-decoration:underline;">text</a>.
       </p>
       <ul class="hero-trust">
         <li><span class="dot"></span>Independent · Top A-rated carriers</li>
@@ -63,25 +65,25 @@
         <li><span class="dot"></span>No-cost consultation</li>
       </ul>
     </div>
-    <aside class="hero-card" aria-label="Three ways to start">
+    <aside class="hero-card" aria-label="Reach a UEP advisor">
       <div class="hc-rule"></div>
-      <p class="hc-eyebrow">Three ways to start</p>
-      <h3 class="hc-h">Talk to a UEP advisor.</h3>
-      <p class="hc-sub">Pick whichever feels right. No forms on this page — just reach out.</p>
-      <ul style="list-style:none;padding:0;margin:18px 0 0;display:flex;flex-direction:column;gap:14px;">
-        <li>
-          <a href="tel:+19312522222" class="btn btn-primary btn-block" style="text-decoration:none;">📞 Call (931) 252-2222</a>
-          <p style="font-size:12px;color:var(--ink-3,#6B5E54);margin:6px 0 0;text-align:center;">A licensed advisor picks up.</p>
-        </li>
-        <li>
-          <a href="/chat" class="btn btn-ghost btn-block" style="text-decoration:none;">💬 Chat with a UEP advisor</a>
-          <p style="font-size:12px;color:var(--ink-3,#6B5E54);margin:6px 0 0;text-align:center;">Tap the bubble in the corner once it loads, or open the chat page.</p>
-        </li>
-        <li>
-          <a href="/quiz" class="btn btn-ghost btn-block" style="text-decoration:none;">🎯 Take the 2-min fit quiz</a>
-          <p style="font-size:12px;color:var(--ink-3,#6B5E54);margin:6px 0 0;text-align:center;">See which coverage fits, then book a time.</p>
-        </li>
-      </ul>
+      <p class="hc-eyebrow">Reach a UEP advisor</p>
+      <h3 class="hc-h">Tap whichever works.</h3>
+      <p class="hc-sub">No forms on this page. Call, text, chat, or take the fit quiz.</p>
+      <div style="display:grid;gap:10px;margin-top:18px;">
+        <!-- Mobile-optimized: tel: + sms: schemes open the native dialer / Messages app on tap. -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <a href="tel:+13053223195" class="btn btn-primary btn-block" style="text-decoration:none;text-align:center;" aria-label="Call a UEP advisor">📞 Call</a>
+          <a href="sms:+13053223195" class="btn btn-primary btn-block" style="text-decoration:none;text-align:center;" aria-label="Text a UEP advisor">💬 Text</a>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <a href="/chat" class="btn btn-ghost btn-block" style="text-decoration:none;text-align:center;" aria-label="Open the chat page">💭 Chat</a>
+          <a href="/quiz" class="btn btn-ghost btn-block" style="text-decoration:none;text-align:center;" aria-label="Take the coverage fit quiz">🎯 Quiz</a>
+        </div>
+      </div>
+      <p style="font-size:12px;color:var(--ink-3,#6B5E54);margin:14px 0 0;text-align:center;line-height:1.5;">
+        Call &amp; text reach a licensed advisor directly. Chat opens our messaging window. Quiz takes 2 minutes and lets you pick a time.
+      </p>
     </aside>
   </div>
 </section>
@@ -276,22 +278,28 @@
         <li><span class="bullet"></span>Free policy review if you have existing coverage</li>
       </ul>
       <p class="book-now" style="margin-top:22px;font-size:15px;color:#E8D5BC;">
-        Want to talk now? Call <a href="tel:+19312522222" style="color:#fff;font-weight:600;text-decoration:underline;">(931) 252-2222</a>
-        — a licensed UEP advisor will pick up.
+        Want to talk now? <a href="tel:+13053223195" style="color:#fff;font-weight:600;text-decoration:underline;">Call</a>
+        or <a href="sms:+13053223195" style="color:#fff;font-weight:600;text-decoration:underline;">text</a>
+        <a href="tel:+13053223195" style="color:#fff;font-weight:600;text-decoration:underline;">(305) 322-3195</a> — a licensed UEP advisor will pick up.
       </p>
     </div>
     <!-- Landing page is intentionally form-free per A2P 10DLC compliance:
          the GoHighLevel chat widget is the only opt-in surface here. The
-         buttons below route to phone / chat / quiz / scheduling — none of
-         them collect phone or SMS on this page. -->
-    <aside class="card-form" aria-label="Three ways to talk to us" style="display:flex;flex-direction:column;gap:14px;">
-      <h3 style="margin:0 0 4px;">Three ways to reach us.</h3>
-      <p style="font-size:14px;color:var(--ink-3,#6B5E54);margin:0 0 8px;">No forms on this page — pick whichever works for you.</p>
-      <a href="tel:+19312522222" class="btn btn-primary btn-block" style="text-decoration:none;">📞 Call (931) 252-2222</a>
-      <a href="/chat" class="btn btn-ghost btn-block" style="text-decoration:none;">💬 Chat with a UEP advisor</a>
-      <a href="/quiz" class="btn btn-ghost btn-block" style="text-decoration:none;">🎯 Take the 2-min fit quiz, then book a time</a>
-      <p style="font-size:12px;color:var(--ink-3,#6B5E54);margin:6px 0 0;">
-        Prefer not to call? The fit quiz lets you pick a 15-minute slot at the end — we'll call you at that time.
+         buttons below route to phone / SMS / chat / quiz — none of them
+         collect phone or SMS on this page. -->
+    <aside class="card-form" aria-label="Reach a UEP advisor" style="display:flex;flex-direction:column;gap:12px;">
+      <h3 style="margin:0 0 4px;">Reach a UEP advisor.</h3>
+      <p style="font-size:14px;color:var(--ink-3,#6B5E54);margin:0 0 6px;">Four taps. Pick whichever works.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <a href="tel:+13053223195" class="btn btn-primary btn-block" style="text-decoration:none;text-align:center;" aria-label="Call a UEP advisor">📞 Call</a>
+        <a href="sms:+13053223195" class="btn btn-primary btn-block" style="text-decoration:none;text-align:center;" aria-label="Text a UEP advisor">💬 Text</a>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <a href="/chat" class="btn btn-ghost btn-block" style="text-decoration:none;text-align:center;" aria-label="Open the chat page">💭 Chat</a>
+        <a href="/quiz" class="btn btn-ghost btn-block" style="text-decoration:none;text-align:center;" aria-label="Take the coverage fit quiz">🎯 Quiz</a>
+      </div>
+      <p style="font-size:12px;color:var(--ink-3,#6B5E54);margin:8px 0 0;line-height:1.55;">
+        Call &amp; text reach a licensed advisor directly. Chat opens our messaging window. The fit quiz takes 2 minutes and lets you pick a time at the end.
       </p>
     </aside>
   </div>
@@ -341,7 +349,7 @@
       </div>
       <div>
         <h5>For families</h5>
-        <a href="tel:+19312522222"><strong>Call (931) 252-2222</strong></a>
+        <a href="tel:+13053223195"><strong>Call (305) 322-3195</strong></a>
         <a href="#book">Book a call</a>
         <a href="/quiz">Take the fit quiz</a>
         <a href="#products">Compare coverage</a>
