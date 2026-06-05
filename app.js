@@ -149,6 +149,12 @@
   const SCHEDULER_URL = (typeof window !== "undefined" && window.UEP_SCHEDULER_URL)
     || ("https://cal.com/" + CAL_LINK);
 
+  // Live-transfer line — the number that rings the on-shift UEP advisor.
+  // Overridable via window.UEP_PHONE_E164 / window.UEP_PHONE_DISPLAY so we
+  // can swap to a Twilio round-robin number without a code change later.
+  const PHONE_E164    = (typeof window !== "undefined" && window.UEP_PHONE_E164)    || "+19312522222";
+  const PHONE_DISPLAY = (typeof window !== "undefined" && window.UEP_PHONE_DISPLAY) || "(931) 252-2222";
+
   // Lazy-load cal.com's embed snippet exactly once per page. The published
   // initializer at app.cal.com/embed/embed.js is what every cal.com inline
   // and popup embed uses.
@@ -269,6 +275,9 @@
               <p style="font-size:13px;color:var(--ink-3);margin:0 0 14px;line-height:1.5;">
                 We've got your details — choose any time below and a UEP advisor will call you.
               </p>
+              <a href="tel:${PHONE_E164}" class="btn btn-ghost" style="display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-size:14px;margin-bottom:14px;">
+                <span aria-hidden="true">📞</span> Or talk to an advisor now: <strong>${PHONE_DISPLAY}</strong>
+              </a>
             </div>
             <div id="${calId}" style="min-height:560px;width:100%;overflow:hidden;border-radius:12px;border:1px solid rgba(45,31,24,0.10);background:#fff;"></div>
             <p style="font-size:12px;color:var(--ink-3);margin:10px 0 0;text-align:center;">
@@ -343,4 +352,15 @@
   bindForm(document.getElementById("leadFormBook"), "uep_website:book",   { embedCalendar: true });
   bindForm(document.getElementById("leadFormQuiz"), "uep_website:quiz",   { embedCalendar: true });
   bindForm(document.getElementById("applyForm"),    "uep_website:careers");
+
+  // Per-product funnel pages (term-life, whole-life, iul, final-expense,
+  // annuities, mortgage-protection) all share id=leadFormFunnel with a
+  // data-product attribute. Bind to embed the calendar there too and tag
+  // the source by product so attribution stays clean in Repflow.
+  const funnelForm = document.getElementById("leadFormFunnel");
+  if (funnelForm) {
+    const product = (funnelForm.dataset.product || "").trim();
+    const slug    = product.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_|_$/g, "") || "product";
+    bindForm(funnelForm, "uep_website:funnel_" + slug, { embedCalendar: true });
+  }
 })();
