@@ -6,7 +6,10 @@
  */
 
 (function () {
-  // ── Nav: scroll-shadow + mobile toggle ────────────────────────────────────
+  // ── Nav: scroll-shadow + mobile menu ──────────────────────────────────────
+  // The liquid-glass nav has two states: idle and is-scrolled (more blur,
+  // visible shadow). Mobile menu opens via the hamburger with body-scroll
+  // lock and ESC / click-outside / link-click all close it.
   const nav = document.getElementById("nav");
   if (nav) {
     const onScroll = () => nav.classList.toggle("is-scrolled", window.scrollY > 8);
@@ -15,11 +18,32 @@
 
     const burger = document.getElementById("navBurger");
     if (burger) {
-      burger.addEventListener("click", () => nav.classList.toggle("is-open"));
-      // Close on link click (mobile)
+      const setOpen = (open) => {
+        nav.classList.toggle("is-open", open);
+        document.body.classList.toggle("nav-open", open);
+        burger.setAttribute("aria-expanded", open ? "true" : "false");
+      };
+      burger.setAttribute("aria-expanded", "false");
+      burger.setAttribute("aria-controls", "nav-mobile-menu");
+
+      burger.addEventListener("click", (e) => {
+        e.stopPropagation();
+        setOpen(!nav.classList.contains("is-open"));
+      });
+      // Link click closes the menu so users land at the section cleanly.
       nav.querySelectorAll(".nav-links a").forEach(a =>
-        a.addEventListener("click", () => nav.classList.remove("is-open"))
+        a.addEventListener("click", () => setOpen(false))
       );
+      // ESC closes the menu — accessible exit.
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && nav.classList.contains("is-open")) setOpen(false);
+      });
+      // Click anywhere outside the nav panel closes the menu.
+      document.addEventListener("click", (e) => {
+        if (!nav.classList.contains("is-open")) return;
+        if (nav.contains(e.target)) return;
+        setOpen(false);
+      });
     }
   }
 
@@ -28,10 +52,13 @@
   if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 
   // ── Lead form submission ─────────────────────────────────────────────────
-  // Posts to Repflow's generic inbound webhook so leads land in UEP's
-  // pipeline automatically. Source tag identifies UEP traffic for attribution.
-  const WEBHOOK_URL  = "https://repflow.koino.capital/api/leads/inbound";
-  const APPLY_URL    = "https://repflow.koino.capital/api/leads/inbound";
+  // Primary delivery: same-origin serverless endpoints that email the
+  // formatted submission to the recruiter inbox. Secondary fire-and-forget:
+  // Repflow inbound webhook (kept for Zay's pipeline). Source tag identifies
+  // UEP traffic for attribution.
+  const LEAD_API     = "/api/lead";
+  const APPLY_API    = "/api/apply";
+  const REPFLOW_URL  = "https://repflow.koino.capital/api/leads/inbound";
   // UEP's agency_id — Zay sets this once he creates his agency on Repflow.
   // Until then, leads land in the demo agency for testing. Override by
   // setting window.UEP_AGENCY_ID before app.js loads, or via a server-side
@@ -41,6 +68,7 @@
 
   function buildLeadPayload(formEl, source, opts = {}) {
     const data = Object.fromEntries(new FormData(formEl).entries());
+    const isRecruit = source.includes("careers");
 
     // Health snapshot — checkboxes don't appear in FormData when unchecked, so
     // a missing key reads as a clean "no". Flag any "yes" so the advisor
@@ -81,6 +109,7 @@
     }
 
     return {
+      kind:      isRecruit ? "recruit" : "lead",
       lead_name: (data.name || "").trim(),
       phone:     (data.phone || "").trim(),
       email:     (data.email || "").trim() || null,
@@ -120,11 +149,13 @@
     };
   }
 
-  async function postLead(payload) {
-    const r = await fetch(WEBHOOK_URL, {
+  // Primary: send to same-origin email endpoint. Throws on failure so the UI
+  // can show an error + mailto fallback. Email delivery is the source of truth.
+  async function postLeadEmail(endpoint, data, source) {
+    const r = await fetch(endpoint, {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify(payload),
+      body: JSON.stringify({ ...data, source }),
     });
     if (!r.ok) throw new Error(`HTTP ${r.status}`);
     return r.json().catch(() => ({}));
@@ -147,6 +178,30 @@
         </p>
       </div>
     `;
+  }
+
+  // Secondary: fire-and-forget into Repflow so the dialer pipeline keeps
+  // catching leads. Failures here are non-blocking — the email already
+  // went out as the source of truth.
+  function postRepflow(payload) {
+    try {
+      fetch(REPFLOW_URL, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(payload),
+        keepalive: true,
+      }).catch(() => {});
+    } catch {}
+  }
+
+  // Combined post: emails the lead (source of truth) AND fires Repflow
+  // (pipeline mirror). The email response is what the UI awaits, since
+  // it carries the live_transfer.fired flag for the calling-now branch.
+  async function postLead(payload) {
+    const endpoint = (payload.source || "").includes("careers") ? APPLY_API : LEAD_API;
+    const resp = await postLeadEmail(endpoint, payload, payload.source);
+    postRepflow(payload);
+    return resp;
   }
 
   function showError(form, message) {
@@ -380,8 +435,7 @@
             <div style="text-align:center;padding:18px 6px;">
               <h3 style="font-family:var(--font-display);font-weight:600;font-size:22px;color:var(--brand);margin:0 0 8px;">Got it.</h3>
               <p style="font-size:14px;color:var(--ink-3);margin:0;line-height:1.55;">
-                A UEP advisor will reach out within one business day.<br>
-                Check your phone for a confirmation text.
+                A UEP advisor will reach out by phone within one business day.
               </p>
             </div>
           `;
@@ -396,8 +450,7 @@
           Object.entries(data).map(([k, v]) => `${k}: ${v}`).join("\n")
         )}`;
         showError(formEl, "Couldn't reach our server. Please try again, or email hello@unitedequitypartners.com directly.");
-        try { window.open(fallback, "_blank"); } catch {}
-      }
+        try { window.open(fallback, "_blank"); } catch {}      }
     });
   }
 

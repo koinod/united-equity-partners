@@ -1,0 +1,8 @@
+{
+  "name": "united-equity-partners",
+  "private": true,
+  "version": "0.1.0",
+  "dependencies": {
+    "nodemailer": "^6.9.16"
+  }
+}
