@@ -52,13 +52,23 @@
   if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 
   // ── Lead form submission ─────────────────────────────────────────────────
-  // Primary delivery: same-origin serverless endpoints that email the
-  // formatted submission to the recruiter inbox. Secondary fire-and-forget:
-  // Repflow inbound webhook (kept for Zay's pipeline). Source tag identifies
-  // UEP traffic for attribution.
+  // Primary delivery: same-origin serverless endpoints that email the formatted
+  // submission to the recruiter inbox. Secondary fire-and-forget: Repflow
+  // inbound webhook (kept for Zay's consumer-lead pipeline). Source tag
+  // identifies UEP traffic for attribution.
   const LEAD_API     = "/api/lead";
   const APPLY_API    = "/api/apply";
   const REPFLOW_URL  = "https://repflow.koino.capital/api/leads/inbound";
+  // Careers (producer-application) form has its own Repflow ingress: the
+  // agency-hosted-site submit path lands directly in recruiting_applicants,
+  // tied to Auman Insurance Group's agency via the form's webhook_token. The
+  // generic /api/leads/inbound enforces HMAC and cannot be safely called from
+  // the browser, so the email-as-source-of-truth path stays in place AND we
+  // mirror to recruiting_applicants here so applicants show up in the
+  // Recruiting funnel without anyone touching the inbox.
+  const SITE_FORM_URL = "https://repflow.koino.capital/api/site-forms/submit";
+  const CAREERS_FORM_ID    = "a7fce111-cb78-4c39-a08a-7b5059eb1ab3";
+  const CAREERS_FORM_TOKEN = "0288764352b1aa91d946d009f46e95d076e9de5e6a53cc7e";
   // UEP's agency_id — Zay sets this once he creates his agency on Repflow.
   // Until then, leads land in the demo agency for testing. Override by
   // setting window.UEP_AGENCY_ID before app.js loads, or via a server-side
@@ -161,6 +171,33 @@
     return r.json().catch(() => ({}));
   }
 
+  // Careers application → Repflow recruiting_applicants. Authenticated by the
+  // form's webhook_token in the body (validated against agency_site_forms).
+  // Takes a payload already built by buildLeadPayload so it stays interchangeable
+  // with the email path.
+  async function postCareersToRepflow(payload) {
+    const meta = payload && payload.meta || {};
+    const body = {
+      form_id:       CAREERS_FORM_ID,
+      webhook_token: CAREERS_FORM_TOKEN,
+      name:          payload.lead_name || null,
+      email:         payload.email     || null,
+      phone:         payload.phone     || null,
+      state:         payload.state     || null,
+      age:           payload.age       || null,
+      licensed:      meta.license_status || null,
+      experience:    meta.track          || meta.experience || null,
+      why:           payload.notes       || null,
+    };
+    const r = await fetch(SITE_FORM_URL, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    return r.json().catch(() => ({}));
+  }
+
   // Renders the "calling you now" state after a successful live-transfer
   // bridge fires. The lead's phone is about to ring (Twilio dials them
   // first). If the bridge response says it didn't fire, hand back to the
@@ -194,12 +231,28 @@
     } catch {}
   }
 
-  // Combined post: emails the lead (source of truth) AND fires Repflow
-  // (pipeline mirror). The email response is what the UI awaits, since
-  // it carries the live_transfer.fired flag for the calling-now branch.
+  // Combined post: emails the lead (source of truth for consumer leads) AND
+  // mirrors to Repflow. For consumer leads the email response is what the UI
+  // awaits (it carries live_transfer.fired for the calling-now branch). For
+  // careers applications the Repflow recruiting_applicants insert is the
+  // source of truth (so applicants surface in the funnel even if SMTP is
+  // misconfigured); the recruiter-notification email is best-effort.
   async function postLead(payload) {
-    const endpoint = (payload.source || "").includes("careers") ? APPLY_API : LEAD_API;
-    const resp = await postLeadEmail(endpoint, payload, payload.source);
+    const isCareers = (payload.source || "").includes("careers");
+    if (isCareers) {
+      const resp = await postCareersToRepflow(payload);
+      // Fire-and-forget recruiter email so Isaiah/Zay still see the inbox ping.
+      try {
+        fetch(APPLY_API, {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ ...payload, source: payload.source }),
+          keepalive: true,
+        }).catch(() => {});
+      } catch {}
+      return resp;
+    }
+    const resp = await postLeadEmail(LEAD_API, payload, payload.source);
     postRepflow(payload);
     return resp;
   }
@@ -346,6 +399,11 @@
         // event, and cal.com fires the host-email notification on booking
         // regardless of whether the Repflow row was created. We log the
         // failure but DO NOT block the user from picking a time.
+        //
+        // Careers form is the exception: it has no calendar embed and the
+        // application itself IS the conversion, so postLead's careers branch
+        // routes through the hosted-site path that lands in
+        // recruiting_applicants. A failure there must surface to the user.
         let leadResp = null;
         try {
           const payload = buildLeadPayload(formEl, source, { transferNow });

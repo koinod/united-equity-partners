@@ -284,13 +284,30 @@ src="https://www.facebook.com/tr?id=1006892888698574&ev=PageView&noscript=1"/></
   .ctr-apply .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
   @media (max-width: 800px) { .ctr-apply .grid { grid-template-columns: 1fr; gap: 36px; } }
   .ctr-apply .eyebrow { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--c-glow); margin: 0 0 12px; }
-  .ctr-apply h2 { font-family: "Fraunces", serif; font-weight: 600; font-size: clamp(32px, 4.6vw, 48px); line-height: 1.1; letter-spacing: -0.015em; color: #fff; margin: 0 0 16px; }
+  .ctr-apply h2 { font-family: "Fraunces", serif; font-weight: 600; font-size: clamp(28px, 4.6vw, 48px); line-height: 1.1; letter-spacing: -0.015em; color: #fff; margin: 0 0 16px; overflow-wrap: break-word; }
+  /* Headline becomes a soft wrap on narrow viewports (each clause its own line).
+     Inline-block keeps "One application." atomic so it doesn't break mid-word. */
+  .ctr-apply h2 .apply-headline-line { display: inline-block; }
+  @media (max-width: 560px) { .ctr-apply h2 .apply-headline-line { display: block; } }
   .ctr-apply .sub { font-size: 17px; color: #D6C0A3; margin: 0 0 28px; max-width: 36ch; line-height: 1.55; }
   .ctr-apply .signals { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
   .ctr-apply .signals li { font-size: 14px; color: #E8D5BC; padding-left: 26px; position: relative; line-height: 1.5; }
   .ctr-apply .signals li::before { content: ""; position: absolute; left: 0; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: linear-gradient(135deg, var(--c-glow) 0%, var(--c-accent-2) 100%); box-shadow: 0 0 0 4px rgba(255,215,158,0.10); }
-  .ctr-apply form { background: #fff; color: var(--c-ink); border-radius: 22px; padding: 32px; box-shadow: 0 24px 64px rgba(0,0,0,0.32); }
+  .ctr-apply form { background: #fff; color: var(--c-ink); border-radius: 22px; padding: 32px; box-shadow: 0 24px 64px rgba(0,0,0,0.32); max-width: 100%; box-sizing: border-box; }
   .ctr-apply form h3 { font-family: "Fraunces", serif; font-weight: 600; font-size: 22px; margin: 0 0 20px; color: var(--c-ink); }
+  .ctr-apply form input,
+  .ctr-apply form select,
+  .ctr-apply form textarea { max-width: 100%; box-sizing: border-box; }
+  /* Tighter form padding + collapsed two-column rows on phone. The shared
+     .row-2 rule in styles.css stays 1fr 1fr at every breakpoint, which
+     squishes Email/Phone + State/Age below ~420px. Override locally. */
+  @media (max-width: 560px) {
+    .ctr-apply { padding: 40px 0 80px; }
+    .ctr-apply form { padding: 20px; border-radius: 16px; }
+    .ctr-apply form h3 { font-size: 19px; margin-bottom: 14px; }
+    .ctr-apply .row-2 { grid-template-columns: 1fr; gap: 0; }
+    .ctr-apply .sub { font-size: 15px; max-width: none; }
+  }
   .ctr-apply .btn-primary { background: linear-gradient(135deg, var(--c-accent) 0%, #C8956E 100%); border: none; color: #fff; box-shadow: 0 6px 20px rgba(156,45,45,0.32); transition: transform .15s ease, box-shadow .25s ease; }
   .ctr-apply .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 12px 32px rgba(156,45,45,0.42), 0 0 0 8px rgba(255,215,158,0.16); }
   .ctr-fine { font-size: 12px; color: var(--c-ink-3); line-height: 1.55; margin-top: 14px; }
@@ -452,7 +469,7 @@ src="https://www.facebook.com/tr?id=1006892888698574&ev=PageView&noscript=1"/></
     <div class="grid">
       <div>
         <span class="eyebrow reveal">Apply</span>
-        <h2 class="reveal">One application.<br>90 seconds.</h2>
+        <h2 class="reveal"><span class="apply-headline-line">One application.</span> <span class="apply-headline-line">90 seconds.</span></h2>
         <p class="sub reveal">If the math works for your state, you'll get a calendar link within 48 hours.</p>
         <ul class="signals reveal">
           <li>No license yet is fine — most of our top producers started that way.</li>
