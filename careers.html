@@ -282,6 +282,11 @@ src="https://www.facebook.com/tr?id=1006892888698574&ev=PageView&noscript=1"/></
   .ctr-apply::after { content: ""; position: absolute; bottom: -200px; right: -200px; width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, var(--c-accent-2) 0%, transparent 70%); filter: blur(140px); opacity: 0.30; pointer-events: none; }
   .ctr-apply .container { position: relative; }
   .ctr-apply .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
+  /* Grid items default to min-width:auto = min-content, which lets a long
+     <select> option or unbreakable input force the 1fr track wider than the
+     viewport (caught at iPhone SE 320px: form bounding box 339 > 272 available).
+     Allow the cells to shrink — every input already gets width:100%. */
+  .ctr-apply .grid > * { min-width: 0; }
   @media (max-width: 800px) { .ctr-apply .grid { grid-template-columns: 1fr; gap: 36px; } }
   .ctr-apply .eyebrow { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--c-glow); margin: 0 0 12px; }
   .ctr-apply h2 { font-family: "Fraunces", serif; font-weight: 600; font-size: clamp(28px, 4.6vw, 48px); line-height: 1.1; letter-spacing: -0.015em; color: #fff; margin: 0 0 16px; overflow-wrap: break-word; }
@@ -297,7 +302,9 @@ src="https://www.facebook.com/tr?id=1006892888698574&ev=PageView&noscript=1"/></
   .ctr-apply form h3 { font-family: "Fraunces", serif; font-weight: 600; font-size: 22px; margin: 0 0 20px; color: var(--c-ink); }
   .ctr-apply form input,
   .ctr-apply form select,
-  .ctr-apply form textarea { max-width: 100%; box-sizing: border-box; }
+  .ctr-apply form textarea { max-width: 100%; min-width: 0; box-sizing: border-box; width: 100%; }
+  /* Nested .row-2 grid cells also default to min-width:auto. */
+  .ctr-apply .row-2 > * { min-width: 0; }
   /* Tighter form padding + collapsed two-column rows on phone. The shared
      .row-2 rule in styles.css stays 1fr 1fr at every breakpoint, which
      squishes Email/Phone + State/Age below ~420px. Override locally. */
